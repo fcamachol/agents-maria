@@ -4,7 +4,7 @@
 
 import { Agent, AgentInputItem, Runner, withTrace } from "@openai/agents";
 import { z } from "zod";
-import type { WorkflowInput, WorkflowOutput, Classification } from "./types.js";
+import type { WorkflowInput, WorkflowOutput, Classification, ChatwootContext } from "./types.js";
 import {
     getDeudaTool,
     getConsumoTool,
@@ -15,7 +15,8 @@ import {
     updateTicketTool,
     generateTicketFolio,
     getMexicoDate,
-    createTicketDirect
+    createTicketDirect,
+    runWithChatwootContext
 } from "./tools.js";
 
 // ============================================
@@ -37,6 +38,13 @@ interface ConversationEntry {
     lastAccess: Date;
     contractNumber?: string;
     classification?: Classification;
+    chatwootContext?: ChatwootContext;
+}
+
+// Export function to get Chatwoot context by conversation ID (for tools)
+export function getChatwootContext(conversationId: string): ChatwootContext | undefined {
+    const entry = conversationStore.get(conversationId);
+    return entry?.chatwootContext;
 }
 
 const conversationStore = new Map<string, ConversationEntry>();
@@ -470,7 +478,13 @@ export async function runWorkflow(input: WorkflowInput): Promise<WorkflowOutput>
         
         // Get or create conversation
         const conversation = getConversation(conversationId);
-        
+
+        // Store Chatwoot context if provided
+        if (input.chatwootContext) {
+            conversation.chatwootContext = input.chatwootContext;
+            console.log(`[Workflow] Chatwoot context: contact_id=${input.chatwootContext.contact_id}, conversation_id=${input.chatwootContext.conversation_id}`);
+        }
+
         // Build context-enhanced input
         const contextualInput = `${buildSystemContext()}\n${input.input_as_text}`;
         
@@ -519,12 +533,16 @@ export async function runWorkflow(input: WorkflowInput): Promise<WorkflowOutput>
             if (classification === "hablar_asesor") {
                 console.log(`[Workflow] Creating urgent ticket for human advisor`);
 
-                // Create ticket and wait for it (to get proper folio)
+                // Create ticket with Chatwoot context for proper linking
                 const ticketResult = await createTicketDirect({
                     service_type: "urgente",
                     titulo: "Solicitud de contacto con asesor humano",
                     descripcion: `El usuario solicitó hablar con un asesor humano. Mensaje original: ${input.input_as_text}`,
                     contract_number: conversation.contractNumber || null,
+                    client_name: conversation.chatwootContext?.sender_name || null,
+                    contact_id: conversation.chatwootContext?.contact_id || null,
+                    conversation_id: conversation.chatwootContext?.conversation_id || null,
+                    inbox_id: conversation.chatwootContext?.inbox_id || null,
                     email: null,
                     ubicacion: null,
                     priority: "urgente"
@@ -539,9 +557,16 @@ export async function runWorkflow(input: WorkflowInput): Promise<WorkflowOutput>
                 // Step 3: Route to specialized agent
                 const selectedAgent = agentMap[classification];
                 console.log(`[Workflow] Routing to: ${selectedAgent.name}`);
-                
-                const agentResult = await runAgentWithApproval(runner, selectedAgent, workingHistory);
-                
+
+                // Run agent with Chatwoot context available for tools
+                const agentResult = await runWithChatwootContext(
+                    {
+                        chatwootContext: conversation.chatwootContext,
+                        conversationId: conversationId
+                    },
+                    () => runAgentWithApproval(runner, selectedAgent, workingHistory)
+                );
+
                 output = agentResult.output;
                 newItems = agentResult.newItems;
                 toolsUsed.push(...agentResult.toolsUsed);

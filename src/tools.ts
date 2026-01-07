@@ -10,6 +10,7 @@ import { tool } from "@openai/agents";
 import { z } from "zod";
 import { ProxyAgent, fetch as undiciFetch } from "undici";
 import pg from "pg";
+import { AsyncLocalStorage } from "async_hooks";
 import type {
     CreateTicketInput,
     CreateTicketResult,
@@ -17,7 +18,28 @@ import type {
     ConsumoResponse,
     ContratoResponse,
     TicketType,
+    ChatwootContext,
 } from "./types.js";
+
+// ============================================
+// Chatwoot Context Storage (for passing context to tools)
+// ============================================
+
+interface ToolContext {
+    chatwootContext?: ChatwootContext;
+    conversationId?: string;
+}
+
+const toolContextStorage = new AsyncLocalStorage<ToolContext>();
+
+// Export functions to set/get context
+export function runWithChatwootContext<T>(context: ToolContext, fn: () => Promise<T>): Promise<T> {
+    return toolContextStorage.run(context, fn);
+}
+
+export function getCurrentChatwootContext(): ChatwootContext | undefined {
+    return toolContextStorage.getStore()?.chatwootContext;
+}
 
 // ============================================
 // Configuration
@@ -482,6 +504,17 @@ async function pgQuery<T = any>(query: string, params?: any[]): Promise<T[]> {
 export async function createTicketDirect(input: CreateTicketInput): Promise<CreateTicketResult> {
     console.log(`[create_ticket_direct] Creating ticket:`, input);
 
+    // Get Chatwoot context from AsyncLocalStorage if not provided in input
+    const ctxFromStorage = getCurrentChatwootContext();
+    const effectiveContactId = input.contact_id ?? ctxFromStorage?.contact_id ?? null;
+    const effectiveConversationId = input.conversation_id ?? ctxFromStorage?.conversation_id ?? null;
+    const effectiveInboxId = input.inbox_id ?? ctxFromStorage?.inbox_id ?? null;
+    const effectiveClientName = input.client_name ?? ctxFromStorage?.sender_name ?? null;
+
+    if (ctxFromStorage && !input.contact_id) {
+        console.log(`[create_ticket_direct] Using Chatwoot context from storage: contact_id=${ctxFromStorage.contact_id}`);
+    }
+
     try {
         // Generate folio with proper sequential numbering from PostgreSQL
         const folio = await generateTicketFolioFromPG(input.service_type);
@@ -493,8 +526,8 @@ export async function createTicketDirect(input: CreateTicketInput): Promise<Crea
         const status = "open"; // Always start as open
 
         // Look up contact_id by contract_number if not provided
-        let contactId = input.contact_id || null;
-        let clientName = input.client_name || null;
+        let contactId = effectiveContactId;
+        let clientName = effectiveClientName;
 
         if (!contactId && input.contract_number) {
             try {
@@ -540,8 +573,8 @@ export async function createTicketDirect(input: CreateTicketInput): Promise<Crea
             input.contract_number || null,
             clientName || 'Cliente WhatsApp',
             contactId,
-            input.conversation_id || null,
-            input.inbox_id || null,
+            effectiveConversationId,
+            effectiveInboxId,
             JSON.stringify({
                 email: input.email || null,
                 ubicacion: input.ubicacion || null
