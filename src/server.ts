@@ -5,7 +5,7 @@
 import express, { Request, Response, NextFunction } from "express";
 import { config } from "dotenv";
 import { runWorkflow, getAgentHealth } from "./agent.js";
-import type { ChatRequest, ChatResponse } from "./types.js";
+import type { ChatRequest, ChatResponse, ChatwootWebhookPayload, ChatwootContext } from "./types.js";
 
 // Load environment variables
 config();
@@ -16,6 +16,10 @@ config();
 
 const PORT = process.env.PORT || 3000;
 const NODE_ENV = process.env.NODE_ENV || "development";
+
+// Chatwoot configuration
+const CHATWOOT_API_URL = process.env.CHATWOOT_API_URL || "http://whisper-api_agora:3000";
+const CHATWOOT_API_TOKEN = process.env.CHATWOOT_API_TOKEN || "";
 
 // Validate required env vars
 const requiredEnvVars = ["OPENAI_API_KEY"];
@@ -183,8 +187,141 @@ async function handleChat(req: Request, res: Response): Promise<void> {
 }
 
 // ============================================
+// Chatwoot API Client
+// ============================================
+
+async function sendChatwootMessage(
+    accountId: number,
+    conversationId: number,
+    message: string
+): Promise<boolean> {
+    if (!CHATWOOT_API_TOKEN) {
+        console.error("[Chatwoot] API token not configured");
+        return false;
+    }
+
+    try {
+        const url = `${CHATWOOT_API_URL}/api/v1/accounts/${accountId}/conversations/${conversationId}/messages`;
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "api_access_token": CHATWOOT_API_TOKEN
+            },
+            body: JSON.stringify({
+                content: message,
+                message_type: "outgoing",
+                private: false
+            })
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error(`[Chatwoot] Failed to send message: ${response.status} - ${errorText}`);
+            return false;
+        }
+
+        console.log(`[Chatwoot] Message sent to conversation ${conversationId}`);
+        return true;
+    } catch (error) {
+        console.error("[Chatwoot] Error sending message:", error);
+        return false;
+    }
+}
+
+// ============================================
+// Chatwoot Webhook Handler
+// ============================================
+
+async function handleChatwootWebhook(req: Request, res: Response): Promise<void> {
+    const requestId = (req as any).requestId || crypto.randomUUID().substring(0, 8);
+
+    try {
+        const payload = req.body as ChatwootWebhookPayload;
+
+        // Only process incoming messages (from customers)
+        if (payload.message_type !== "incoming") {
+            console.log(`[${requestId}] Ignoring ${payload.message_type} message`);
+            res.status(200).json({ status: "ignored", reason: "not incoming message" });
+            return;
+        }
+
+        // Only process message_created events
+        if (payload.event !== "message_created") {
+            console.log(`[${requestId}] Ignoring event: ${payload.event}`);
+            res.status(200).json({ status: "ignored", reason: "not message_created event" });
+            return;
+        }
+
+        // Ignore private messages
+        if (payload.private) {
+            console.log(`[${requestId}] Ignoring private message`);
+            res.status(200).json({ status: "ignored", reason: "private message" });
+            return;
+        }
+
+        const message = payload.content;
+        if (!message || typeof message !== "string" || message.trim() === "") {
+            console.log(`[${requestId}] Ignoring empty message`);
+            res.status(200).json({ status: "ignored", reason: "empty message" });
+            return;
+        }
+
+        // Extract Chatwoot context
+        const chatwootContext: ChatwootContext = {
+            contact_id: payload.conversation.contact_inbox.contact_id,
+            conversation_id: payload.conversation.id,
+            inbox_id: payload.inbox.id,
+            sender_name: payload.sender.name || "Cliente",
+            phone_number: payload.sender.phone_number,
+            account_id: payload.account.id
+        };
+
+        console.log(`[${requestId}] Processing Chatwoot message from ${chatwootContext.sender_name} (contact: ${chatwootContext.contact_id})`);
+        console.log(`[${requestId}] Message: "${message.substring(0, 100)}${message.length > 100 ? '...' : ''}"`);
+
+        // Respond immediately to Chatwoot (webhook acknowledgement)
+        res.status(200).json({ status: "processing" });
+
+        // Run the agent workflow with Chatwoot context
+        const result = await runWorkflow({
+            input_as_text: message,
+            conversationId: String(chatwootContext.conversation_id),
+            chatwootContext: chatwootContext
+        });
+
+        const responseText = result.output_text || "Lo siento, no pude procesar tu mensaje.";
+
+        // Send the response back to Chatwoot
+        const sent = await sendChatwootMessage(
+            chatwootContext.account_id,
+            chatwootContext.conversation_id,
+            responseText
+        );
+
+        if (sent) {
+            console.log(`[${requestId}] Response sent to Chatwoot`);
+        } else {
+            console.error(`[${requestId}] Failed to send response to Chatwoot`);
+        }
+
+    } catch (error) {
+        console.error(`[${requestId}] Chatwoot webhook error:`, error);
+
+        // Still return 200 to prevent Chatwoot from retrying
+        if (!res.headersSent) {
+            res.status(200).json({ status: "error", message: "Internal processing error" });
+        }
+    }
+}
+
+// ============================================
 // API Routes
 // ============================================
+
+// Chatwoot direct webhook (new - bypasses n8n)
+app.post("/webhook/chatwoot", handleChatwootWebhook);
 
 // Main chat endpoint
 app.post("/api/chat", handleChat);
@@ -208,7 +345,8 @@ app.use((req: Request, res: Response) => {
             "GET /health - Health check",
             "GET /status - Detailed status",
             "POST /api/chat - Main chat endpoint",
-            "POST /webhook - Webhook endpoint (n8n)"
+            "POST /webhook - Webhook endpoint (n8n)",
+            "POST /webhook/chatwoot - Direct Chatwoot webhook"
         ]
     });
 });
@@ -231,15 +369,17 @@ app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
 const server = app.listen(PORT, () => {
     console.log(`
 ╔════════════════════════════════════════════════════════╗
-║                CEA Agent Server v2.0                   ║
+║                CEA Agent Server v2.1                   ║
 ╠════════════════════════════════════════════════════════╣
-║  🚀 Running on port ${PORT}                               ║
-║  📍 Health: http://localhost:${PORT}/health               ║
-║  📊 Status: http://localhost:${PORT}/status               ║
-║  💬 Chat:   http://localhost:${PORT}/api/chat             ║
-║  🔗 Webhook: http://localhost:${PORT}/webhook             ║
+║  Running on port ${PORT}                                  ║
+║  Health: http://localhost:${PORT}/health                  ║
+║  Status: http://localhost:${PORT}/status                  ║
+║  Chat:   http://localhost:${PORT}/api/chat                ║
+║  Webhook (n8n): http://localhost:${PORT}/webhook          ║
+║  Webhook (Chatwoot): http://localhost:${PORT}/webhook/chatwoot
 ╠════════════════════════════════════════════════════════╣
 ║  Environment: ${NODE_ENV.padEnd(39)}║
+║  Chatwoot API: ${CHATWOOT_API_TOKEN ? "configured" : "NOT configured"}
 ╚════════════════════════════════════════════════════════╝
     `);
 });

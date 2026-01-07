@@ -64,12 +64,73 @@ export const TICKET_TYPE_CODES = {
 } as const;
 
 // ============================================
+// Chatwoot Webhook Types
+// ============================================
+
+export interface ChatwootWebhookPayload {
+    account: {
+        id: number;
+        name: string;
+    };
+    content: string;
+    content_type: string;
+    message_type: 'incoming' | 'outgoing';
+    event: 'message_created' | 'message_updated' | 'conversation_created' | 'conversation_status_changed';
+    id: number;
+    private: boolean;
+    conversation: {
+        id: number;
+        inbox_id: number;
+        contact_inbox: {
+            id: number;
+            contact_id: number;
+            inbox_id: number;
+            source_id: string;
+        };
+        meta: {
+            sender: {
+                id: number;
+                name: string;
+                email: string | null;
+                phone_number: string | null;
+                identifier: string | null;
+                custom_attributes: Record<string, unknown>;
+            };
+        };
+        status: string;
+        custom_attributes: Record<string, unknown>;
+    };
+    sender: {
+        id: number;
+        name: string;
+        email: string | null;
+        phone_number: string | null;
+        identifier: string | null;
+        type?: string;
+    };
+    inbox: {
+        id: number;
+        name: string;
+    };
+}
+
+export interface ChatwootContext {
+    contact_id: number;
+    conversation_id: number;
+    inbox_id: number;
+    sender_name: string;
+    phone_number: string | null;
+    account_id: number;
+}
+
+// ============================================
 // Workflow Types
 // ============================================
 
 export interface WorkflowInput {
     input_as_text: string;
     conversationId?: string;
+    chatwootContext?: ChatwootContext;
     metadata?: Record<string, unknown>;
 }
 
