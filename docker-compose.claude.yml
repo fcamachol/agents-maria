@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  maria-claude:
+    build:
+      context: .
+      dockerfile: Dockerfile.claude
+    container_name: maria-claude
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - PGHOST=${PGHOST:-postgres}
+      - PGPORT=${PGPORT:-5432}
+      - PGUSER=${PGUSER:-postgres}
+      - PGPASSWORD=${PGPASSWORD}
+      - PGDATABASE=${PGDATABASE:-agora_production}
+      - CEA_PROXY_URL=${CEA_PROXY_URL:-}
+      - CHATWOOT_API_URL=${CHATWOOT_API_URL:-}
+      - CHATWOOT_API_TOKEN=${CHATWOOT_API_TOKEN:-}
+      - CHATWOOT_ACCOUNT_ID=${CHATWOOT_ACCOUNT_ID:-2}
+    volumes:
+      - ./memories:/app/memories
+    restart: unless-stopped
+    networks:
+      - maria-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  maria-network:
+    driver: bridge
