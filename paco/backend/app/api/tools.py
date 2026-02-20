@@ -2,21 +2,25 @@
 PACO Tools API
 
 MCP server and tool registry management.
+Includes managed container deployment for Paco-managed MCP servers.
 """
 
+import logging
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 from uuid import UUID
 
 import httpx
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, Query, status
 from pydantic import BaseModel
 from sqlalchemy import select
+from sqlalchemy.orm import selectinload
 
 from app.core.deps import AdminUser, DbSession, OperatorUser
 from app.db.models import Agent, AgentTool, McpServer, Tool
 
 router = APIRouter(prefix="/tools", tags=["Tools"])
+logger = logging.getLogger(__name__)
 
 
 # =============================================================================
@@ -37,6 +41,14 @@ class McpServerResponse(BaseModel):
     command: Optional[str]
     status: str
     last_health_check: Optional[datetime]
+    # Managed deployment fields
+    deployment_mode: str = "external"
+    deploy_status: str = "undeployed"
+    deploy_error: Optional[str] = None
+    container_name: Optional[str] = None
+    host_port: Optional[int] = None
+    image_tag: str = "latest"
+    last_deployed_at: Optional[datetime] = None
     created_at: datetime
 
     class Config:
@@ -55,6 +67,7 @@ class McpServerCreateRequest(BaseModel):
     args: List[str] = []
     env: Dict[str, str] = {}
     auth_config: Dict[str, Any] = {}
+    deployment_mode: str = "external"
 
 
 class McpServerUpdateRequest(BaseModel):
@@ -82,6 +95,12 @@ class ToolResponse(BaseModel):
     input_schema: Dict[str, Any]
     is_enabled: bool
     proxy_config: Optional[Dict[str, Any]] = None
+    # Handler fields
+    handler_type: Optional[str] = None
+    handler_config: Optional[Dict[str, Any]] = None
+    output_transform: Optional[str] = None
+    retry_config: Optional[Dict[str, Any]] = None
+    timeout_ms: Optional[int] = None
     created_at: datetime
 
     class Config:
@@ -96,6 +115,11 @@ class ToolCreateRequest(BaseModel):
     mcp_server_id: Optional[str] = None
     input_schema: Dict[str, Any] = {}
     output_schema: Dict[str, Any] = {}
+    handler_type: Optional[str] = None
+    handler_config: Optional[Dict[str, Any]] = None
+    output_transform: Optional[str] = None
+    retry_config: Optional[Dict[str, Any]] = None
+    timeout_ms: Optional[int] = None
 
 
 class ToolUpdateRequest(BaseModel):
@@ -104,6 +128,11 @@ class ToolUpdateRequest(BaseModel):
     description: Optional[str] = None
     input_schema: Optional[Dict[str, Any]] = None
     is_enabled: Optional[bool] = None
+    handler_type: Optional[str] = None
+    handler_config: Optional[Dict[str, Any]] = None
+    output_transform: Optional[str] = None
+    retry_config: Optional[Dict[str, Any]] = None
+    timeout_ms: Optional[int] = None
 
 
 class ProxyConfig(BaseModel):
@@ -144,6 +173,29 @@ class ProxyTestResponse(BaseModel):
     proxy_ip: Optional[str] = None
 
 
+class ToolManifestResponse(BaseModel):
+    """Tool manifest served to paco-mcp-base containers."""
+
+    server_name: str
+    tools: List[Dict[str, Any]]
+    env: Dict[str, str] = {}
+
+
+class ContainerLogsResponse(BaseModel):
+    """Container log output."""
+
+    logs: str
+    container_name: Optional[str] = None
+
+
+class BuildImageResponse(BaseModel):
+    """Build image result."""
+
+    image_id: str
+    tag: str
+    logs: List[str] = []
+
+
 # =============================================================================
 # Helpers
 # =============================================================================
@@ -162,7 +214,34 @@ def _server_response(server: McpServer) -> McpServerResponse:
         command=server.command,
         status=server.status,
         last_health_check=server.last_health_check,
+        deployment_mode=server.deployment_mode,
+        deploy_status=server.deploy_status,
+        deploy_error=server.deploy_error,
+        container_name=server.container_name,
+        host_port=server.host_port,
+        image_tag=server.image_tag,
+        last_deployed_at=server.last_deployed_at,
         created_at=server.created_at,
+    )
+
+
+def _tool_response(tool: Tool, server_name: Optional[str] = None) -> ToolResponse:
+    """Build a ToolResponse from a model instance."""
+    return ToolResponse(
+        id=str(tool.id),
+        name=tool.name,
+        description=tool.description,
+        mcp_server_id=str(tool.mcp_server_id) if tool.mcp_server_id else None,
+        mcp_server_name=server_name,
+        input_schema=tool.input_schema,
+        is_enabled=tool.is_enabled,
+        proxy_config=tool.proxy_config,
+        handler_type=tool.handler_type,
+        handler_config=tool.handler_config,
+        output_transform=tool.output_transform,
+        retry_config=tool.retry_config,
+        timeout_ms=tool.timeout_ms,
+        created_at=tool.created_at,
     )
 
 
@@ -179,8 +258,6 @@ def _httpx_transport(server: McpServer) -> Optional[httpx.AsyncHTTPTransport]:
 
 async def _notify_affected_agents(db, server_id: UUID) -> None:
     """Notify all running agents that use tools from the given MCP server."""
-    from sqlalchemy.orm import selectinload
-
     result = await db.execute(
         select(AgentTool)
         .join(Tool, AgentTool.tool_id == Tool.id)
@@ -202,6 +279,28 @@ async def _notify_affected_agents(db, server_id: UUID) -> None:
                 await client.post(f"http://localhost:{agent.port}/admin/reload")
         except Exception:
             pass  # Best-effort
+
+
+async def _auto_reload_managed(db, server: McpServer) -> None:
+    """If server is managed and running, trigger hot-reload of tools."""
+    if server.deployment_mode != "managed" or server.deploy_status != "running":
+        return
+    if not server.url:
+        return
+    try:
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            await client.post(f"{server.url}/reload-tools")
+    except Exception:
+        pass  # Best-effort
+
+
+async def _get_server_name(db, mcp_server_id: Optional[UUID]) -> Optional[str]:
+    """Fetch server name by ID."""
+    if not mcp_server_id:
+        return None
+    result = await db.execute(select(McpServer).where(McpServer.id == mcp_server_id))
+    server = result.scalar_one_or_none()
+    return server.name if server else None
 
 
 # =============================================================================
@@ -243,6 +342,7 @@ async def create_mcp_server(
         args=request.args,
         env=request.env,
         auth_config=request.auth_config,
+        deployment_mode=request.deployment_mode,
         status="unknown",
     )
     db.add(server)
@@ -258,7 +358,7 @@ async def delete_mcp_server(
     db: DbSession,
     _: AdminUser,
 ) -> None:
-    """Delete an MCP server (admin only)."""
+    """Delete an MCP server (admin only). Stops managed container if running."""
     result = await db.execute(select(McpServer).where(McpServer.id == server_id))
     server = result.scalar_one_or_none()
 
@@ -267,6 +367,14 @@ async def delete_mcp_server(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"MCP server {server_id} not found",
         )
+
+    # Stop managed container before deletion
+    if server.deployment_mode == "managed" and server.container_id:
+        try:
+            from app.services.mcp_orchestrator import mcp_orchestrator
+            await mcp_orchestrator.stop_server(db, server.id)
+        except Exception as e:
+            logger.warning(f"Failed to stop container during delete: {e}")
 
     await db.delete(server)
     await db.commit()
@@ -352,6 +460,182 @@ async def check_mcp_server_health(
     await db.refresh(server)
 
     return _server_response(server)
+
+
+# =============================================================================
+# Managed Container Deployment Endpoints
+# =============================================================================
+
+
+@router.post("/servers/{server_id}/deploy", response_model=McpServerResponse)
+async def deploy_mcp_server(
+    server_id: UUID,
+    db: DbSession,
+    _: AdminUser,
+) -> McpServerResponse:
+    """Deploy a managed MCP server container."""
+    from app.services.mcp_orchestrator import mcp_orchestrator
+
+    try:
+        server = await mcp_orchestrator.deploy_server(db, server_id)
+        return _server_response(server)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except FileNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Deploy failed: {e}")
+
+
+@router.post("/servers/{server_id}/stop", response_model=McpServerResponse)
+async def stop_mcp_server(
+    server_id: UUID,
+    db: DbSession,
+    _: AdminUser,
+) -> McpServerResponse:
+    """Stop a managed MCP server container."""
+    from app.services.mcp_orchestrator import mcp_orchestrator
+
+    try:
+        server = await mcp_orchestrator.stop_server(db, server_id)
+        return _server_response(server)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Stop failed: {e}")
+
+
+@router.post("/servers/{server_id}/redeploy", response_model=McpServerResponse)
+async def redeploy_mcp_server(
+    server_id: UUID,
+    db: DbSession,
+    _: AdminUser,
+) -> McpServerResponse:
+    """Redeploy a managed MCP server (stop + deploy)."""
+    from app.services.mcp_orchestrator import mcp_orchestrator
+
+    try:
+        await mcp_orchestrator.stop_server(db, server_id)
+        server = await mcp_orchestrator.deploy_server(db, server_id)
+        return _server_response(server)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Redeploy failed: {e}")
+
+
+@router.post("/servers/{server_id}/reload-tools")
+async def reload_server_tools(
+    server_id: UUID,
+    db: DbSession,
+    _: AdminUser,
+) -> Dict[str, Any]:
+    """Hot-reload tools on a running managed container."""
+    from app.services.mcp_orchestrator import mcp_orchestrator
+
+    try:
+        result = await mcp_orchestrator.reload_tools(db, server_id)
+        return result
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=502, detail=f"Reload failed: {e}")
+
+
+@router.get("/servers/{server_id}/logs", response_model=ContainerLogsResponse)
+async def get_server_logs(
+    server_id: UUID,
+    db: DbSession,
+    _: OperatorUser,
+    tail: int = Query(default=100, ge=1, le=5000),
+) -> ContainerLogsResponse:
+    """Get container logs for a managed MCP server."""
+    from app.services.mcp_orchestrator import mcp_orchestrator
+
+    try:
+        logs = await mcp_orchestrator.get_container_logs(db, server_id, tail=tail)
+        result = await db.execute(select(McpServer).where(McpServer.id == server_id))
+        server = result.scalar_one_or_none()
+        return ContainerLogsResponse(
+            logs=logs,
+            container_name=server.container_name if server else None,
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Log fetch failed: {e}")
+
+
+@router.post("/build-base-image", response_model=BuildImageResponse)
+async def build_base_image(
+    _: AdminUser,
+    tag: str = Query(default="latest"),
+) -> BuildImageResponse:
+    """Build or rebuild the paco-mcp-base Docker image."""
+    from app.services.mcp_orchestrator import mcp_orchestrator
+
+    try:
+        result = await mcp_orchestrator.build_base_image(tag=tag)
+        return BuildImageResponse(**result)
+    except FileNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Build failed: {e}")
+
+
+# =============================================================================
+# Tool Manifest (served to paco-mcp-base containers)
+# =============================================================================
+
+
+@router.get("/servers/by-name/{server_name}/manifest", response_model=ToolManifestResponse)
+async def get_tool_manifest(
+    server_name: str,
+    db: DbSession,
+) -> ToolManifestResponse:
+    """Return tool definitions for a managed MCP server container."""
+    result = await db.execute(select(McpServer).where(McpServer.name == server_name))
+    server = result.scalar_one_or_none()
+    if not server:
+        raise HTTPException(status_code=404, detail=f"MCP server '{server_name}' not found")
+
+    result = await db.execute(
+        select(Tool).where(
+            Tool.mcp_server_id == server.id,
+            Tool.is_enabled == True,
+        ).order_by(Tool.name)
+    )
+    tools = result.scalars().all()
+
+    tool_defs = []
+    for tool in tools:
+        tool_def: Dict[str, Any] = {
+            "name": tool.name,
+            "description": tool.description or "",
+            "input_schema": tool.input_schema,
+        }
+        if tool.handler_type:
+            tool_def["handler_type"] = tool.handler_type
+        if tool.handler_config:
+            tool_def["handler_config"] = tool.handler_config
+        if tool.output_transform:
+            tool_def["output_transform"] = tool.output_transform
+        if tool.retry_config:
+            tool_def["retry_config"] = tool.retry_config
+        if tool.timeout_ms:
+            tool_def["timeout_ms"] = tool.timeout_ms
+        tool_defs.append(tool_def)
+
+    return ToolManifestResponse(
+        server_name=server.name,
+        tools=tool_defs,
+        env=server.env or {},
+    )
+
+
+# =============================================================================
+# Proxy Config Endpoints
+# =============================================================================
 
 
 @router.get("/servers/{server_id}/proxy", response_model=ServerProxyResponse)
@@ -544,19 +828,7 @@ async def sync_tools_from_server(
         await db.commit()
         await db.refresh(tool)
 
-        synced_tools.append(
-            ToolResponse(
-                id=str(tool.id),
-                name=tool.name,
-                description=tool.description,
-                mcp_server_id=str(server.id),
-                mcp_server_name=server.name,
-                input_schema=tool.input_schema,
-                is_enabled=tool.is_enabled,
-                proxy_config=tool.proxy_config,
-                created_at=tool.created_at,
-            )
-        )
+        synced_tools.append(_tool_response(tool, server.name))
 
     # Notify agents using tools from this server
     await _notify_affected_agents(db, server.id)
@@ -589,7 +861,7 @@ async def list_tools(
 
     # Get server names
     server_ids = {t.mcp_server_id for t in tools if t.mcp_server_id}
-    server_names = {}
+    server_names: Dict[UUID, str] = {}
     if server_ids:
         result = await db.execute(
             select(McpServer).where(McpServer.id.in_(server_ids))
@@ -598,17 +870,7 @@ async def list_tools(
             server_names[server.id] = server.name
 
     return [
-        ToolResponse(
-            id=str(tool.id),
-            name=tool.name,
-            description=tool.description,
-            mcp_server_id=str(tool.mcp_server_id) if tool.mcp_server_id else None,
-            mcp_server_name=server_names.get(tool.mcp_server_id),
-            input_schema=tool.input_schema,
-            is_enabled=tool.is_enabled,
-            proxy_config=tool.proxy_config,
-            created_at=tool.created_at,
-        )
+        _tool_response(tool, server_names.get(tool.mcp_server_id))
         for tool in tools
     ]
 
@@ -625,27 +887,8 @@ async def get_tool(tool_id: UUID, db: DbSession) -> ToolResponse:
             detail=f"Tool {tool_id} not found",
         )
 
-    # Get server name
-    server_name = None
-    if tool.mcp_server_id:
-        result = await db.execute(
-            select(McpServer).where(McpServer.id == tool.mcp_server_id)
-        )
-        server = result.scalar_one_or_none()
-        if server:
-            server_name = server.name
-
-    return ToolResponse(
-        id=str(tool.id),
-        name=tool.name,
-        description=tool.description,
-        mcp_server_id=str(tool.mcp_server_id) if tool.mcp_server_id else None,
-        mcp_server_name=server_name,
-        input_schema=tool.input_schema,
-        is_enabled=tool.is_enabled,
-        proxy_config=tool.proxy_config,
-        created_at=tool.created_at,
-    )
+    server_name = await _get_server_name(db, tool.mcp_server_id)
+    return _tool_response(tool, server_name)
 
 
 @router.post("", response_model=ToolResponse, status_code=status.HTTP_201_CREATED)
@@ -658,6 +901,7 @@ async def create_tool(
     # Validate MCP server if provided
     mcp_server_id = None
     server_name = None
+    server = None
     if request.mcp_server_id:
         mcp_server_id = UUID(request.mcp_server_id)
         result = await db.execute(select(McpServer).where(McpServer.id == mcp_server_id))
@@ -675,23 +919,22 @@ async def create_tool(
         mcp_server_id=mcp_server_id,
         input_schema=request.input_schema,
         output_schema=request.output_schema,
+        handler_type=request.handler_type,
+        handler_config=request.handler_config,
+        output_transform=request.output_transform,
+        retry_config=request.retry_config,
+        timeout_ms=request.timeout_ms,
         is_enabled=True,
     )
     db.add(tool)
     await db.commit()
     await db.refresh(tool)
 
-    return ToolResponse(
-        id=str(tool.id),
-        name=tool.name,
-        description=tool.description,
-        mcp_server_id=str(tool.mcp_server_id) if tool.mcp_server_id else None,
-        mcp_server_name=server_name,
-        input_schema=tool.input_schema,
-        is_enabled=tool.is_enabled,
-        proxy_config=tool.proxy_config,
-        created_at=tool.created_at,
-    )
+    # Auto-reload managed server when tool is added
+    if server:
+        await _auto_reload_managed(db, server)
+
+    return _tool_response(tool, server_name)
 
 
 @router.put("/{tool_id}", response_model=ToolResponse)
@@ -711,14 +954,10 @@ async def update_tool(
             detail=f"Tool {tool_id} not found",
         )
 
-    if request.description is not None:
-        tool.description = request.description
-
-    if request.input_schema is not None:
-        tool.input_schema = request.input_schema
-
-    if request.is_enabled is not None:
-        tool.is_enabled = request.is_enabled
+    for field in ("description", "input_schema", "is_enabled", "handler_type", "handler_config", "output_transform", "retry_config", "timeout_ms"):
+        value = getattr(request, field, None)
+        if value is not None:
+            setattr(tool, field, value)
 
     await db.commit()
     await db.refresh(tool)
@@ -726,28 +965,14 @@ async def update_tool(
     # Notify agents using this tool's MCP server
     if tool.mcp_server_id:
         await _notify_affected_agents(db, tool.mcp_server_id)
-
-    # Get server name
-    server_name = None
-    if tool.mcp_server_id:
-        result = await db.execute(
-            select(McpServer).where(McpServer.id == tool.mcp_server_id)
-        )
-        server = result.scalar_one_or_none()
+        # Auto-reload managed server
+        srv_result = await db.execute(select(McpServer).where(McpServer.id == tool.mcp_server_id))
+        server = srv_result.scalar_one_or_none()
         if server:
-            server_name = server.name
+            await _auto_reload_managed(db, server)
 
-    return ToolResponse(
-        id=str(tool.id),
-        name=tool.name,
-        description=tool.description,
-        mcp_server_id=str(tool.mcp_server_id) if tool.mcp_server_id else None,
-        mcp_server_name=server_name,
-        input_schema=tool.input_schema,
-        is_enabled=tool.is_enabled,
-        proxy_config=tool.proxy_config,
-        created_at=tool.created_at,
-    )
+    server_name = await _get_server_name(db, tool.mcp_server_id)
+    return _tool_response(tool, server_name)
 
 
 @router.delete("/{tool_id}", status_code=status.HTTP_204_NO_CONTENT)
@@ -766,8 +991,16 @@ async def delete_tool(
             detail=f"Tool {tool_id} not found",
         )
 
+    mcp_server_id = tool.mcp_server_id
     await db.delete(tool)
     await db.commit()
+
+    # Auto-reload managed server when tool is removed
+    if mcp_server_id:
+        srv_result = await db.execute(select(McpServer).where(McpServer.id == mcp_server_id))
+        server = srv_result.scalar_one_or_none()
+        if server:
+            await _auto_reload_managed(db, server)
 
 
 @router.put("/{tool_id}/proxy")
@@ -798,21 +1031,5 @@ async def update_tool_proxy_override(
             except Exception:
                 pass
 
-    server_name = None
-    if tool.mcp_server_id:
-        result = await db.execute(select(McpServer).where(McpServer.id == tool.mcp_server_id))
-        srv = result.scalar_one_or_none()
-        if srv:
-            server_name = srv.name
-
-    return ToolResponse(
-        id=str(tool.id),
-        name=tool.name,
-        description=tool.description,
-        mcp_server_id=str(tool.mcp_server_id) if tool.mcp_server_id else None,
-        mcp_server_name=server_name,
-        input_schema=tool.input_schema,
-        is_enabled=tool.is_enabled,
-        proxy_config=tool.proxy_config,
-        created_at=tool.created_at,
-    )
+    server_name = await _get_server_name(db, tool.mcp_server_id)
+    return _tool_response(tool, server_name)

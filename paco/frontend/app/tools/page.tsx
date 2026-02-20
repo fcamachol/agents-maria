@@ -13,6 +13,11 @@ import {
   Pencil,
   Trash2,
   X,
+  Play,
+  Square,
+  RotateCw,
+  Terminal,
+  Loader2,
 } from "lucide-react";
 import { Header } from "@/components/ui/Header";
 import {
@@ -45,6 +50,7 @@ function McpServerModal({
 
   const [name, setName] = useState(server?.name ?? "");
   const [description, setDescription] = useState(server?.description ?? "");
+  const [deploymentMode, setDeploymentMode] = useState(server?.deployment_mode ?? "external");
   const [transport, setTransport] = useState(server?.transport ?? "http");
   const [url, setUrl] = useState(server?.url ?? "");
   const [command, setCommand] = useState(server?.command ?? "");
@@ -109,14 +115,17 @@ function McpServerModal({
       return;
     }
 
-    if ((transport === "http" || transport === "websocket") && !url.trim()) {
-      setError("URL is required for this transport");
-      return;
-    }
+    // Skip transport/URL/command validation for managed servers (auto-configured)
+    if (deploymentMode !== "managed") {
+      if ((transport === "http" || transport === "websocket") && !url.trim()) {
+        setError("URL is required for this transport");
+        return;
+      }
 
-    if (transport === "stdio" && !command.trim()) {
-      setError("Command is required for stdio transport");
-      return;
+      if (transport === "stdio" && !command.trim()) {
+        setError("Command is required for stdio transport");
+        return;
+      }
     }
 
     let parsedEnv: Record<string, string> | undefined;
@@ -159,22 +168,23 @@ function McpServerModal({
       updateMutation.mutate({
         name: name.trim(),
         description: description || undefined,
-        transport,
-        url: url.trim() || undefined,
+        transport: deploymentMode === "managed" ? undefined : transport,
+        url: deploymentMode === "managed" ? undefined : (url.trim() || undefined),
         proxy_config: proxyConfig,
-        command: command.trim() || undefined,
-        args: parsedArgs.length > 0 ? parsedArgs : undefined,
+        command: deploymentMode === "managed" ? undefined : (command.trim() || undefined),
+        args: deploymentMode === "managed" ? undefined : (parsedArgs.length > 0 ? parsedArgs : undefined),
         env: parsedEnv,
       });
     } else {
       createMutation.mutate({
         name: name.trim(),
         description: description || undefined,
-        transport,
-        url: url.trim() || undefined,
+        deployment_mode: deploymentMode,
+        transport: deploymentMode === "managed" ? undefined : transport,
+        url: deploymentMode === "managed" ? undefined : (url.trim() || undefined),
         proxy_config: proxyConfig,
-        command: command.trim() || undefined,
-        args: parsedArgs.length > 0 ? parsedArgs : undefined,
+        command: deploymentMode === "managed" ? undefined : (command.trim() || undefined),
+        args: deploymentMode === "managed" ? undefined : (parsedArgs.length > 0 ? parsedArgs : undefined),
         env: parsedEnv,
       });
     }
@@ -247,24 +257,59 @@ function McpServerModal({
             />
           </div>
 
-          {/* Transport */}
+          {/* Deployment Mode */}
           <div>
             <label className="block text-sm font-medium text-foreground mb-1">
-              Transport
+              Deployment Mode
             </label>
-            <select
-              value={transport}
-              onChange={(e) => setTransport(e.target.value)}
-              className="input w-full"
-            >
-              <option value="http">HTTP</option>
-              <option value="stdio">Stdio</option>
-              <option value="websocket">WebSocket</option>
-            </select>
+            <div className="flex gap-4">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="radio"
+                  name="deployment_mode"
+                  value="external"
+                  checked={deploymentMode === "external"}
+                  onChange={() => setDeploymentMode("external")}
+                  className="accent-coral-500"
+                />
+                <span className="text-sm text-foreground">External</span>
+                <span className="text-xs text-foreground-muted">(existing server)</span>
+              </label>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="radio"
+                  name="deployment_mode"
+                  value="managed"
+                  checked={deploymentMode === "managed"}
+                  onChange={() => setDeploymentMode("managed")}
+                  className="accent-coral-500"
+                />
+                <span className="text-sm text-foreground">Managed</span>
+                <span className="text-xs text-foreground-muted">(Paco deploys)</span>
+              </label>
+            </div>
           </div>
 
-          {/* URL (http / websocket) */}
-          {(transport === "http" || transport === "websocket") && (
+          {/* Transport (hidden for managed) */}
+          {deploymentMode !== "managed" && (
+            <div>
+              <label className="block text-sm font-medium text-foreground mb-1">
+                Transport
+              </label>
+              <select
+                value={transport}
+                onChange={(e) => setTransport(e.target.value)}
+                className="input w-full"
+              >
+                <option value="http">HTTP</option>
+                <option value="stdio">Stdio</option>
+                <option value="websocket">WebSocket</option>
+              </select>
+            </div>
+          )}
+
+          {/* URL (http / websocket) - hidden for managed */}
+          {deploymentMode !== "managed" && (transport === "http" || transport === "websocket") && (
             <div>
               <label className="block text-sm font-medium text-foreground mb-1">
                 URL <span className="text-error">*</span>
@@ -280,7 +325,7 @@ function McpServerModal({
           )}
 
           {/* Proxy Configuration Section */}
-          {transport === "http" && (
+          {deploymentMode !== "managed" && transport === "http" && (
             <div className="border border-border rounded-lg p-4 space-y-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-semibold text-foreground">
@@ -427,8 +472,8 @@ function McpServerModal({
             </div>
           )}
 
-          {/* Command (stdio) */}
-          {transport === "stdio" && (
+          {/* Command (stdio) - hidden for managed */}
+          {deploymentMode !== "managed" && transport === "stdio" && (
             <>
               <div>
                 <label className="block text-sm font-medium text-foreground mb-1">
@@ -458,10 +503,17 @@ function McpServerModal({
             </>
           )}
 
+          {/* Managed mode info */}
+          {deploymentMode === "managed" && (
+            <div className="p-3 rounded bg-coral-500/10 text-sm text-foreground-muted">
+              <strong className="text-foreground">Managed mode:</strong> Transport, URL, and command will be auto-configured when deployed. Set environment variables below to pass to the container.
+            </div>
+          )}
+
           {/* Env vars */}
           <div>
             <label className="block text-sm font-medium text-foreground mb-1">
-              Env Variables (JSON)
+              {deploymentMode === "managed" ? "Container Env Variables (JSON)" : "Env Variables (JSON)"}
             </label>
             <textarea
               value={envJson}
@@ -521,6 +573,23 @@ function ToolModal({
   );
   const [isEnabled, setIsEnabled] = useState(tool?.is_enabled ?? true);
   const [error, setError] = useState<string | null>(null);
+
+  // Handler fields
+  const [handlerType, setHandlerType] = useState<string | null>(tool?.handler_type ?? null);
+  const [handlerConfig, setHandlerConfig] = useState<Record<string, any> | null>(
+    tool?.handler_config ?? null
+  );
+  const [timeoutMs, setTimeoutMs] = useState<number | null>(tool?.timeout_ms ?? null);
+  const [outputTransform, setOutputTransform] = useState(tool?.output_transform ?? "");
+  const [retryMaxRetries, setRetryMaxRetries] = useState<number>(
+    tool?.retry_config?.max_retries ?? 0
+  );
+  const [retryDelay, setRetryDelay] = useState<number>(
+    tool?.retry_config?.delay_ms ?? 1000
+  );
+  const [retryBackoff, setRetryBackoff] = useState<number>(
+    tool?.retry_config?.backoff_factor ?? 2.0
+  );
 
   // Proxy override state
   const [proxyOverride, setProxyOverride] = useState<"inherit" | "none" | "custom">(
@@ -600,11 +669,26 @@ function ToolModal({
       }
     }
 
+    // Build retry config
+    const retryConfig =
+      retryMaxRetries > 0
+        ? {
+            max_retries: retryMaxRetries,
+            delay_ms: retryDelay,
+            backoff_factor: retryBackoff,
+          }
+        : undefined;
+
     if (isEdit) {
       updateMutation.mutate({
         description: description || undefined,
         input_schema: parsedInputSchema,
         is_enabled: isEnabled,
+        handler_type: handlerType || undefined,
+        handler_config: handlerConfig || undefined,
+        output_transform: outputTransform || undefined,
+        retry_config: retryConfig,
+        timeout_ms: timeoutMs || undefined,
       });
     } else {
       if (!name.trim()) {
@@ -616,6 +700,11 @@ function ToolModal({
         description: description || undefined,
         mcp_server_id: mcpServerId || undefined,
         input_schema: parsedInputSchema,
+        handler_type: handlerType || undefined,
+        handler_config: handlerConfig || undefined,
+        output_transform: outputTransform || undefined,
+        retry_config: retryConfig,
+        timeout_ms: timeoutMs || undefined,
       });
     }
   }
@@ -724,6 +813,302 @@ function ToolModal({
               </select>
             </div>
 
+            {/* Handler Type */}
+            <div>
+              <label className="block text-sm font-medium text-foreground mb-1">
+                Handler Type
+              </label>
+              <select
+                value={handlerType || ""}
+                onChange={(e) => {
+                  const val = e.target.value || null;
+                  setHandlerType(val);
+                  setHandlerConfig(null);
+                }}
+                className="input w-full"
+              >
+                <option value="">None (legacy/synced)</option>
+                <option value="http_rest">HTTP REST</option>
+                <option value="http_soap">HTTP SOAP</option>
+                <option value="sql">SQL Query</option>
+                <option value="graphql">GraphQL</option>
+                <option value="code">JavaScript Code</option>
+              </select>
+            </div>
+
+            {/* Dynamic Handler Config */}
+            {handlerType === "http_rest" && (
+              <div className="border border-border rounded-lg p-3 space-y-3">
+                <h4 className="text-sm font-semibold text-foreground">HTTP REST Config</h4>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs text-foreground-muted mb-1">Method</label>
+                    <select
+                      value={handlerConfig?.method || "GET"}
+                      onChange={(e) =>
+                        setHandlerConfig({ ...handlerConfig, method: e.target.value })
+                      }
+                      className="input w-full"
+                    >
+                      <option value="GET">GET</option>
+                      <option value="POST">POST</option>
+                      <option value="PUT">PUT</option>
+                      <option value="DELETE">DELETE</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs text-foreground-muted mb-1">URL</label>
+                    <input
+                      type="text"
+                      value={handlerConfig?.url || ""}
+                      onChange={(e) =>
+                        setHandlerConfig({ ...handlerConfig, url: e.target.value })
+                      }
+                      placeholder="https://api.example.com/{{args.path}}"
+                      className="input w-full"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-xs text-foreground-muted mb-1">
+                    Headers (JSON)
+                  </label>
+                  <textarea
+                    value={
+                      handlerConfig?.headers
+                        ? JSON.stringify(handlerConfig.headers, null, 2)
+                        : "{}"
+                    }
+                    onChange={(e) => {
+                      try {
+                        const parsed = JSON.parse(e.target.value);
+                        setHandlerConfig({ ...handlerConfig, headers: parsed });
+                      } catch {
+                        // Allow invalid JSON while typing
+                      }
+                    }}
+                    rows={2}
+                    className="input w-full font-mono text-xs"
+                    placeholder='{"Authorization": "Bearer {{env.API_KEY}}"}'
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-foreground-muted mb-1">
+                    Body Template (JSON)
+                  </label>
+                  <textarea
+                    value={handlerConfig?.body_template || ""}
+                    onChange={(e) =>
+                      setHandlerConfig({ ...handlerConfig, body_template: e.target.value })
+                    }
+                    rows={3}
+                    className="input w-full font-mono text-xs"
+                    placeholder='{"query": "{{args.query}}", "limit": {{args.limit}}}'
+                  />
+                </div>
+              </div>
+            )}
+
+            {handlerType === "http_soap" && (
+              <div className="border border-border rounded-lg p-3 space-y-3">
+                <h4 className="text-sm font-semibold text-foreground">HTTP SOAP Config</h4>
+                <div>
+                  <label className="block text-xs text-foreground-muted mb-1">Endpoint URL</label>
+                  <input
+                    type="text"
+                    value={handlerConfig?.url || ""}
+                    onChange={(e) =>
+                      setHandlerConfig({ ...handlerConfig, url: e.target.value })
+                    }
+                    placeholder="https://service.example.com/soap"
+                    className="input w-full"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-foreground-muted mb-1">
+                    SOAP Envelope Template
+                  </label>
+                  <textarea
+                    value={handlerConfig?.envelope_template || ""}
+                    onChange={(e) =>
+                      setHandlerConfig({ ...handlerConfig, envelope_template: e.target.value })
+                    }
+                    rows={6}
+                    className="input w-full font-mono text-xs"
+                    placeholder="<soapenv:Envelope>...</soapenv:Envelope>"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-foreground-muted mb-1">
+                    XPath for Result Extraction
+                  </label>
+                  <input
+                    type="text"
+                    value={handlerConfig?.xpath || ""}
+                    onChange={(e) =>
+                      setHandlerConfig({ ...handlerConfig, xpath: e.target.value })
+                    }
+                    placeholder="//GetResultResponse/Result"
+                    className="input w-full font-mono text-xs"
+                  />
+                </div>
+              </div>
+            )}
+
+            {handlerType === "sql" && (
+              <div className="border border-border rounded-lg p-3 space-y-3">
+                <h4 className="text-sm font-semibold text-foreground">SQL Query Config</h4>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs text-foreground-muted mb-1">
+                      Connection Env Var
+                    </label>
+                    <input
+                      type="text"
+                      value={handlerConfig?.connection_env || ""}
+                      onChange={(e) =>
+                        setHandlerConfig({ ...handlerConfig, connection_env: e.target.value })
+                      }
+                      placeholder="DATABASE_URL"
+                      className="input w-full font-mono text-xs"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-foreground-muted mb-1">Query Type</label>
+                    <select
+                      value={handlerConfig?.query_type || "select"}
+                      onChange={(e) =>
+                        setHandlerConfig({ ...handlerConfig, query_type: e.target.value })
+                      }
+                      className="input w-full"
+                    >
+                      <option value="select">SELECT</option>
+                      <option value="insert">INSERT</option>
+                      <option value="update">UPDATE</option>
+                      <option value="delete">DELETE</option>
+                      <option value="procedure">Stored Procedure</option>
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-xs text-foreground-muted mb-1">SQL Query</label>
+                  <textarea
+                    value={handlerConfig?.query || ""}
+                    onChange={(e) =>
+                      setHandlerConfig({ ...handlerConfig, query: e.target.value })
+                    }
+                    rows={4}
+                    className="input w-full font-mono text-xs"
+                    placeholder="SELECT * FROM users WHERE name = {{args.name}}"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-foreground-muted mb-1">
+                    Params (comma-separated)
+                  </label>
+                  <input
+                    type="text"
+                    value={handlerConfig?.params || ""}
+                    onChange={(e) =>
+                      setHandlerConfig({ ...handlerConfig, params: e.target.value })
+                    }
+                    placeholder="args.name, args.email"
+                    className="input w-full font-mono text-xs"
+                  />
+                </div>
+              </div>
+            )}
+
+            {handlerType === "graphql" && (
+              <div className="border border-border rounded-lg p-3 space-y-3">
+                <h4 className="text-sm font-semibold text-foreground">GraphQL Config</h4>
+                <div>
+                  <label className="block text-xs text-foreground-muted mb-1">Endpoint URL</label>
+                  <input
+                    type="text"
+                    value={handlerConfig?.url || ""}
+                    onChange={(e) =>
+                      setHandlerConfig({ ...handlerConfig, url: e.target.value })
+                    }
+                    placeholder="https://api.example.com/graphql"
+                    className="input w-full"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-foreground-muted mb-1">Query</label>
+                  <textarea
+                    value={handlerConfig?.query || ""}
+                    onChange={(e) =>
+                      setHandlerConfig({ ...handlerConfig, query: e.target.value })
+                    }
+                    rows={5}
+                    className="input w-full font-mono text-xs"
+                    placeholder="query GetUser($id: ID!) { user(id: $id) { name email } }"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-foreground-muted mb-1">
+                    Variables (JSON)
+                  </label>
+                  <textarea
+                    value={handlerConfig?.variables || "{}"}
+                    onChange={(e) =>
+                      setHandlerConfig({ ...handlerConfig, variables: e.target.value })
+                    }
+                    rows={3}
+                    className="input w-full font-mono text-xs"
+                    placeholder='{"id": "{{args.user_id}}"}'
+                  />
+                </div>
+              </div>
+            )}
+
+            {handlerType === "code" && (
+              <div className="border border-border rounded-lg p-3 space-y-3">
+                <h4 className="text-sm font-semibold text-foreground">JavaScript Code Config</h4>
+                <div>
+                  <label className="block text-xs text-foreground-muted mb-1">Source Code</label>
+                  <textarea
+                    value={handlerConfig?.source || ""}
+                    onChange={(e) =>
+                      setHandlerConfig({ ...handlerConfig, source: e.target.value })
+                    }
+                    rows={8}
+                    className="input w-full font-mono text-xs"
+                    placeholder="// args available as `args` object&#10;// Return result as JSON&#10;const result = await fetch(...);"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-foreground-muted mb-1">
+                    Timeout (ms)
+                  </label>
+                  <input
+                    type="number"
+                    value={handlerConfig?.timeout_ms || ""}
+                    onChange={(e) =>
+                      setHandlerConfig({
+                        ...handlerConfig,
+                        timeout_ms: e.target.value ? Number(e.target.value) : undefined,
+                      })
+                    }
+                    placeholder="5000"
+                    className="input w-full"
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Template variable reference */}
+            {handlerType && (
+              <div className="p-2 bg-background-tertiary rounded text-xs text-foreground-muted">
+                <strong>Template variables:</strong> Use{" "}
+                <code className="bg-background px-1 py-0.5 rounded">{"{{args.fieldName}}"}</code>{" "}
+                for tool arguments,{" "}
+                <code className="bg-background px-1 py-0.5 rounded">{"{{env.VAR_NAME}}"}</code>{" "}
+                for environment variables.
+              </div>
+            )}
+
             {/* Input Schema */}
             <div>
               <label className="block text-sm font-medium text-foreground mb-1">
@@ -814,6 +1199,80 @@ function ToolModal({
                 )}
               </div>
             )}
+
+            {/* Advanced Settings */}
+            <details className="mt-4">
+              <summary className="cursor-pointer text-sm font-medium text-foreground-muted">
+                Advanced Settings
+              </summary>
+              <div className="mt-2 space-y-3">
+                <div>
+                  <label className="block text-xs text-foreground-muted mb-1">
+                    Timeout (ms)
+                  </label>
+                  <input
+                    type="number"
+                    value={timeoutMs ?? ""}
+                    onChange={(e) =>
+                      setTimeoutMs(e.target.value ? Number(e.target.value) : null)
+                    }
+                    className="input w-full"
+                    placeholder="30000"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-foreground-muted mb-1">
+                    Output Transform
+                  </label>
+                  <input
+                    type="text"
+                    value={outputTransform}
+                    onChange={(e) => setOutputTransform(e.target.value)}
+                    className="input w-full font-mono text-xs"
+                    placeholder="$.data.result or //tagName"
+                  />
+                </div>
+                <div className="grid grid-cols-3 gap-2">
+                  <div>
+                    <label className="block text-xs text-foreground-muted mb-1">
+                      Max Retries
+                    </label>
+                    <input
+                      type="number"
+                      value={retryMaxRetries}
+                      onChange={(e) => setRetryMaxRetries(Number(e.target.value) || 0)}
+                      className="input w-full"
+                      min={0}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-foreground-muted mb-1">
+                      Delay (ms)
+                    </label>
+                    <input
+                      type="number"
+                      value={retryDelay}
+                      onChange={(e) => setRetryDelay(Number(e.target.value) || 1000)}
+                      className="input w-full"
+                      min={0}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-foreground-muted mb-1">
+                      Backoff Factor
+                    </label>
+                    <input
+                      type="number"
+                      step="0.1"
+                      value={retryBackoff}
+                      onChange={(e) => setRetryBackoff(Number(e.target.value) || 2.0)}
+                      className="input w-full"
+                      min={1}
+                    />
+                  </div>
+                </div>
+              </div>
+            </details>
 
             {/* Actions */}
             <div className="flex items-center justify-end gap-3 pt-2 border-t border-border">
@@ -1008,6 +1467,32 @@ export default function ToolsPage() {
     },
   });
 
+  // Deploy / stop / redeploy mutations for managed servers
+  const deployMutation = useMutation({
+    mutationFn: (id: string) => api.deployMcpServer(id),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["mcp-servers"] }),
+  });
+  const stopServerMutation = useMutation({
+    mutationFn: (id: string) => api.stopMcpServer(id),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["mcp-servers"] }),
+  });
+  const redeployMutation = useMutation({
+    mutationFn: (id: string) => api.redeployMcpServer(id),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["mcp-servers"] }),
+  });
+  const buildImageMutation = useMutation({
+    mutationFn: () => api.buildBaseImage(),
+    onSuccess: () => alert("Base image built successfully"),
+  });
+
+  // Logs panel state
+  const [logsServerId, setLogsServerId] = useState<string | null>(null);
+  const { data: serverLogs, isLoading: logsLoading, refetch: refetchLogs } = useQuery({
+    queryKey: ["mcp-server-logs", logsServerId],
+    queryFn: () => api.getMcpServerLogs(logsServerId!),
+    enabled: !!logsServerId,
+  });
+
   // Filter tools
   const filteredTools = tools.filter(
     (tool) =>
@@ -1076,6 +1561,22 @@ export default function ToolsPage() {
                         >
                           <Server className="w-4 h-4" />
                           <span className="flex-1 truncate">{server.name}</span>
+
+                          {/* Deploy status badge for managed servers */}
+                          {server.deployment_mode === "managed" && server.deploy_status && server.deploy_status !== "undeployed" && (
+                            <span
+                              className={cn(
+                                "text-[10px] px-1.5 py-0.5 rounded-full font-medium",
+                                server.deploy_status === "running" && "bg-success/20 text-success",
+                                server.deploy_status === "stopped" && "bg-foreground-muted/20 text-foreground-muted",
+                                server.deploy_status === "error" && "bg-error/20 text-error",
+                                server.deploy_status === "deploying" && "bg-amber-500/20 text-amber-500 animate-pulse"
+                              )}
+                            >
+                              {server.deploy_status}
+                            </span>
+                          )}
+
                           <span
                             className={cn(
                               "w-2 h-2 rounded-full",
@@ -1089,7 +1590,7 @@ export default function ToolsPage() {
                         </button>
 
                         {/* Server actions */}
-                        <div className="flex items-center gap-1 px-3 pb-2">
+                        <div className="flex items-center gap-1 px-3 pb-1">
                           <button
                             onClick={() =>
                               healthCheckMutation.mutate(server.id)
@@ -1135,6 +1636,116 @@ export default function ToolsPage() {
                             </>
                           )}
                         </div>
+
+                        {/* Deploy actions for managed servers */}
+                        {isAdmin && server.deployment_mode === "managed" && (
+                          <div className="flex items-center gap-1 px-3 pb-2">
+                            {(server.deploy_status === "undeployed" ||
+                              server.deploy_status === "stopped" ||
+                              server.deploy_status === "error") && (
+                              <button
+                                onClick={() => deployMutation.mutate(server.id)}
+                                disabled={deployMutation.isPending}
+                                className="text-xs px-2 py-0.5 rounded bg-success/20 text-success hover:bg-success/30 transition-colors flex items-center gap-1"
+                                title="Deploy container"
+                              >
+                                {deployMutation.isPending ? (
+                                  <Loader2 className="w-3 h-3 animate-spin" />
+                                ) : (
+                                  <Play className="w-3 h-3" />
+                                )}
+                                Deploy
+                              </button>
+                            )}
+                            {server.deploy_status === "running" && (
+                              <>
+                                <button
+                                  onClick={() => stopServerMutation.mutate(server.id)}
+                                  disabled={stopServerMutation.isPending}
+                                  className="text-xs px-2 py-0.5 rounded bg-foreground-muted/20 text-foreground-muted hover:bg-foreground-muted/30 transition-colors flex items-center gap-1"
+                                  title="Stop container"
+                                >
+                                  {stopServerMutation.isPending ? (
+                                    <Loader2 className="w-3 h-3 animate-spin" />
+                                  ) : (
+                                    <Square className="w-3 h-3" />
+                                  )}
+                                  Stop
+                                </button>
+                                <button
+                                  onClick={() => redeployMutation.mutate(server.id)}
+                                  disabled={redeployMutation.isPending}
+                                  className="text-xs px-2 py-0.5 rounded bg-coral-500/20 text-coral-500 hover:bg-coral-500/30 transition-colors flex items-center gap-1"
+                                  title="Redeploy container"
+                                >
+                                  {redeployMutation.isPending ? (
+                                    <Loader2 className="w-3 h-3 animate-spin" />
+                                  ) : (
+                                    <RotateCw className="w-3 h-3" />
+                                  )}
+                                  Redeploy
+                                </button>
+                              </>
+                            )}
+                            {server.deploy_status === "deploying" && (
+                              <span className="text-xs text-amber-500 flex items-center gap-1">
+                                <Loader2 className="w-3 h-3 animate-spin" />
+                                Deploying...
+                              </span>
+                            )}
+                            <button
+                              onClick={() =>
+                                setLogsServerId(
+                                  logsServerId === server.id ? null : server.id
+                                )
+                              }
+                              className={cn(
+                                "text-xs px-2 py-0.5 rounded transition-colors flex items-center gap-1 ml-auto",
+                                logsServerId === server.id
+                                  ? "bg-coral-500/20 text-coral-500"
+                                  : "text-foreground-muted hover:text-foreground"
+                              )}
+                              title="View container logs"
+                            >
+                              <Terminal className="w-3 h-3" />
+                              Logs
+                            </button>
+                          </div>
+                        )}
+
+                        {/* Deploy error display */}
+                        {server.deployment_mode === "managed" && server.deploy_error && (
+                          <div className="px-3 pb-2">
+                            <p className="text-[10px] text-error truncate" title={server.deploy_error}>
+                              {server.deploy_error}
+                            </p>
+                          </div>
+                        )}
+
+                        {/* Inline logs panel */}
+                        {logsServerId === server.id && (
+                          <div className="px-3 pb-2">
+                            <div className="bg-background rounded border border-border max-h-48 overflow-y-auto">
+                              <div className="flex items-center justify-between px-2 py-1 border-b border-border">
+                                <span className="text-[10px] text-foreground-muted font-medium">
+                                  Container Logs {server.container_name ? `(${server.container_name})` : ""}
+                                </span>
+                                <button
+                                  onClick={() => refetchLogs()}
+                                  className="text-foreground-muted hover:text-foreground"
+                                  title="Refresh logs"
+                                >
+                                  <RefreshCw className={cn("w-3 h-3", logsLoading && "animate-spin")} />
+                                </button>
+                              </div>
+                              <pre className="p-2 text-[10px] text-foreground-muted font-mono whitespace-pre-wrap break-all">
+                                {logsLoading
+                                  ? "Loading logs..."
+                                  : serverLogs?.logs || "No logs available"}
+                              </pre>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     ))}
                   </div>
@@ -1231,6 +1842,11 @@ export default function ToolsPage() {
                             {tool.mcp_server_name && (
                               <span className="text-xs text-foreground-muted bg-background-secondary px-2 py-0.5 rounded">
                                 {tool.mcp_server_name}
+                              </span>
+                            )}
+                            {tool.handler_type && (
+                              <span className="text-xs text-coral-500 bg-coral-500/10 px-2 py-0.5 rounded">
+                                {tool.handler_type.replace("_", " ")}
                               </span>
                             )}
                           </div>

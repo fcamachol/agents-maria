@@ -281,6 +281,44 @@ class ApiClient {
     });
   }
 
+  // Managed MCP server operations
+  async deployMcpServer(id: string) {
+    return this.request<McpServer>(`/api/tools/servers/${id}/deploy`, {
+      method: "POST",
+    });
+  }
+
+  async stopMcpServer(id: string) {
+    return this.request<McpServer>(`/api/tools/servers/${id}/stop`, {
+      method: "POST",
+    });
+  }
+
+  async redeployMcpServer(id: string) {
+    return this.request<McpServer>(`/api/tools/servers/${id}/redeploy`, {
+      method: "POST",
+    });
+  }
+
+  async reloadMcpServerTools(id: string) {
+    return this.request<Record<string, any>>(`/api/tools/servers/${id}/reload-tools`, {
+      method: "POST",
+    });
+  }
+
+  async getMcpServerLogs(id: string, tail = 100) {
+    return this.request<ContainerLogsResponse>(
+      `/api/tools/servers/${id}/logs?tail=${tail}`
+    );
+  }
+
+  async buildBaseImage(tag = "latest") {
+    return this.request<BuildImageResponse>(
+      `/api/tools/build-base-image?tag=${tag}`,
+      { method: "POST" }
+    );
+  }
+
   // Execution endpoints
   async getExecutions(params?: {
     agent_id?: string;
@@ -1330,6 +1368,14 @@ export interface McpServer {
   command: string | null;
   status: string;
   last_health_check: string | null;
+  // Managed deployment fields
+  deployment_mode: string;
+  deploy_status: string;
+  deploy_error: string | null;
+  container_name: string | null;
+  host_port: number | null;
+  image_tag: string;
+  last_deployed_at: string | null;
   created_at: string;
 }
 
@@ -1343,6 +1389,7 @@ export interface CreateMcpServerRequest {
   command?: string;
   args?: string[];
   env?: Record<string, string>;
+  deployment_mode?: string;
 }
 
 export interface Tool {
@@ -1354,6 +1401,12 @@ export interface Tool {
   input_schema: Record<string, any>;
   is_enabled: boolean;
   proxy_config: Record<string, any> | null;
+  // Handler fields
+  handler_type: string | null;
+  handler_config: Record<string, any> | null;
+  output_transform: string | null;
+  retry_config: Record<string, any> | null;
+  timeout_ms: number | null;
   created_at: string;
 }
 
@@ -1363,12 +1416,33 @@ export interface CreateToolRequest {
   mcp_server_id?: string;
   input_schema?: Record<string, any>;
   output_schema?: Record<string, any>;
+  handler_type?: string;
+  handler_config?: Record<string, any>;
+  output_transform?: string;
+  retry_config?: Record<string, any>;
+  timeout_ms?: number;
 }
 
 export interface UpdateToolRequest {
   description?: string;
   input_schema?: Record<string, any>;
   is_enabled?: boolean;
+  handler_type?: string;
+  handler_config?: Record<string, any>;
+  output_transform?: string;
+  retry_config?: Record<string, any>;
+  timeout_ms?: number;
+}
+
+export interface ContainerLogsResponse {
+  logs: string;
+  container_name: string | null;
+}
+
+export interface BuildImageResponse {
+  image_id: string;
+  tag: string;
+  logs: string[];
 }
 
 export interface UpdateMcpServerRequest {
