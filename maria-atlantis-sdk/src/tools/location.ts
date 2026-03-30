@@ -4,126 +4,37 @@
 
 import { tool } from "@anthropic-ai/claude-agent-sdk";
 import { z } from "zod";
-import { pgQuery, getMexicoDate } from "../services/soap-client.js";
-
-// ============================================
-// Types
-// ============================================
-
-interface CeaLocationRow {
-    id: number;
-    slug: string;
-    name: string;
-    tipo: string;
-    address_street: string;
-    colonia: string;
-    municipio: string;
-    codigo_postal: string | null;
-    lat: number;
-    lng: number;
-    distance_meters: number;
-    horario: Record<string, string | null>;
-    telefono: string | null;
-    servicios: string[];
-    notas: string | null;
-}
+import { getUbicaciones, buscarUbicacion, reverseGeocode, UbicacionEntry } from "../services/supra-client.js";
 
 // ============================================
 // Helpers
 // ============================================
 
-function isLocationOpen(horario: Record<string, string | null>): { is_open: boolean; current_schedule: string | null } {
-    const now = getMexicoDate();
-    const dayOfWeek = now.getDay();
-
-    let scheduleKey: string;
-    if (dayOfWeek === 0) {
-        scheduleKey = "dom";
-    } else if (dayOfWeek === 6) {
-        scheduleKey = "sab";
-    } else {
-        scheduleKey = "lun_vie";
-    }
-
-    const schedule = horario[scheduleKey];
-    if (!schedule) {
-        return { is_open: false, current_schedule: null };
-    }
-
-    const [openTime, closeTime] = schedule.split("-");
-    if (!openTime || !closeTime) {
-        return { is_open: false, current_schedule: schedule };
-    }
-
-    const [openH, openM] = openTime.split(":").map(Number);
-    const [closeH, closeM] = closeTime.split(":").map(Number);
-    const currentMinutes = now.getHours() * 60 + now.getMinutes();
-    const openMinutes = openH * 60 + openM;
-    const closeMinutes = closeH * 60 + closeM;
-
-    return {
-        is_open: currentMinutes >= openMinutes && currentMinutes < closeMinutes,
-        current_schedule: schedule
-    };
+function isLocationOpen(horario: UbicacionEntry["horario"]): boolean {
+    // Simple heuristic: open if lun_vie exists and is not "Cerrado"
+    return !!(horario?.lun_vie && horario.lun_vie !== "Cerrado");
 }
 
-function formatDistance(meters: number): string {
-    if (meters < 1000) {
-        return `${Math.round(meters)} m`;
-    }
-    return `${(meters / 1000).toFixed(1)} km`;
-}
-
-async function getHQOfficeInfo(): Promise<string> {
-    try {
-        const rows = await pgQuery<{
-            name: string;
-            address_street: string;
-            colonia: string;
-            municipio: string;
-            codigo_postal: string | null;
-            telefono: string | null;
-            horario: Record<string, string | null>;
-        }>(`
-            SELECT name, address_street, colonia, municipio, codigo_postal, telefono, horario
-            FROM cea_locations WHERE slug = 'pabellon-campestre' AND is_active = true
-            LIMIT 1
-        `);
-
-        if (rows.length === 0) {
-            return "Oficina principal Hydropolis Pabellón Campestre. Línea Hydropolis: 442-211-0066. Horario: Lun-Vie 8:00-17:00.";
+function formatOffice(loc: UbicacionEntry): string {
+    let schedule = "";
+    if (loc.horario) {
+        if (loc.horario.lun_vie && loc.horario.lun_vie !== "Cerrado") {
+            schedule += `Lun-Vie ${loc.horario.lun_vie}`;
         }
-
-        const hq = rows[0];
-        const address = `${hq.address_street}, Col. ${hq.colonia}, ${hq.municipio}${hq.codigo_postal ? `, C.P. ${hq.codigo_postal}` : ""}`;
-        const phone = hq.telefono || "442-211-0066";
-
-        let schedule = "Lun-Vie 8:00-17:00";
-        if (hq.horario) {
-            if (hq.horario.lun_vie) {
-                schedule = `Lun-Vie ${hq.horario.lun_vie}`;
-            }
-            if (hq.horario.sab) schedule += `, Sáb ${hq.horario.sab}`;
-            if (hq.horario.dom) schedule += `, Dom ${hq.horario.dom}`;
+        if (loc.horario.sab && loc.horario.sab !== "Cerrado") {
+            schedule += `, Sáb ${loc.horario.sab}`;
         }
-
-        return `*${hq.name}*\nDirección: ${address}\nTeléfono: ${phone}\nHorario: ${schedule}`;
-    } catch (error) {
-        console.error("[getHQOfficeInfo] Error querying DB:", error);
-        return "Oficina principal Hydropolis Pabellón Campestre. Línea Hydropolis: 442-211-0066. Horario: Lun-Vie 8:00-17:00.";
+        if (loc.horario.dom && loc.horario.dom !== "Cerrado") {
+            schedule += `, Dom ${loc.horario.dom}`;
+        }
     }
+
+    let info = `*${loc.nombre}*\n`;
+    if (loc.direccion) info += `Dirección: ${loc.direccion}\n`;
+    if (loc.telefono) info += `Teléfono: ${loc.telefono}\n`;
+    if (schedule) info += `Horario: ${schedule}`;
+    return info.trim();
 }
-
-// ============================================
-// Google Maps helpers
-// ============================================
-
-function getGoogleMapsKey(): string { return process.env.GOOGLE_MAPS_API_KEY || ""; }
-
-const QRO_BOUNDS = {
-    sw: { lat: 20.01, lng: -100.60 },
-    ne: { lat: 21.65, lng: -99.03 }
-};
 
 // ============================================
 // GET MAIN OFFICE
@@ -131,18 +42,41 @@ const QRO_BOUNDS = {
 
 export const getMainOfficeTool = tool(
     "get_main_office",
-    `Obtiene la información de la oficina principal de Hydropolis (Pabellón Campestre).
-    Devuelve nombre, dirección, teléfono y horario actualizados desde la base de datos.
+    `Obtiene la información de la oficina principal de Hydropolis.
+    Devuelve nombre, dirección, teléfono y horario actualizados desde SUPRA.
     Usa esta herramienta SIEMPRE que necesites dar información de oficinas, horarios o teléfonos de Hydropolis.
     NUNCA des esta información de memoria.`,
     {},
     async () => {
-        console.log("[get_main_office] Querying HQ office info");
-        const info = await getHQOfficeInfo();
-        return { content: [{ type: "text" as const, text: JSON.stringify({
-            success: true,
-            formatted_response: info
-        }) }] };
+        console.log("[get_main_office] Querying HQ office info via SUPRA");
+
+        const FALLBACK = "Oficina principal Hydropolis. Línea Hydropolis: 442-441-0000. Horario: Lun-Vie 8:00-17:00.";
+
+        try {
+            // Use Querétaro center coords to get closest office
+            const ubicaciones = await getUbicaciones({ lat: 20.5888, lng: -100.3899, tipo: "oficina", limite: 1 });
+
+            if (!ubicaciones || ubicaciones.length === 0) {
+                return { content: [{ type: "text" as const, text: JSON.stringify({
+                    success: true,
+                    formatted_response: FALLBACK
+                }) }] };
+            }
+
+            const office = ubicaciones[0];
+            const formatted = formatOffice(office);
+
+            return { content: [{ type: "text" as const, text: JSON.stringify({
+                success: true,
+                formatted_response: formatted
+            }) }] };
+        } catch (error) {
+            console.error("[get_main_office] Error:", error);
+            return { content: [{ type: "text" as const, text: JSON.stringify({
+                success: true,
+                formatted_response: FALLBACK
+            }) }] };
+        }
     }
 );
 
@@ -180,51 +114,37 @@ IMPORTANTE:
     async ({ lat, lng, colonia, tipo, limit }) => {
         console.log(`[find_nearest_locations] lat=${lat}, lng=${lng}, colonia="${colonia}", tipo=${tipo}, limit=${limit}`);
 
-        const FALLBACK_HQ = await getHQOfficeInfo();
-
         try {
             let searchLat: number | undefined = lat;
             let searchLng: number | undefined = lng;
-            let searchMethod = "gps";
 
-            // If no GPS coordinates, try to resolve colonia
+            // If no GPS coordinates, try to resolve colonia via buscarUbicacion
             if ((searchLat === undefined || searchLng === undefined) && colonia) {
-                searchMethod = "colonia";
-                const coloniaName = colonia.toLowerCase()
-                    .normalize("NFD")
-                    .replace(/[\u0300-\u036f]/g, "")
-                    .replace(/\s+/g, " ")
-                    .trim();
+                console.log(`[find_nearest_locations] Resolving colonia: "${colonia}" via buscarUbicacion`);
 
-                console.log(`[find_nearest_locations] Resolving colonia: "${coloniaName}"`);
+                try {
+                    const coloniaResults = await buscarUbicacion(colonia + " Querétaro");
+                    if (coloniaResults && coloniaResults.length > 0) {
+                        searchLat = coloniaResults[0].latitud;
+                        searchLng = coloniaResults[0].longitud;
+                        console.log(`[find_nearest_locations] Resolved "${colonia}" → ${searchLat}, ${searchLng}`);
+                    } else {
+                        console.log(`[find_nearest_locations] No results for colonia "${colonia}"`);
+                    }
+                } catch (coloniaError) {
+                    console.warn(`[find_nearest_locations] buscarUbicacion failed for colonia "${colonia}":`, coloniaError);
+                    return { content: [{ type: "text" as const, text: JSON.stringify({
+                        success: false,
+                        error: "colonia_search_failed",
+                        formatted_response: `No pude buscar la colonia "${colonia}" en este momento. ¿Puedes compartirme tu ubicación GPS por WhatsApp?`
+                    }) }] };
+                }
 
-                const coloniaResult = await pgQuery<{
-                    name: string;
-                    latitude: number;
-                    longitude: number;
-                    similarity: number;
-                }>(`
-                    SELECT
-                        name,
-                        latitude,
-                        longitude,
-                        similarity(name_normalized, $1) AS similarity
-                    FROM colonias_zones
-                    WHERE similarity(name_normalized, $1) > 0.2
-                    ORDER BY similarity(name_normalized, $1) DESC
-                    LIMIT 1
-                `, [coloniaName]);
-
-                if (coloniaResult.length > 0) {
-                    searchLat = coloniaResult[0].latitude;
-                    searchLng = coloniaResult[0].longitude;
-                    console.log(`[find_nearest_locations] Resolved "${colonia}" → "${coloniaResult[0].name}" (similarity: ${coloniaResult[0].similarity.toFixed(2)}) at ${searchLat}, ${searchLng}`);
-                } else {
-                    console.log(`[find_nearest_locations] Could not resolve colonia "${colonia}"`);
+                if (searchLat === undefined || searchLng === undefined) {
                     return { content: [{ type: "text" as const, text: JSON.stringify({
                         success: false,
                         error: "colonia_not_found",
-                        formatted_response: `No encontré la colonia "${colonia}". ¿Me puedes compartir tu ubicación o decirme otra referencia de zona?\n\n${FALLBACK_HQ}`
+                        formatted_response: `No encontré la colonia "${colonia}". ¿Me puedes compartir tu ubicación o decirme otra referencia de zona?`
                     }) }] };
                 }
             }
@@ -238,94 +158,60 @@ IMPORTANTE:
                 }) }] };
             }
 
-            // Haversine distance query (no PostGIS required)
-            const tipoFilter = tipo === "all" ? "" : "AND tipo = $4";
-            const params: unknown[] = [searchLat, searchLng, limit];
-            if (tipo !== "all") {
-                params.push(tipo);
-            }
+            const tipoParam = tipo === "all" ? undefined : tipo;
+            const locations = await getUbicaciones({ lat: searchLat, lng: searchLng, tipo: tipoParam, limite: limit });
 
-            const locations = await pgQuery<CeaLocationRow>(`
-                SELECT
-                    id, slug, name, tipo, address_street, colonia, municipio, codigo_postal,
-                    latitude AS lat, longitude AS lng,
-                    (6371000 * acos(LEAST(1.0,
-                        cos(radians($1)) * cos(radians(latitude)) *
-                        cos(radians(longitude) - radians($2)) +
-                        sin(radians($1)) * sin(radians(latitude))
-                    ))) AS distance_meters,
-                    horario, telefono, servicios, notas
-                FROM cea_locations
-                WHERE is_active = true ${tipoFilter}
-                ORDER BY (latitude - $1)^2 + (longitude - $2)^2
-                LIMIT $3
-            `, params);
-
-            if (locations.length === 0) {
+            if (!locations || locations.length === 0) {
                 return { content: [{ type: "text" as const, text: JSON.stringify({
                     success: true,
-                    search_method: searchMethod,
                     data: { locations: [] },
-                    formatted_response: `No encontré ubicaciones cercanas del tipo solicitado.\n\n${FALLBACK_HQ}`
+                    formatted_response: "No encontré ubicaciones cercanas del tipo solicitado."
                 }) }] };
             }
 
-            // Build response
-            const tipoLabels: Record<string, string> = {
-                "oficina": "Oficina",
-                "cajero": "Hydropolis Cajero",
-                "autopago": "Autopago"
-            };
-
-            const locationResults = locations.map(loc => {
-                const openStatus = isLocationOpen(loc.horario);
-                const mapsLink = `https://maps.google.com/?q=${loc.lat},${loc.lng}`;
-
-                return {
-                    name: loc.name,
-                    tipo: loc.tipo,
-                    tipo_label: tipoLabels[loc.tipo] || loc.tipo,
-                    address: `${loc.address_street}, Col. ${loc.colonia}`,
-                    municipio: loc.municipio,
-                    distance: formatDistance(loc.distance_meters),
-                    distance_meters: Math.round(loc.distance_meters),
-                    is_open: openStatus.is_open,
-                    horario: loc.horario,
-                    current_schedule: openStatus.current_schedule,
-                    telefono: loc.telefono,
-                    servicios: loc.servicios,
-                    maps_link: mapsLink,
-                    notas: loc.notas
-                };
-            });
-
             // Build WhatsApp-friendly formatted response
             let formatted = "";
-            for (let i = 0; i < locationResults.length; i++) {
-                const loc = locationResults[i];
+            for (let i = 0; i < locations.length; i++) {
+                const loc = locations[i];
                 const num = i + 1;
-                const statusIcon = loc.is_open ? "Abierto" : "Cerrado";
-                const statusEmoji = loc.is_open ? "🟢" : "🔴";
+                const open = isLocationOpen(loc.horario);
+                const statusEmoji = open ? "🟢" : "🔴";
+                const statusLabel = open ? "Abierto" : "Cerrado";
 
-                formatted += `*${num}. ${loc.name}* (${loc.tipo_label})\n`;
-                formatted += `📍 ${loc.address} — ${loc.distance}\n`;
-                formatted += `${statusEmoji} ${statusIcon}`;
-                if (loc.current_schedule) {
-                    formatted += ` | Horario: ${loc.current_schedule}`;
+                formatted += `*${num}. ${loc.nombre}* (${loc.tipoLabel})\n`;
+                formatted += `📍 ${loc.direccion} — ${loc.distancia}\n`;
+                formatted += `${statusEmoji} ${statusLabel}`;
+                if (loc.horario?.lun_vie) {
+                    formatted += ` | Horario: ${loc.horario.lun_vie}`;
                 }
                 formatted += "\n";
                 if (loc.telefono) {
                     formatted += `📞 ${loc.telefono}\n`;
                 }
-                formatted += `🗺️ ${loc.maps_link}\n`;
-                if (i < locationResults.length - 1) {
+                formatted += `🗺️ ${loc.mapsUrl}\n`;
+                if (i < locations.length - 1) {
                     formatted += "\n";
                 }
             }
 
+            const locationResults = locations.map(loc => ({
+                name: loc.nombre,
+                tipo: loc.tipo,
+                tipo_label: loc.tipoLabel,
+                address: loc.direccion,
+                municipio: loc.municipio,
+                distance: loc.distancia,
+                distance_meters: loc.distanciaMetros,
+                is_open: isLocationOpen(loc.horario),
+                horario: loc.horario,
+                telefono: loc.telefono,
+                servicios: loc.servicios,
+                maps_link: loc.mapsUrl,
+                notas: loc.notas
+            }));
+
             return { content: [{ type: "text" as const, text: JSON.stringify({
                 success: true,
-                search_method: searchMethod,
                 data: { locations: locationResults },
                 formatted_response: formatted
             }) }] };
@@ -335,14 +221,14 @@ IMPORTANTE:
             return { content: [{ type: "text" as const, text: JSON.stringify({
                 success: false,
                 error: error instanceof Error ? error.message : "Error desconocido",
-                formatted_response: `No pude buscar ubicaciones en este momento.\n\n${FALLBACK_HQ}`
+                formatted_response: "No pude buscar ubicaciones en este momento. Intenta más tarde."
             }) }] };
         }
     }
 );
 
 // ============================================
-// SEARCH LOCATION - Google Places text search
+// SEARCH LOCATION
 // ============================================
 
 export const searchLocationTool = tool(
@@ -368,59 +254,10 @@ RETORNA: Lista de 1-3 resultados con nombre, dirección y coordenadas.`,
     async ({ query, original_description }) => {
         console.log(`[search_location] Query: "${query}" (original: "${original_description}")`);
 
-        const apiKey = getGoogleMapsKey();
-        if (!apiKey) {
-            console.warn("[search_location] No GOOGLE_MAPS_API_KEY configured");
-            return { content: [{ type: "text" as const, text: JSON.stringify({
-                success: false,
-                error: "no_api_key",
-                formatted_response: "No pude buscar la ubicación en este momento. ¿Puedes darme la dirección exacta (calle, número, colonia)?"
-            }) }] };
-        }
-
         try {
-            const response = await fetch("https://places.googleapis.com/v1/places:searchText", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-Goog-Api-Key": apiKey,
-                    "X-Goog-FieldMask": "places.displayName,places.formattedAddress,places.location,places.shortFormattedAddress"
-                },
-                body: JSON.stringify({
-                    textQuery: query,
-                    locationRestriction: {
-                        rectangle: {
-                            low: { latitude: QRO_BOUNDS.sw.lat, longitude: QRO_BOUNDS.sw.lng },
-                            high: { latitude: QRO_BOUNDS.ne.lat, longitude: QRO_BOUNDS.ne.lng }
-                        }
-                    },
-                    languageCode: "es",
-                    maxResultCount: 3
-                })
-            });
+            const ubicaciones = await buscarUbicacion(query);
 
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error(`[search_location] Google Places API error ${response.status}: ${errorText}`);
-                return { content: [{ type: "text" as const, text: JSON.stringify({
-                    success: false,
-                    error: `api_error_${response.status}`,
-                    formatted_response: "No pude buscar la ubicación. ¿Puedes darme la dirección exacta (calle, número, colonia)?"
-                }) }] };
-            }
-
-            const data = await response.json() as {
-                places?: Array<{
-                    displayName?: { text?: string };
-                    formattedAddress?: string;
-                    shortFormattedAddress?: string;
-                    location?: { latitude?: number; longitude?: number };
-                }>;
-            };
-
-            const places = data.places || [];
-
-            if (places.length === 0) {
+            if (!ubicaciones || ubicaciones.length === 0) {
                 console.log(`[search_location] No results for "${query}"`);
                 return { content: [{ type: "text" as const, text: JSON.stringify({
                     success: true,
@@ -430,41 +267,33 @@ RETORNA: Lista de 1-3 resultados con nombre, dirección y coordenadas.`,
                 }) }] };
             }
 
-            const results = places.map((place, i) => ({
+            const results = ubicaciones.map((loc, i) => ({
                 index: i + 1,
-                name: place.displayName?.text || "Sin nombre",
-                address: place.formattedAddress || place.shortFormattedAddress || "Sin dirección",
-                latitude: place.location?.latitude || null,
-                longitude: place.location?.longitude || null,
-                maps_link: place.location?.latitude && place.location?.longitude
-                    ? `https://maps.google.com/?q=${place.location.latitude},${place.location.longitude}`
-                    : null
+                name: loc.nombre,
+                address: loc.direccion,
+                latitude: loc.latitud,
+                longitude: loc.longitud,
+                maps_link: loc.mapsUrl
             }));
 
             console.log(`[search_location] Found ${results.length} results`);
-
-            let formatted: string;
-            if (results.length === 1) {
-                const r = results[0];
-                formatted = `Encontré esta ubicación:\n📍 ${r.name} — ${r.address}`;
-            } else {
-                formatted = `Encontré ${results.length} resultados:\n` +
-                    results.map(r => `${r.index}. ${r.name} — ${r.address}`).join("\n");
-            }
 
             return { content: [{ type: "text" as const, text: JSON.stringify({
                 success: true,
                 results_count: results.length,
                 results,
                 original_description,
-                formatted_response: formatted
+                formatted_response: results.length === 1
+                    ? `Encontré esta ubicación:\n📍 ${results[0].name} — ${results[0].address}`
+                    : `Encontré ${results.length} resultados:\n` + results.map(r => `${r.index}. ${r.name} — ${r.address}`).join("\n")
             }) }] };
+
         } catch (error) {
             console.error(`[search_location] Error:`, error);
             return { content: [{ type: "text" as const, text: JSON.stringify({
                 success: false,
                 error: error instanceof Error ? error.message : "Unknown error",
-                formatted_response: "No pude buscar la ubicación en este momento. ¿Puedes darme la dirección exacta (calle, número, colonia)?"
+                formatted_response: `No encontré resultados para "${original_description}". ¿Puedes darme la dirección exacta (calle, número, colonia)?`
             }) }] };
         }
     }
@@ -490,81 +319,22 @@ RETORNA: Dirección formateada con calle, colonia, ciudad.`,
     async ({ latitude, longitude }) => {
         console.log(`[reverse_geocode] Coordinates: ${latitude}, ${longitude}`);
 
-        const apiKey = getGoogleMapsKey();
-        if (!apiKey) {
-            console.warn("[reverse_geocode] No GOOGLE_MAPS_API_KEY configured");
-            return { content: [{ type: "text" as const, text: JSON.stringify({
-                success: false,
-                error: "no_api_key",
-                formatted_response: `Recibí tu ubicación (${latitude}, ${longitude}) pero no pude obtener la dirección. ¿Puedes decirme la calle, número y colonia?`
-            }) }] };
-        }
-
         try {
-            const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&language=es&key=${apiKey}`;
-            const response = await fetch(url);
+            const geocodeData = await reverseGeocode(latitude, longitude);
 
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error(`[reverse_geocode] Google Geocoding API error ${response.status}: ${errorText}`);
-                return { content: [{ type: "text" as const, text: JSON.stringify({
-                    success: false,
-                    error: `api_error_${response.status}`,
-                    formatted_response: `Recibí tu ubicación pero no pude obtener la dirección. ¿Puedes decirme la calle, número y colonia?`
-                }) }] };
-            }
-
-            const data = await response.json() as {
-                status: string;
-                results?: Array<{
-                    formatted_address?: string;
-                    address_components?: Array<{
-                        long_name?: string;
-                        types?: string[];
-                    }>;
-                }>;
-            };
-
-            if (data.status !== "OK" || !data.results?.length) {
-                console.log(`[reverse_geocode] No results for ${latitude}, ${longitude}`);
-                return { content: [{ type: "text" as const, text: JSON.stringify({
-                    success: false,
-                    error: "no_results",
-                    formatted_response: `Recibí tu ubicación pero no encontré una dirección. ¿Puedes decirme la calle, número y colonia?`
-                }) }] };
-            }
-
-            const best = data.results[0];
-            const components = best.address_components || [];
-            const getComponent = (type: string) =>
-                components.find(c => c.types?.includes(type))?.long_name || null;
-
-            const result = {
-                formatted_address: best.formatted_address || "Sin dirección",
-                street: getComponent("route"),
-                street_number: getComponent("street_number"),
-                colonia: getComponent("sublocality_level_1") || getComponent("sublocality") || getComponent("neighborhood"),
-                city: getComponent("locality"),
-                state: getComponent("administrative_area_level_1"),
-                postal_code: getComponent("postal_code"),
-                latitude,
-                longitude,
-                maps_link: `https://maps.google.com/?q=${latitude},${longitude}`
-            };
-
-            console.log(`[reverse_geocode] Resolved: ${result.formatted_address}`);
+            console.log(`[reverse_geocode] Resolved: ${geocodeData.formatted_address}`);
 
             return { content: [{ type: "text" as const, text: JSON.stringify({
                 success: true,
-                ...result,
-                formatted_response: `📍 ${result.formatted_address}`
+                ...geocodeData,
+                formatted_response: `📍 ${geocodeData.formatted_address}`
             }) }] };
         } catch (error) {
             console.error(`[reverse_geocode] Error:`, error);
             return { content: [{ type: "text" as const, text: JSON.stringify({
                 success: false,
                 error: error instanceof Error ? error.message : "Unknown error",
-                formatted_response: `No pude obtener la dirección de tu ubicación. ¿Puedes decirme la calle, número y colonia?`
+                formatted_response: "Recibí tu ubicación pero no pude obtener la dirección. ¿Puedes decirme la calle, número y colonia?"
             }) }] };
         }
     }
