@@ -229,6 +229,37 @@ services:
       timeout: 5s
       retries: 3
 
+  # Maria Atlantis SDK - CEA Agent (direct REST, no MCP dependency)
+  maria-atlantis-sdk:
+    build:
+      context: ./maria-atlantis-sdk
+      dockerfile: Dockerfile
+    container_name: paco-maria-atlantis-sdk
+    restart: unless-stopped
+    environment:
+      PORT: "3003"
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      SUPRA_API_BASE: ${SUPRA_API_BASE:-https://supra-back.whoopflow.com}
+      AGORA_API_BASE: ${AGORA_API_BASE:-https://agoracore.whoopflow.com}
+      AGORA_API_TOKEN: ${AGORA_API_TOKEN:-}
+      AGORA_ACCOUNT_ID: ${AGORA_ACCOUNT_ID:-1}
+      CHATWOOT_BASE_URL: ${CHATWOOT_BASE_URL:-}
+      CHATWOOT_API_TOKEN: ${CHATWOOT_API_TOKEN:-}
+      CHATWOOT_USER_API_TOKEN: ${CHATWOOT_USER_API_TOKEN:-}
+      CHATWOOT_ACCOUNT_ID: ${CHATWOOT_ACCOUNT_ID:-}
+      CHATWOOT_INBOX_ID: ${CHATWOOT_INBOX_ID:-}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      GEMINI_CLASSIFY_MODEL: ${GEMINI_CLASSIFY_MODEL:-}
+      GEMINI_ANALYZE_MODEL: ${GEMINI_ANALYZE_MODEL:-}
+      GEMINI_RECEIPT_MODEL: ${GEMINI_RECEIPT_MODEL:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:3003/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
 volumes:
   postgres_data:
   redis_data:

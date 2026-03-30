@@ -1,0 +1,114 @@
+# =============================================================================
+# Maria Atlantis SDK Agent Configuration
+# =============================================================================
+# Self-contained CEA agent using Claude Agent SDK with direct SUPRA/AGORA REST
+# No MCP server dependency - calls APIs directly
+
+name: maria-atlantis-sdk
+display_name: Maria Atlantis SDK
+description: |
+  Maria Atlantis SDK - CEA Customer Service Agent built with Claude Agent SDK.
+  Calls SUPRA and AGORA REST APIs directly (no MCP dependency).
+  Handles: balance, consumption, contracts, tickets, media analysis, locations.
+
+type: claude-sdk
+version: 1.0.0
+
+# =============================================================================
+# Runtime Configuration
+# =============================================================================
+runtime:
+  port: 3003
+  health_endpoint: /health
+  pm2:
+    instances: 1
+    exec_mode: fork
+    max_memory_restart: 500M
+    watch: false
+    autorestart: true
+
+# =============================================================================
+# Model Configuration
+# =============================================================================
+model:
+  provider: anthropic
+  model_id: claude-sonnet-4-5-20250929
+  max_budget: 2.00
+  max_turns: 15
+
+# =============================================================================
+# Skills Configuration
+# =============================================================================
+skills:
+  - code: informacion
+    name: Informacion
+    description: "Consultas generales, saldo, adeudo, horarios, oficinas, consumo"
+    default_priority: low
+    keywords: ["saldo", "adeudo", "horarios", "oficinas", "consumo", "estatus"]
+
+  - code: facturacion
+    name: Facturacion
+    description: "Recibos, pagos, aclaraciones, ajustes, convenios"
+    default_priority: medium
+    keywords: ["recibo", "cobro", "ajuste", "pago", "factura", "convenio"]
+
+  - code: tramites
+    name: Tramites
+    description: "Contrato nuevo, cambio de titular, baja, alta"
+    default_priority: medium
+    keywords: ["contrato", "titular", "alta", "baja", "tarifa", "toma nueva"]
+
+  - code: reportes
+    name: Reportes
+    description: "Fugas, falta de agua, drenaje, baja presion, medidor roto"
+    default_priority: high
+    keywords: ["fuga", "drenaje", "agua turbia", "presion", "medidor", "hundimiento"]
+
+  - code: servicios
+    name: Servicios
+    description: "Medidor, lectura, revision, suministro, alcantarillado"
+    default_priority: medium
+    keywords: ["medidor", "lectura", "revision", "suministro", "alcantarillado"]
+
+# =============================================================================
+# Integrations (Direct REST, no MCP)
+# =============================================================================
+integrations:
+  - name: supra
+    type: rest
+    config:
+      base_url: ${SUPRA_API_BASE}
+      description: "Contracts, debt, consumption, receipts, locations"
+
+  - name: agora
+    type: rest
+    config:
+      base_url: ${AGORA_API_BASE}
+      auth_token: ${AGORA_API_TOKEN}
+      description: "Ticket creation and management"
+
+  - name: chatwoot
+    type: webhook
+    config:
+      base_url: ${CHATWOOT_BASE_URL}
+      webhook_path: /chatwoot
+      supported_events:
+        - message.created
+        - conversation.status_changed
+
+# =============================================================================
+# Environment Variables Required
+# =============================================================================
+env:
+  - ANTHROPIC_API_KEY
+  - SUPRA_API_BASE
+  - AGORA_API_BASE
+  - AGORA_API_TOKEN
+  - AGORA_ACCOUNT_ID
+  - CHATWOOT_BASE_URL
+  - CHATWOOT_API_TOKEN
+  - CHATWOOT_USER_API_TOKEN
+  - CHATWOOT_ACCOUNT_ID
+  - CHATWOOT_INBOX_ID
+  - GEMINI_API_KEY
+  - OPENAI_API_KEY
