@@ -55,7 +55,7 @@ services:
 
   # Langfuse - LLM observability, token tracking, cost analytics
   langfuse:
-    image: langfuse/langfuse:latest
+    image: langfuse/langfuse:3
     container_name: paco-langfuse
     restart: unless-stopped
     depends_on:
@@ -170,6 +170,15 @@ services:
       CEA_PROXY_URL: ${CEA_PROXY_URL:-}
       CHATWOOT_API_KEY: ${CHATWOOT_API_KEY:-}
       CHATWOOT_BASE_URL: ${CHATWOOT_BASE_URL:-}
+      LOG_LEVEL: "info"
+      MEMORY_DB_PATH: "/app/data/maria_memory.db"
+      RATE_LIMIT_CONVERSATION: "20"
+      RATE_LIMIT_API: "100"
+      CACHE_TTL_SECONDS: "300"
+      CLAUDE_MODEL: "claude-sonnet-4-5-20250929"
+      MAX_BUDGET_PER_MESSAGE: "0.50"
+    volumes:
+      - maria_data:/app/data
     healthcheck:
       test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:3002/health"]
       interval: 30s
@@ -225,3 +234,4 @@ volumes:
   redis_data:
   clickhouse_data:
   clickhouse_logs:
+  maria_data:
