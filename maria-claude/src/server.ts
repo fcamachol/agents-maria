@@ -6,7 +6,8 @@ import { config } from "dotenv";
 config();
 
 import express from "express";
-import { runWorkflow, getAgentHealth } from "./agent.js";
+import { runWorkflow, getAgentHealth, isLecturaContext } from "./agent.js";
+import { setLecturaAttachmentId } from "./lectura-store.js";
 import {
     sendToChatwoot,
     shouldProcessWebhook,
@@ -236,11 +237,20 @@ app.post("/chatwoot", async (req, res) => {
 
         // Process attachments if any
         if (hasMedia) {
-            const attachmentText = await processAttachments(attachments);
+            const pendingLectura = isLecturaContext(context.conversationId, text);
+            const attachmentText = await processAttachments(attachments, pendingLectura);
             messageText = messageText
                 ? `${messageText}\n\n${attachmentText}`
                 : attachmentText;
             console.log(`[Chatwoot] Attachments: ${attachments.length}`);
+
+            // Capture Chatwoot attachment ID for linking to lectura ticket
+            if (pendingLectura) {
+                const imageAttachment = attachments.find(a => a.file_type === 'image');
+                if (imageAttachment) {
+                    setLecturaAttachmentId(context.conversationId, imageAttachment.id);
+                }
+            }
         }
 
         // Handle empty messages

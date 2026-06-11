@@ -260,6 +260,66 @@ services:
       retries: 3
       start_period: 15s
 
+  # Maria CEA SDK - CEA Agent (SOAP + AGORA Postgres + Hydra Postgres)
+  # Side-by-side replica of gcp-cea pm2 deployment.
+  # Skills are mounted from PACO's DB-managed catalog (paco/backend/skills/cea-sdk-*).
+  maria-cea-sdk:
+    build:
+      context: ./maria-cea-sdk
+      dockerfile: Dockerfile
+    container_name: paco-maria-cea-sdk
+    restart: unless-stopped
+    mem_limit: 512m
+    environment:
+      PORT: "3004"
+      TZ: America/Mexico_City
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      # AGORA platform (Chatwoot)
+      CHATWOOT_BASE_URL: ${CHATWOOT_BASE_URL:-}
+      CHATWOOT_API_TOKEN: ${CHATWOOT_API_TOKEN:-}
+      CHATWOOT_USER_API_TOKEN: ${CHATWOOT_USER_API_TOKEN:-}
+      CHATWOOT_ACCOUNT_ID: ${CHATWOOT_ACCOUNT_ID:-}
+      CHATWOOT_INBOX_ID: ${CHATWOOT_INBOX_ID:-}
+      # AGORA Postgres — external host, NOT PACO's internal postgres service
+      PGHOST: ${MARIA_CEA_PGHOST:-}
+      PGPORT: ${MARIA_CEA_PGPORT:-5432}
+      PGUSER: ${MARIA_CEA_PGUSER:-}
+      PGPASSWORD: ${MARIA_CEA_PGPASSWORD:-}
+      PGDATABASE: ${MARIA_CEA_PGDATABASE:-agora_production}
+      PGPOOL_MAX: ${MARIA_CEA_PGPOOL_MAX:-10}
+      # Hydra SIGE (AWS RDS)
+      HYDRA_PGHOST: ${HYDRA_PGHOST:-}
+      HYDRA_PGPORT: ${HYDRA_PGPORT:-5432}
+      HYDRA_PGUSER: ${HYDRA_PGUSER:-}
+      HYDRA_PGPASSWORD: ${HYDRA_PGPASSWORD:-}
+      HYDRA_PGDATABASE: ${HYDRA_PGDATABASE:-hydradb}
+      # CEA SOAP API
+      CEA_PROXY_URL: ${CEA_PROXY_URL:-}
+      # Gemini + OpenAI for media analysis
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      GEMINI_CLASSIFY_MODEL: ${GEMINI_CLASSIFY_MODEL:-}
+      GEMINI_ANALYZE_MODEL: ${GEMINI_ANALYZE_MODEL:-}
+      GEMINI_RECEIPT_MODEL: ${GEMINI_RECEIPT_MODEL:-}
+      GOOGLE_MAPS_API_KEY: ${GOOGLE_MAPS_API_KEY:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      # Recibo PDF — secret MUST match gcp-cea pm2 .env to keep existing links valid
+      SERVER_BASE_URL: ${MARIA_CEA_SERVER_BASE_URL:-https://info-cea.cea-info.workers.dev}
+      RECIBO_TOKEN_SECRET: ${RECIBO_TOKEN_SECRET:-}
+    volumes:
+      # PACO's DB-managed SKILL.md files — mounted at the unprefixed paths
+      # the Claude Agent SDK auto-discovers inside the container.
+      - ./backend/skills/cea-sdk-informacion:/app/.claude/skills/informacion:ro
+      - ./backend/skills/cea-sdk-facturacion:/app/.claude/skills/facturacion:ro
+      - ./backend/skills/cea-sdk-reportes:/app/.claude/skills/reportes:ro
+      - ./backend/skills/cea-sdk-servicios:/app/.claude/skills/servicios:ro
+      - ./backend/skills/cea-sdk-tramites:/app/.claude/skills/tramites:ro
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:3004/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
 volumes:
   postgres_data:
   redis_data:

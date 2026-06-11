@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maria Monitor - Real-Time Sessions</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0d0d;
+      --bg-secondary: #141414;
+      --bg-tertiary: #1a1a1a;
+      --border: #262626;
+      --text: #e5e5e5;
+      --text-muted: #737373;
+      --text-dim: #525252;
+      --purple: #a78bfa;
+      --green: #4ade80;
+      --amber: #fbbf24;
+      --blue: #60a5fa;
+      --cyan: #22d3ee;
+      --red: #f87171;
+      --gray: #6b7280;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, monospace;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-secondary);
+    }
+    .header h1 {
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .header .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    .header .stats {
+      margin-left: auto;
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      gap: 12px;
+    }
+
+    /* Main layout */
+    .main {
+      flex: 1;
+      display: flex;
+      min-height: 0;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 300px;
+      border-right: 1px solid var(--border);
+      background: var(--bg-secondary);
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    .sidebar-header {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .sidebar-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 4px;
+    }
+    .session-card {
+      padding: 10px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-bottom: 2px;
+      transition: background 0.15s;
+    }
+    .session-card:hover { background: var(--bg-tertiary); }
+    .session-card.selected { background: var(--bg-tertiary); border-left: 2px solid var(--green); }
+    .session-card.active { border-left: 2px solid var(--green); }
+    .session-card.completed { border-left: 2px solid var(--text-dim); }
+    .session-card.error { border-left: 2px solid var(--red); }
+    .session-card .top-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+    .session-card .status-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .session-card .status-dot.active { background: var(--green); animation: pulse-dot 2s ease-in-out infinite; }
+    .session-card .status-dot.completed { background: var(--text-dim); }
+    .session-card .status-dot.error { background: var(--red); }
+    .session-card .conv-id {
+      font-size: 11px;
+      font-family: monospace;
+      color: var(--text-muted);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .session-card .time {
+      font-size: 10px;
+      color: var(--text-dim);
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+    .session-card .message-preview {
+      font-size: 12px;
+      color: var(--text);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      margin-bottom: 4px;
+    }
+    .session-card .tools-row {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+    .tool-badge {
+      font-size: 9px;
+      padding: 1px 5px;
+      border-radius: 3px;
+      background: rgba(251, 191, 36, 0.15);
+      color: var(--amber);
+      font-family: monospace;
+    }
+
+    /* Timeline */
+    .timeline-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    .timeline-header {
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .timeline-header .filter-label {
+      font-size: 11px;
+      color: var(--text);
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+    .timeline-header button {
+      margin-left: auto;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      cursor: pointer;
+    }
+    .timeline-header button:hover { background: var(--bg-tertiary); color: var(--text); }
+    .timeline-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 16px;
+    }
+    .timeline-empty {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: var(--text-dim);
+      font-size: 13px;
+    }
+
+    /* Step items */
+    .step-item {
+      display: flex;
+      gap: 10px;
+      padding: 6px 0;
+      position: relative;
+    }
+    .step-item + .step-item { border-top: 1px solid rgba(38, 38, 38, 0.5); }
+    .step-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+    .step-content { flex: 1; min-width: 0; }
+    .step-label-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .step-icon { width: 14px; height: 14px; flex-shrink: 0; }
+    .step-label { font-size: 12px; font-weight: 500; }
+    .step-tool-name {
+      font-size: 11px;
+      font-family: monospace;
+      color: var(--text-muted);
+    }
+    .step-time {
+      font-size: 10px;
+      color: var(--text-dim);
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+    .step-detail {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .step-data {
+      margin-top: 4px;
+      padding: 6px 8px;
+      background: var(--bg);
+      border-radius: 4px;
+      font-size: 10px;
+      font-family: monospace;
+      color: var(--text-muted);
+      max-height: 120px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+      display: none;
+    }
+    .step-item.expanded .step-data { display: block; }
+    .step-item.clickable { cursor: pointer; }
+
+    /* Bottom bar */
+    .bottom-bar {
+      padding: 8px 16px;
+      border-top: 1px solid var(--border);
+      background: var(--bg-tertiary);
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    .bottom-bar .label { color: var(--text-dim); }
+    .bottom-bar .value { color: var(--text); }
+
+    /* Connection indicator */
+    .connection {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+    }
+    .connection .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+    }
+    .connection.connected .dot { background: var(--green); }
+    .connection.disconnected .dot { background: var(--red); }
+
+    /* Animations */
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .step-item { animation: fade-in 0.2s ease-out; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #404040; }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="header">
+    <div class="dot"></div>
+    <h1>Maria Monitor</h1>
+    <div class="stats">
+      <span id="stat-active">0 active</span>
+      <span id="stat-total">0 sessions</span>
+      <div class="connection" id="connection">
+        <div class="dot"></div>
+        <span>Connecting...</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">Sessions</div>
+      <div class="sidebar-list" id="session-list"></div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="timeline-panel">
+      <div class="timeline-header">
+        <span>Execution Trace</span>
+        <span class="filter-label" id="filter-label"></span>
+        <button id="btn-clear-filter" style="display:none" onclick="clearFilter()">Show All</button>
+      </div>
+      <div class="timeline-body" id="timeline">
+        <div class="timeline-empty">Waiting for sessions...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom bar -->
+  <div class="bottom-bar">
+    <span><span class="label">Selected: </span><span class="value" id="info-conv">-</span></span>
+    <span><span class="label">Message: </span><span class="value" id="info-msg">-</span></span>
+    <span><span class="label">Tools: </span><span class="value" id="info-tools">-</span></span>
+    <span><span class="label">Duration: </span><span class="value" id="info-duration">-</span></span>
+  </div>
+
+  <!-- SVG Icons (inline, minimal) -->
+  <svg style="display:none">
+    <symbol id="icon-brain" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>
+      <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>
+      <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/>
+      <path d="M17.599 6.5a3 3 0 0 0 .399-1.375"/>
+      <path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"/>
+      <path d="M3.477 10.896a4 4 0 0 1 .585-.396"/>
+      <path d="M19.938 10.5a4 4 0 0 1 .585.396"/>
+      <path d="M6 18a4 4 0 0 1-1.967-.516"/>
+      <path d="M19.967 17.484A4 4 0 0 1 18 18"/>
+    </symbol>
+    <symbol id="icon-bot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/>
+      <path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/>
+    </symbol>
+    <symbol id="icon-wrench" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+    </symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+    </symbol>
+    <symbol id="icon-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </symbol>
+    <symbol id="icon-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+    </symbol>
+    <symbol id="icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+    </symbol>
+    <symbol id="icon-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+    </symbol>
+  </svg>
+
+  <script>
+    // ============================================
+    // Step type configuration (mirrors Paco StepTimeline)
+    // ============================================
+    const STEP_CONFIG = {
+      workflow_start:    { icon: 'brain',   color: 'var(--purple)', label: 'Workflow Start' },
+      agent_start:       { icon: 'bot',     color: 'var(--green)',  label: 'Agent Start' },
+      tool_call:         { icon: 'wrench',  color: 'var(--amber)',  label: 'Tool Call' },
+      tool_progress:     { icon: 'clock',   color: 'var(--amber)',  label: 'Tool Progress' },
+      tool_result:       { icon: 'check',   color: 'var(--green)',  label: 'Tool Result' },
+      chatwoot_received: { icon: 'message', color: 'var(--blue)',   label: 'Incoming' },
+      chatwoot_sending:  { icon: 'arrow',   color: 'var(--blue)',   label: 'Responding' },
+      chatwoot_flush:    { icon: 'message', color: 'var(--blue)',   label: 'Processing' },
+      response:          { icon: 'message', color: 'var(--blue)',   label: 'Response' },
+      result:            { icon: 'check',   color: 'var(--green)',  label: 'Complete' },
+      error:             { icon: 'alert',   color: 'var(--red)',    label: 'Error' },
+      workflow_end:      { icon: 'check',   color: 'var(--gray)',   label: 'Workflow End' },
+      snapshot:          { icon: 'brain',   color: 'var(--cyan)',   label: 'Snapshot' },
+    };
+
+    // ============================================
+    // State
+    // ============================================
+    const sessions = new Map(); // conversationId -> session
+    let selectedConversation = null;
+    let autoScroll = true;
+
+    // ============================================
+    // SSE Connection
+    // ============================================
+    let evtSource = null;
+
+    function connect() {
+      const url = '/api/stream' + (window.__monitorToken ? '?token=' + window.__monitorToken : '');
+      evtSource = new EventSource(url);
+
+      evtSource.onopen = () => {
+        setConnectionStatus(true);
+      };
+
+      evtSource.onmessage = (e) => {
+        try {
+          const event = JSON.parse(e.data);
+          handleEvent(event);
+        } catch {}
+      };
+
+      evtSource.onerror = () => {
+        setConnectionStatus(false);
+        evtSource.close();
+        setTimeout(connect, 3000);
+      };
+    }
+
+    function setConnectionStatus(connected) {
+      const el = document.getElementById('connection');
+      el.className = 'connection ' + (connected ? 'connected' : 'disconnected');
+      el.querySelector('span').textContent = connected ? 'Connected' : 'Reconnecting...';
+    }
+
+    // ============================================
+    // Event Handling
+    // ============================================
+    function handleEvent(event) {
+      // Handle snapshot (initial load)
+      if (event.step === 'snapshot' && event.data.sessions) {
+        for (const s of event.data.sessions) {
+          sessions.set(s.conversationId, s);
+        }
+        renderSidebar();
+        return;
+      }
+
+      const convId = event.conversation_id;
+      if (!convId || convId === '_system') return;
+
+      // Get or create session
+      let session = sessions.get(convId);
+      if (!session) {
+        session = {
+          conversationId: convId,
+          startedAt: event.timestamp,
+          status: 'active',
+          steps: [],
+          toolsUsed: [],
+          userMessage: '',
+        };
+        sessions.set(convId, session);
+      }
+
+      // Update session state
+      if (event.step === 'workflow_start' && event.data.userMessage) {
+        session.userMessage = event.data.userMessage;
+        session.status = 'active';
+      }
+      if (event.step === 'chatwoot_received') {
+        if (event.data.chatwootConversationId) session.chatwootConversationId = event.data.chatwootConversationId;
+        if (event.data.messagePreview && !session.userMessage) session.userMessage = event.data.messagePreview;
+      }
+      if (event.step === 'tool_call' && event.tool_name && !session.toolsUsed.includes(event.tool_name)) {
+        session.toolsUsed.push(event.tool_name);
+      }
+      if (event.step === 'result') {
+        session.status = 'completed';
+        session.totalCostUsd = event.data.totalCostUsd;
+        session.durationMs = event.data.durationMs || event.duration_ms;
+      }
+      if (event.step === 'error') session.status = 'error';
+      if (event.step === 'workflow_end' && session.status === 'active') session.status = 'completed';
+
+      session.steps.push(event);
+
+      // Render
+      renderSidebar();
+      if (!selectedConversation || selectedConversation === convId) {
+        appendStepToTimeline(event);
+      }
+      updateStats();
+      if (selectedConversation === convId) updateBottomBar(session);
+    }
+
+    // ============================================
+    // Render: Sidebar
+    // ============================================
+    function renderSidebar() {
+      const list = document.getElementById('session-list');
+      const sorted = Array.from(sessions.values()).sort((a, b) => {
+        // Active first, then by time desc
+        if (a.status === 'active' && b.status !== 'active') return -1;
+        if (b.status === 'active' && a.status !== 'active') return 1;
+        return new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime();
+      });
+
+      list.innerHTML = sorted.map(s => {
+        const isSelected = selectedConversation === s.conversationId;
+        const traceId = s.chatwootConversationId
+          ? `#${s.chatwootConversationId}`
+          : s.conversationId.replace(/^chatwoot-/, '#').substring(0, 12);
+        const time = new Date(s.startedAt).toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
+
+        return `<div class="session-card ${s.status} ${isSelected ? 'selected' : ''}" onclick="selectSession('${s.conversationId}')">
+          <div class="top-row">
+            <div class="status-dot ${s.status}"></div>
+            <span class="conv-id">Trace ${traceId}</span>
+            <span class="time">${time}</span>
+          </div>
+          ${s.userMessage ? `<div class="message-preview">${escapeHtml(s.userMessage)}</div>` : ''}
+          <div class="tools-row">
+            ${s.toolsUsed.map(t => `<span class="tool-badge">${t}</span>`).join('')}
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    // ============================================
+    // Render: Timeline
+    // ============================================
+    function appendStepToTimeline(event) {
+      const timeline = document.getElementById('timeline');
+
+      // Remove empty message if present
+      const empty = timeline.querySelector('.timeline-empty');
+      if (empty) empty.remove();
+
+      const config = STEP_CONFIG[event.step] || STEP_CONFIG.error;
+      const hasData = event.data && Object.keys(event.data).length > 0;
+      const time = new Date(event.timestamp).toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+      let detail = '';
+      if (event.step === 'tool_call') detail = event.data.detail || '';
+      else if (event.step === 'error') detail = event.data.error || '';
+      else if (event.step === 'result') {
+        const dur = event.duration_ms || event.data.durationMs;
+        const durStr = dur != null ? (dur < 1000 ? `${Math.round(dur)}ms` : `${(dur/1000).toFixed(1)}s`) : '';
+        detail = durStr;
+      }
+      else if (event.step === 'chatwoot_received') {
+        const cid = event.data.chatwootConversationId;
+        detail = (cid ? `#${cid} ` : '') + (event.data.messagePreview || '');
+      }
+      else if (event.step === 'agent_start') detail = event.data.model || '';
+
+      const durationStr = event.duration_ms != null
+        ? (event.duration_ms < 1000 ? `${Math.round(event.duration_ms)}ms` : `${(event.duration_ms/1000).toFixed(1)}s`)
+        : '';
+
+      const el = document.createElement('div');
+      el.className = 'step-item' + (hasData ? ' clickable' : '');
+      el.dataset.convId = event.conversation_id;
+      if (hasData) el.onclick = () => el.classList.toggle('expanded');
+
+      el.innerHTML = `
+        <div class="step-dot" style="background:${config.color}"></div>
+        <div class="step-content">
+          <div class="step-label-row">
+            <svg class="step-icon" style="color:${config.color}"><use href="#icon-${config.icon}"/></svg>
+            <span class="step-label" style="color:${config.color}">${config.label}</span>
+            ${event.tool_name ? `<span class="step-tool-name">${event.tool_name}</span>` : ''}
+            ${durationStr ? `<span class="step-time">${durationStr}</span>` : ''}
+            <span class="step-time">${time}</span>
+          </div>
+          ${detail ? `<div class="step-detail">${escapeHtml(detail)}</div>` : ''}
+          ${hasData ? `<div class="step-data">${escapeHtml(JSON.stringify(event.data, null, 2))}</div>` : ''}
+        </div>
+      `;
+
+      timeline.appendChild(el);
+
+      // Auto-scroll
+      if (autoScroll) {
+        timeline.scrollTop = timeline.scrollHeight;
+      }
+    }
+
+    function renderFullTimeline(conversationId) {
+      const timeline = document.getElementById('timeline');
+      timeline.innerHTML = '';
+
+      const session = sessions.get(conversationId);
+      if (!session || session.steps.length === 0) {
+        timeline.innerHTML = '<div class="timeline-empty">No events yet</div>';
+        return;
+      }
+
+      for (const step of session.steps) {
+        appendStepToTimeline(step);
+      }
+    }
+
+    // ============================================
+    // Selection & Filtering
+    // ============================================
+    function selectSession(conversationId) {
+      selectedConversation = conversationId;
+      renderSidebar();
+      renderFullTimeline(conversationId);
+
+      const session = sessions.get(conversationId);
+      if (session) updateBottomBar(session);
+
+      const filterTraceId = session?.chatwootConversationId
+        ? `#${session.chatwootConversationId}`
+        : conversationId.replace(/^chatwoot-/, '#').substring(0, 12);
+      document.getElementById('filter-label').textContent = `Trace ${filterTraceId}`;
+      document.getElementById('btn-clear-filter').style.display = '';
+    }
+
+    function clearFilter() {
+      selectedConversation = null;
+      renderSidebar();
+
+      // Show all events
+      const timeline = document.getElementById('timeline');
+      timeline.innerHTML = '';
+      const allSteps = [];
+      for (const s of sessions.values()) {
+        for (const step of s.steps) allSteps.push(step);
+      }
+      allSteps.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+      for (const step of allSteps.slice(-100)) { // last 100 events
+        appendStepToTimeline(step);
+      }
+
+      document.getElementById('filter-label').textContent = '';
+      document.getElementById('btn-clear-filter').style.display = 'none';
+      updateBottomBar(null);
+    }
+
+    // ============================================
+    // Bottom bar
+    // ============================================
+    function updateBottomBar(session) {
+      const bottomTraceId = session?.chatwootConversationId
+        ? `#${session.chatwootConversationId}`
+        : session?.conversationId.replace(/^chatwoot-/, '#').substring(0, 12) || '-';
+      document.getElementById('info-conv').textContent = session ? `Trace ${bottomTraceId}` : '-';
+      document.getElementById('info-msg').textContent = session?.userMessage || '-';
+      document.getElementById('info-tools').textContent = session?.toolsUsed?.length ? session.toolsUsed.join(', ') : '-';
+      document.getElementById('info-duration').textContent = session?.durationMs != null
+        ? (session.durationMs < 1000 ? `${Math.round(session.durationMs)}ms` : `${(session.durationMs/1000).toFixed(1)}s`)
+        : '-';
+    }
+
+    function updateStats() {
+      const all = Array.from(sessions.values());
+      const active = all.filter(s => s.status === 'active').length;
+      document.getElementById('stat-active').textContent = `${active} active`;
+      document.getElementById('stat-total').textContent = `${all.length} sessions`;
+    }
+
+    // ============================================
+    // Helpers
+    // ============================================
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    // ============================================
+    // Init
+    // ============================================
+    async function init() {
+      // Check for token in URL
+      const params = new URLSearchParams(window.location.search);
+      window.__monitorToken = params.get('token') || '';
+
+      // Load existing sessions
+      try {
+        const url = '/api/sessions' + (window.__monitorToken ? '?token=' + window.__monitorToken : '');
+        const resp = await fetch(url);
+        if (resp.ok) {
+          const data = await resp.json();
+          for (const s of data) {
+            sessions.set(s.conversationId, { ...s, steps: [] });
+          }
+          renderSidebar();
+          updateStats();
+        }
+      } catch {}
+
+      // Connect SSE
+      connect();
+
+      // Detect scroll position for auto-scroll
+      const timeline = document.getElementById('timeline');
+      timeline.addEventListener('scroll', () => {
+        const atBottom = timeline.scrollHeight - timeline.scrollTop - timeline.clientHeight < 50;
+        autoScroll = atBottom;
+      });
+    }
+
+    init();
+  </script>
+</body>
+</html>

@@ -5,7 +5,7 @@
 import { createSdkMcpServer } from "@anthropic-ai/claude-agent-sdk";
 import { tool } from "@anthropic-ai/claude-agent-sdk";
 import { z } from "zod";
-import { getDeudaTool, getConsumoTool, getContratoTool, getReciboPdfTool } from "./supra-api.js";
+import { getDeudaTool, getConsumoTool, getContratoTool, getReciboPdfTool, getPaymentLinkTool } from "./supra-api.js";
 import { createCreateTicketTool, createGetClientTicketsTool, updateTicketTool, lookupTicketByFolioTool } from "./tickets.js";
 import { createValidateContractHolderTool, searchCustomerByContractTool } from "./identity.js";
 import { getMainOfficeTool, findNearestLocationsTool, searchLocationTool, reverseGeocodeTool } from "./location.js";
@@ -96,6 +96,7 @@ export function createToolServer(ctx: RequestContext) {
         getConsumoTool,
         getContratoTool,
         getReciboPdfTool,
+        getPaymentLinkTool,
         updateTicketTool,
         lookupTicketByFolioTool,
         searchCustomerByContractTool,
@@ -114,7 +115,7 @@ export function createToolServer(ctx: RequestContext) {
 }
 
 // Re-export everything for convenience
-export { getDeudaTool, getConsumoTool, getContratoTool, getReciboPdfTool } from "./supra-api.js";
+export { getDeudaTool, getConsumoTool, getContratoTool, getReciboPdfTool, getPaymentLinkTool } from "./supra-api.js";
 export { createCreateTicketTool, createGetClientTicketsTool, updateTicketTool, lookupTicketByFolioTool } from "./tickets.js";
 export { createValidateContractHolderTool, searchCustomerByContractTool } from "./identity.js";
 export { getMainOfficeTool, findNearestLocationsTool, searchLocationTool, reverseGeocodeTool } from "./location.js";

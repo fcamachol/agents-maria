@@ -1,7 +1,7 @@
 import { connect } from "cloudflare:sockets";
 
 const ORIGIN_HOST = "34.122.65.54";
-const ORIGIN_PORT = 3002;
+const ORIGIN_PORT = 3006;
 
 export default {
   async fetch(request) {

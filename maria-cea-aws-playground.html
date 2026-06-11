@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maria CEA-AWS — Architecture Playground</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: #0f1117; color: #e1e4ea; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+/* Header */
+.header { background: #161921; border-bottom: 1px solid #2a2e3a; padding: 10px 20px; display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+.header h1 { font-size: 16px; font-weight: 600; color: #fff; }
+.header .subtitle { font-size: 12px; color: #7a8095; }
+.header .badge { background: #1a3a2a; color: #4ade80; font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 500; }
+.header .hint { font-size: 11px; color: #4a5068; margin-left: auto; }
+
+/* Main layout */
+.main { display: flex; flex: 1; overflow: hidden; }
+
+/* Sidebar */
+.sidebar { width: 280px; background: #161921; border-right: 1px solid #2a2e3a; display: flex; flex-direction: column; overflow-y: auto; flex-shrink: 0; }
+.sidebar-section { padding: 16px; border-bottom: 1px solid #2a2e3a; }
+.sidebar-section h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #7a8095; margin-bottom: 10px; }
+
+/* Preset buttons */
+.preset-btn { display: block; width: 100%; padding: 7px 10px; margin-bottom: 4px; background: #1e2130; border: 1px solid #2a2e3a; border-radius: 6px; color: #c1c7d4; font-size: 12px; cursor: pointer; text-align: left; transition: all 0.15s; }
+.preset-btn:hover { background: #252940; border-color: #3b82f6; }
+.preset-btn.active { background: #1e2a4a; border-color: #3b82f6; color: #93bbfc; }
+
+/* Layer toggles */
+.layer-toggle { display: flex; align-items: center; gap: 8px; padding: 5px 0; cursor: pointer; font-size: 12px; }
+.layer-toggle input { display: none; }
+.layer-dot { width: 10px; height: 10px; border-radius: 3px; border: 2px solid; transition: opacity 0.15s; }
+.layer-toggle input:not(:checked) ~ .layer-dot { opacity: 0.3; }
+.layer-toggle span { color: #c1c7d4; }
+
+/* Connection toggles */
+.conn-toggle { display: flex; align-items: center; gap: 8px; padding: 4px 0; cursor: pointer; font-size: 12px; }
+.conn-toggle input { display: none; }
+.conn-line { width: 18px; height: 2px; border-radius: 1px; transition: opacity 0.15s; }
+.conn-toggle input:not(:checked) ~ .conn-line { opacity: 0.3; }
+
+/* Comments */
+.comments-list { max-height: 220px; overflow-y: auto; }
+.comment-item { background: #1e2130; border: 1px solid #2a2e3a; border-radius: 6px; padding: 8px; margin-bottom: 6px; font-size: 11px; position: relative; }
+.comment-item .target { color: #93bbfc; font-weight: 600; }
+.comment-item .file { color: #7a8095; font-size: 10px; }
+.comment-item .text { color: #c1c7d4; margin-top: 4px; }
+.comment-item .delete { position: absolute; top: 6px; right: 6px; background: none; border: none; color: #7a8095; cursor: pointer; font-size: 12px; }
+.comment-item .delete:hover { color: #ef4444; }
+.no-comments { color: #4a5068; font-size: 12px; font-style: italic; }
+
+/* Canvas area */
+.canvas-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.canvas-wrapper { flex: 1; overflow: hidden; position: relative; cursor: grab; }
+.canvas-wrapper.grabbing { cursor: grabbing; }
+#diagram { width: 100%; height: 100%; }
+
+/* Zoom controls */
+.zoom-controls { position: absolute; top: 12px; right: 12px; display: flex; gap: 4px; z-index: 10; }
+.zoom-btn { width: 30px; height: 30px; background: #1e2130; border: 1px solid #2a2e3a; border-radius: 6px; color: #c1c7d4; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.zoom-btn:hover { background: #252940; border-color: #3b82f6; }
+
+/* Legend */
+.legend { position: absolute; bottom: 12px; left: 12px; background: #161921ee; border: 1px solid #2a2e3a; border-radius: 8px; padding: 10px 14px; display: flex; gap: 16px; font-size: 11px; z-index: 10; }
+.legend-item { display: flex; align-items: center; gap: 6px; color: #7a8095; }
+.legend-line { width: 20px; height: 2px; border-radius: 1px; }
+
+/* Prompt output */
+.prompt-area { background: #161921; border-top: 1px solid #2a2e3a; padding: 12px 20px; flex-shrink: 0; max-height: 160px; overflow-y: auto; }
+.prompt-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.prompt-header span { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #7a8095; }
+.copy-btn { background: #1e2a4a; border: 1px solid #3b82f6; color: #93bbfc; font-size: 11px; padding: 4px 12px; border-radius: 4px; cursor: pointer; transition: all 0.15s; }
+.copy-btn:hover { background: #2a3a5a; }
+.copy-btn.copied { background: #1a3a2a; border-color: #4ade80; color: #4ade80; }
+#prompt-output { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; color: #c1c7d4; white-space: pre-wrap; line-height: 1.5; }
+
+/* Modal */
+.modal-overlay { display: none; position: fixed; inset: 0; background: #000a; z-index: 100; align-items: center; justify-content: center; }
+.modal-overlay.active { display: flex; }
+.modal { background: #1e2130; border: 1px solid #2a2e3a; border-radius: 12px; padding: 20px; width: 380px; max-width: 90vw; }
+.modal h3 { font-size: 14px; color: #fff; margin-bottom: 4px; }
+.modal .modal-file { font-size: 11px; color: #7a8095; margin-bottom: 12px; font-family: monospace; }
+.modal textarea { width: 100%; height: 80px; background: #161921; border: 1px solid #2a2e3a; border-radius: 6px; color: #e1e4ea; font-size: 12px; padding: 8px; resize: vertical; font-family: inherit; }
+.modal textarea:focus { outline: none; border-color: #3b82f6; }
+.modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 12px; }
+.modal-btn { padding: 6px 16px; border-radius: 6px; font-size: 12px; cursor: pointer; border: 1px solid; }
+.modal-cancel { background: #1e2130; border-color: #2a2e3a; color: #7a8095; }
+.modal-save { background: #1e2a4a; border-color: #3b82f6; color: #93bbfc; }
+.modal-save:hover { background: #2a3a5a; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Maria CEA-AWS</h1>
+  <span class="subtitle">Architecture Explorer</span>
+  <span class="badge">Claude Agent SDK</span>
+  <span class="hint">Drag nodes to rearrange &middot; Double-click to comment &middot; Scroll to zoom</span>
+</div>
+
+<div class="main">
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <h3>Views</h3>
+      <button class="preset-btn active" onclick="setPreset('full')">Full System</button>
+      <button class="preset-btn" onclick="setPreset('chat-flow')">Chat Flow (WhatsApp to Response)</button>
+      <button class="preset-btn" onclick="setPreset('skill-routing')">Skill Routing</button>
+      <button class="preset-btn" onclick="setPreset('tools-data')">Tools & Data Layer</button>
+      <button class="preset-btn" onclick="setPreset('media')">Media Pipeline</button>
+    </div>
+
+    <div class="sidebar-section">
+      <h3>Layers</h3>
+      <label class="layer-toggle" data-layer="external">
+        <input type="checkbox" checked onchange="toggleLayer('external')">
+        <div class="layer-dot" style="border-color: #f472b6; background: #f472b644;"></div>
+        <span>External Services</span>
+      </label>
+      <label class="layer-toggle" data-layer="server">
+        <input type="checkbox" checked onchange="toggleLayer('server')">
+        <div class="layer-dot" style="border-color: #fbbf24; background: #fbbf2444;"></div>
+        <span>Server / Endpoints</span>
+      </label>
+      <label class="layer-toggle" data-layer="agent">
+        <input type="checkbox" checked onchange="toggleLayer('agent')">
+        <div class="layer-dot" style="border-color: #4ade80; background: #4ade8044;"></div>
+        <span>Agent / Logic</span>
+      </label>
+      <label class="layer-toggle" data-layer="skills">
+        <input type="checkbox" checked onchange="toggleLayer('skills')">
+        <div class="layer-dot" style="border-color: #a78bfa; background: #a78bfa44;"></div>
+        <span>Skills (AGORA)</span>
+      </label>
+      <label class="layer-toggle" data-layer="tools">
+        <input type="checkbox" checked onchange="toggleLayer('tools')">
+        <div class="layer-dot" style="border-color: #38bdf8; background: #38bdf844;"></div>
+        <span>Tools</span>
+      </label>
+      <label class="layer-toggle" data-layer="data">
+        <input type="checkbox" checked onchange="toggleLayer('data')">
+        <div class="layer-dot" style="border-color: #fb923c; background: #fb923c44;"></div>
+        <span>Data / APIs</span>
+      </label>
+    </div>
+
+    <div class="sidebar-section">
+      <h3>Connections</h3>
+      <label class="conn-toggle">
+        <input type="checkbox" checked onchange="toggleConnection('data-flow')">
+        <div class="conn-line" style="background: #3b82f6;"></div>
+        <span>Data Flow</span>
+      </label>
+      <label class="conn-toggle">
+        <input type="checkbox" checked onchange="toggleConnection('tool-call')">
+        <div class="conn-line" style="background: #10b981; background: repeating-linear-gradient(90deg, #10b981 0 6px, transparent 6px 9px);"></div>
+        <span>Tool Calls</span>
+      </label>
+      <label class="conn-toggle">
+        <input type="checkbox" checked onchange="toggleConnection('skill-route')">
+        <div class="conn-line" style="background: repeating-linear-gradient(90deg, #f97316 0 8px, transparent 8px 12px);"></div>
+        <span>Skill Routing</span>
+      </label>
+      <label class="conn-toggle">
+        <input type="checkbox" checked onchange="toggleConnection('api-call')">
+        <div class="conn-line" style="background: repeating-linear-gradient(90deg, #8b5cf6 0 4px, transparent 4px 7px);"></div>
+        <span>API Calls</span>
+      </label>
+      <label class="conn-toggle">
+        <input type="checkbox" checked onchange="toggleConnection('skill-tool')">
+        <div class="conn-line" style="background: repeating-linear-gradient(90deg, #e879f9 0 3px, transparent 3px 6px);"></div>
+        <span>Skill → Tool</span>
+      </label>
+    </div>
+
+    <div class="sidebar-section" style="flex: 1;">
+      <h3>Comments (<span id="comment-count">0</span>)</h3>
+      <div class="comments-list" id="comments-list">
+        <div class="no-comments">Double-click a node to add feedback</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="canvas-area">
+    <div class="canvas-wrapper" id="canvas-wrapper">
+      <svg id="diagram"></svg>
+      <div class="zoom-controls">
+        <button class="zoom-btn" onclick="zoomIn()">+</button>
+        <button class="zoom-btn" onclick="zoomOut()">&minus;</button>
+        <button class="zoom-btn" onclick="zoomReset()" style="font-size:11px;">1:1</button>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-line" style="background:#3b82f6;"></div> Data flow</div>
+        <div class="legend-item"><div class="legend-line" style="background:#10b981; background:repeating-linear-gradient(90deg,#10b981 0 5px,transparent 5px 8px);"></div> Tool call</div>
+        <div class="legend-item"><div class="legend-line" style="background:repeating-linear-gradient(90deg,#f97316 0 7px,transparent 7px 11px);"></div> Skill route</div>
+        <div class="legend-item"><div class="legend-line" style="background:repeating-linear-gradient(90deg,#8b5cf6 0 4px,transparent 4px 7px);"></div> API call</div>
+        <div class="legend-item"><div class="legend-line" style="background:repeating-linear-gradient(90deg,#e879f9 0 3px,transparent 3px 6px);"></div> Skill→Tool</div>
+      </div>
+    </div>
+
+    <div class="prompt-area">
+      <div class="prompt-header">
+        <span>Prompt Output</span>
+        <button class="copy-btn" onclick="copyPrompt()">Copy</button>
+      </div>
+      <div id="prompt-output">Explore the Maria CEA-AWS architecture. Drag nodes to rearrange. Double-click to add feedback.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Comment Modal -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <h3 id="modal-title">Component</h3>
+    <div class="modal-file" id="modal-file">file.ts</div>
+    <textarea id="modal-text" placeholder="Add your feedback about this component..."></textarea>
+    <div class="modal-actions">
+      <button class="modal-btn modal-cancel" onclick="closeModal()">Cancel</button>
+      <button class="modal-btn modal-save" onclick="saveComment()">Save</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================
+// State
+// ============================================
+const GRID = 20; // snap-to-grid size
+
+const state = {
+  preset: 'full',
+  layers: { external: true, server: true, agent: true, skills: true, tools: true, data: true },
+  connections: { 'data-flow': true, 'tool-call': true, 'skill-route': true, 'api-call': true, 'skill-tool': true },
+  comments: [],
+  zoom: 1,
+  panX: 0, panY: 0,
+  modalTarget: null,
+  // Drag state
+  dragging: null,       // node id being dragged
+  dragStartMouse: null,  // {x, y} in SVG coords at mousedown
+  dragStartNode: null,   // {x, y} original node position
+  didDrag: false,        // true if mouse moved enough (distinguishes drag from click)
+  selected: null,        // currently selected node id
+};
+
+// ============================================
+// Node Definitions
+// ============================================
+const nodes = [
+  // ── External Entry Points (top-left) ──
+  { id: 'whatsapp', label: 'WhatsApp', subtitle: 'Cloud API', x: 40, y: 80, w: 120, h: 42, layer: 'external', color: '#831843', border: '#f472b6' },
+  { id: 'chatwoot', label: 'Chatwoot/Agora', subtitle: 'Webhook Platform', x: 200, y: 80, w: 140, h: 42, layer: 'external', color: '#831843', border: '#f472b6' },
+  { id: 'n8n', label: 'n8n', subtitle: 'Workflow Automation', x: 40, y: 175, w: 110, h: 42, layer: 'external', color: '#831843', border: '#f472b6' },
+  // ── External AI Services (right, near callers) ──
+  { id: 'claude-api', label: 'Claude API', subtitle: 'Sonnet 4.5', x: 1060, y: 260, w: 120, h: 42, layer: 'external', color: '#831843', border: '#f472b6' },
+  { id: 'gemini-api', label: 'Gemini API', subtitle: 'Vision/Video', x: 1060, y: 320, w: 120, h: 42, layer: 'external', color: '#831843', border: '#f472b6' },
+
+  // ── Server Endpoints (stacked, center-left) ──
+  { id: 'server', label: 'Express Server', subtitle: 'src/server.ts', x: 400, y: 10, w: 140, h: 42, layer: 'server', color: '#422006', border: '#fbbf24' },
+  { id: 'chatwoot-hook', label: 'POST /chatwoot', subtitle: 'Webhook + Queue', x: 420, y: 60, w: 150, h: 42, layer: 'server', color: '#422006', border: '#fbbf24' },
+  { id: 'api-chat', label: 'POST /api/chat', subtitle: 'Direct API', x: 420, y: 115, w: 140, h: 42, layer: 'server', color: '#422006', border: '#fbbf24' },
+  { id: 'webhook', label: 'POST /webhook', subtitle: 'n8n/WA Format', x: 420, y: 170, w: 140, h: 42, layer: 'server', color: '#422006', border: '#fbbf24' },
+  // ── Utility Endpoints (right, out of main flow) ──
+  { id: 'recibo-ep', label: 'GET /recibo/:id', subtitle: 'PDF Download', x: 1100, y: 170, w: 150, h: 42, layer: 'server', color: '#422006', border: '#fbbf24' },
+  { id: 'health', label: 'GET /health', subtitle: 'Health + Status', x: 920, y: 170, w: 130, h: 42, layer: 'server', color: '#422006', border: '#fbbf24' },
+
+  // ── Agent Hub (center pivot) ──
+  { id: 'agent', label: 'Agent (runWorkflow)', subtitle: 'src/agent.ts', x: 660, y: 95, w: 200, h: 50, layer: 'agent', color: '#052e16', border: '#4ade80', highlight: true },
+  // ── Agent Support (orbit around Agent) ──
+  { id: 'chatwoot-mod', label: 'Chatwoot Module', subtitle: 'src/chatwoot.ts', x: 660, y: 170, w: 150, h: 42, layer: 'agent', color: '#052e16', border: '#4ade80' },
+  { id: 'media-mod', label: 'Media Processor', subtitle: 'src/media.ts', x: 920, y: 40, w: 150, h: 42, layer: 'agent', color: '#052e16', border: '#4ade80' },
+  { id: 'conv-store', label: 'Conversation Store', subtitle: 'In-memory Map', x: 920, y: 100, w: 160, h: 42, layer: 'agent', color: '#052e16', border: '#4ade80' },
+  { id: 'config', label: 'Config', subtitle: 'src/config/', x: 1120, y: 40, w: 110, h: 42, layer: 'agent', color: '#052e16', border: '#4ade80' },
+  { id: 'templates', label: 'Response Templates', subtitle: 'response-templates.ts', x: 1120, y: 100, w: 160, h: 42, layer: 'agent', color: '#052e16', border: '#4ade80' },
+
+  // ── Intelligence Branch (below Agent, two paths) ──
+  { id: 'classifier', label: 'Keyword Classifier', subtitle: 'Intent Detection', x: 340, y: 280, w: 160, h: 42, layer: 'agent', color: '#052e16', border: '#4ade80' },
+  { id: 'sdk-query', label: 'SDK query()', subtitle: 'Claude Agent SDK', x: 800, y: 280, w: 150, h: 42, layer: 'agent', color: '#052e16', border: '#4ade80' },
+  { id: 'mcp-server', label: 'MCP Server', subtitle: 'createSdkMcpServer', x: 800, y: 380, w: 150, h: 42, layer: 'agent', color: '#052e16', border: '#4ade80' },
+
+  // ── Skills (left branch, below Classifier) ──
+  { id: 'skill-con', label: 'CON', subtitle: 'Consultas', x: 40, y: 390, w: 100, h: 42, layer: 'skills', color: '#2e1065', border: '#a78bfa' },
+  { id: 'skill-fac', label: 'FAC', subtitle: 'Facturacion', x: 160, y: 390, w: 100, h: 42, layer: 'skills', color: '#2e1065', border: '#a78bfa' },
+  { id: 'skill-ctr', label: 'CTR', subtitle: 'Contratos', x: 280, y: 390, w: 100, h: 42, layer: 'skills', color: '#2e1065', border: '#a78bfa' },
+  { id: 'skill-cvn', label: 'CVN', subtitle: 'Convenios', x: 400, y: 390, w: 100, h: 42, layer: 'skills', color: '#2e1065', border: '#a78bfa' },
+  { id: 'skill-rep', label: 'REP', subtitle: 'Reportes', x: 520, y: 390, w: 100, h: 42, layer: 'skills', color: '#2e1065', border: '#a78bfa' },
+  { id: 'skill-srv', label: 'SRV', subtitle: 'Servicios', x: 100, y: 450, w: 100, h: 42, layer: 'skills', color: '#2e1065', border: '#a78bfa' },
+  { id: 'skill-cns', label: 'CNS', subtitle: 'Consumos', x: 240, y: 450, w: 100, h: 42, layer: 'skills', color: '#2e1065', border: '#a78bfa' },
+  { id: 'skill-base', label: 'Skill Base', subtitle: 'src/skills/base.ts', x: 420, y: 450, w: 130, h: 42, layer: 'skills', color: '#2e1065', border: '#a78bfa' },
+
+  // ── Tools (full width, below Skills + MCP) ──
+  { id: 'tool-deuda', label: 'get_deuda', subtitle: 'SOAP > Saldo', x: 40, y: 540, w: 130, h: 38, layer: 'tools', color: '#0c2d48', border: '#38bdf8' },
+  { id: 'tool-consumo', label: 'get_consumo', subtitle: 'SOAP > Consumo', x: 190, y: 540, w: 130, h: 38, layer: 'tools', color: '#0c2d48', border: '#38bdf8' },
+  { id: 'tool-contrato', label: 'get_contract', subtitle: 'SOAP > Contrato', x: 340, y: 540, w: 140, h: 38, layer: 'tools', color: '#0c2d48', border: '#38bdf8' },
+  { id: 'tool-ticket', label: 'create_ticket', subtitle: 'DB Insert', x: 500, y: 540, w: 130, h: 38, layer: 'tools', color: '#0c2d48', border: '#38bdf8' },
+  { id: 'tool-validate', label: 'validate_holder', subtitle: 'Identity Check', x: 650, y: 540, w: 140, h: 38, layer: 'tools', color: '#0c2d48', border: '#38bdf8' },
+  { id: 'tool-locations', label: 'find_locations', subtitle: 'Office Finder', x: 810, y: 540, w: 140, h: 38, layer: 'tools', color: '#0c2d48', border: '#38bdf8' },
+  { id: 'tool-handoff', label: 'handoff_human', subtitle: 'Chatwoot Assign', x: 970, y: 540, w: 140, h: 38, layer: 'tools', color: '#0c2d48', border: '#38bdf8' },
+  { id: 'tool-recibo', label: 'get_recibo_link', subtitle: 'Signed PDF URL', x: 1130, y: 540, w: 140, h: 38, layer: 'tools', color: '#0c2d48', border: '#38bdf8' },
+
+  // ── Data Layer (bottom, under tools) ──
+  { id: 'cea-soap', label: 'CEA SOAP API', subtitle: 'aquacis-cf.ceaqueretaro', x: 200, y: 640, w: 170, h: 42, layer: 'data', color: '#431407', border: '#fb923c' },
+  { id: 'agora-db', label: 'Agora PostgreSQL', subtitle: 'agora_production', x: 480, y: 640, w: 160, h: 42, layer: 'data', color: '#431407', border: '#fb923c' },
+  { id: 'hydra-db', label: 'Hydra PostgreSQL', subtitle: 'hydradb (RDS)', x: 760, y: 640, w: 160, h: 42, layer: 'data', color: '#431407', border: '#fb923c' },
+  { id: 'proxy', label: 'HTTP Proxy', subtitle: 'CEA_PROXY_URL', x: 200, y: 700, w: 130, h: 42, layer: 'data', color: '#431407', border: '#fb923c' },
+  { id: 'types', label: 'Types', subtitle: 'src/types.ts', x: 480, y: 700, w: 110, h: 42, layer: 'data', color: '#431407', border: '#fb923c' },
+];
+
+// ============================================
+// Connection Definitions
+// ============================================
+const connections = [
+  { from: 'whatsapp', to: 'chatwoot', type: 'data-flow', label: 'Messages' },
+  { from: 'chatwoot', to: 'chatwoot-hook', type: 'data-flow', label: 'Webhook' },
+  { from: 'n8n', to: 'webhook', type: 'data-flow', label: 'Webhook' },
+  { from: 'chatwoot-hook', to: 'chatwoot-mod', type: 'data-flow', label: 'Validate' },
+  { from: 'chatwoot-mod', to: 'media-mod', type: 'data-flow', label: 'Attachments' },
+  { from: 'chatwoot-hook', to: 'agent', type: 'data-flow', label: 'WorkflowInput' },
+  { from: 'api-chat', to: 'agent', type: 'data-flow', label: 'WorkflowInput' },
+  { from: 'webhook', to: 'agent', type: 'data-flow', label: 'WorkflowInput' },
+  { from: 'agent', to: 'classifier', type: 'data-flow', label: 'Classify' },
+  { from: 'agent', to: 'conv-store', type: 'data-flow', label: 'History' },
+  { from: 'agent', to: 'sdk-query', type: 'data-flow', label: 'Prompt' },
+  { from: 'sdk-query', to: 'claude-api', type: 'api-call', label: 'API Call' },
+  { from: 'sdk-query', to: 'mcp-server', type: 'tool-call', label: 'MCP Tools' },
+  { from: 'media-mod', to: 'claude-api', type: 'api-call', label: 'Vision' },
+  { from: 'media-mod', to: 'gemini-api', type: 'api-call', label: 'Video' },
+  { from: 'classifier', to: 'skill-con', type: 'skill-route' },
+  { from: 'classifier', to: 'skill-fac', type: 'skill-route' },
+  { from: 'classifier', to: 'skill-ctr', type: 'skill-route' },
+  { from: 'classifier', to: 'skill-cvn', type: 'skill-route' },
+  { from: 'classifier', to: 'skill-rep', type: 'skill-route' },
+  { from: 'classifier', to: 'skill-srv', type: 'skill-route' },
+  { from: 'classifier', to: 'skill-cns', type: 'skill-route' },
+  { from: 'mcp-server', to: 'tool-deuda', type: 'tool-call' },
+  { from: 'mcp-server', to: 'tool-consumo', type: 'tool-call' },
+  { from: 'mcp-server', to: 'tool-contrato', type: 'tool-call' },
+  { from: 'mcp-server', to: 'tool-ticket', type: 'tool-call' },
+  { from: 'mcp-server', to: 'tool-validate', type: 'tool-call' },
+  { from: 'mcp-server', to: 'tool-locations', type: 'tool-call' },
+  { from: 'mcp-server', to: 'tool-handoff', type: 'tool-call' },
+  { from: 'mcp-server', to: 'tool-recibo', type: 'tool-call' },
+  { from: 'tool-deuda', to: 'cea-soap', type: 'api-call', label: 'SOAP' },
+  { from: 'tool-consumo', to: 'cea-soap', type: 'api-call', label: 'SOAP' },
+  { from: 'tool-contrato', to: 'cea-soap', type: 'api-call', label: 'SOAP' },
+  { from: 'tool-ticket', to: 'agora-db', type: 'api-call', label: 'INSERT' },
+  { from: 'tool-validate', to: 'cea-soap', type: 'api-call', label: 'SOAP' },
+  { from: 'tool-locations', to: 'agora-db', type: 'api-call', label: 'SELECT' },
+  { from: 'tool-handoff', to: 'chatwoot', type: 'api-call', label: 'Assign' },
+  { from: 'tool-recibo', to: 'cea-soap', type: 'api-call', label: 'PDF' },
+  { from: 'cea-soap', to: 'proxy', type: 'data-flow', label: 'via Proxy' },
+  { from: 'tool-contrato', to: 'hydra-db', type: 'api-call', label: 'Translate' },
+  { from: 'agent', to: 'chatwoot-mod', type: 'data-flow', label: 'Response' },
+  { from: 'chatwoot-mod', to: 'chatwoot', type: 'data-flow', label: 'Send Msg' },
+  { from: 'tool-deuda', to: 'templates', type: 'data-flow', label: 'Format' },
+  { from: 'tool-contrato', to: 'templates', type: 'data-flow', label: 'Format' },
+  { from: 'recibo-ep', to: 'cea-soap', type: 'api-call', label: 'Fetch PDF' },
+  { from: 'skill-con', to: 'skill-base', type: 'data-flow' },
+  { from: 'skill-rep', to: 'skill-base', type: 'data-flow' },
+  // ── Skill → Tool mappings ──
+  // CON
+  { from: 'skill-con', to: 'tool-deuda', type: 'skill-tool' },
+  { from: 'skill-con', to: 'tool-validate', type: 'skill-tool' },
+  { from: 'skill-con', to: 'tool-locations', type: 'skill-tool' },
+  // FAC
+  { from: 'skill-fac', to: 'tool-deuda', type: 'skill-tool' },
+  { from: 'skill-fac', to: 'tool-consumo', type: 'skill-tool' },
+  { from: 'skill-fac', to: 'tool-recibo', type: 'skill-tool' },
+  { from: 'skill-fac', to: 'tool-handoff', type: 'skill-tool' },
+  { from: 'skill-fac', to: 'tool-locations', type: 'skill-tool' },
+  { from: 'skill-fac', to: 'tool-validate', type: 'skill-tool' },
+  // CTR
+  { from: 'skill-ctr', to: 'tool-contrato', type: 'skill-tool' },
+  { from: 'skill-ctr', to: 'tool-ticket', type: 'skill-tool' },
+  { from: 'skill-ctr', to: 'tool-handoff', type: 'skill-tool' },
+  { from: 'skill-ctr', to: 'tool-locations', type: 'skill-tool' },
+  { from: 'skill-ctr', to: 'tool-validate', type: 'skill-tool' },
+  // CVN
+  { from: 'skill-cvn', to: 'tool-ticket', type: 'skill-tool' },
+  { from: 'skill-cvn', to: 'tool-handoff', type: 'skill-tool' },
+  { from: 'skill-cvn', to: 'tool-locations', type: 'skill-tool' },
+  { from: 'skill-cvn', to: 'tool-validate', type: 'skill-tool' },
+  // REP
+  { from: 'skill-rep', to: 'tool-ticket', type: 'skill-tool' },
+  // SRV
+  { from: 'skill-srv', to: 'tool-consumo', type: 'skill-tool' },
+  { from: 'skill-srv', to: 'tool-ticket', type: 'skill-tool' },
+  { from: 'skill-srv', to: 'tool-locations', type: 'skill-tool' },
+  // CNS
+  { from: 'skill-cns', to: 'tool-consumo', type: 'skill-tool' },
+  { from: 'skill-cns', to: 'tool-deuda', type: 'skill-tool' },
+  { from: 'skill-cns', to: 'tool-ticket', type: 'skill-tool' },
+  { from: 'skill-cns', to: 'tool-validate', type: 'skill-tool' },
+];
+
+// ============================================
+// Presets
+// ============================================
+const presets = {
+  'full': {
+    layers: { external: true, server: true, agent: true, skills: true, tools: true, data: true },
+    connections: { 'data-flow': true, 'tool-call': true, 'skill-route': true, 'api-call': true, 'skill-tool': true }
+  },
+  'chat-flow': {
+    layers: { external: true, server: true, agent: true, skills: false, tools: false, data: false },
+    connections: { 'data-flow': true, 'tool-call': false, 'skill-route': false, 'api-call': true, 'skill-tool': false }
+  },
+  'skill-routing': {
+    layers: { external: false, server: false, agent: true, skills: true, tools: false, data: false },
+    connections: { 'data-flow': true, 'tool-call': false, 'skill-route': true, 'api-call': false, 'skill-tool': true }
+  },
+  'tools-data': {
+    layers: { external: false, server: false, agent: false, skills: false, tools: true, data: true },
+    connections: { 'data-flow': true, 'tool-call': false, 'skill-route': false, 'api-call': true, 'skill-tool': false }
+  },
+  'media': {
+    layers: { external: true, server: true, agent: true, skills: false, tools: false, data: false },
+    connections: { 'data-flow': true, 'tool-call': false, 'skill-route': false, 'api-call': true, 'skill-tool': false }
+  }
+};
+
+// ============================================
+// Connection Colors
+// ============================================
+const connColors = {
+  'data-flow': '#3b82f6',
+  'tool-call': '#10b981',
+  'skill-route': '#f97316',
+  'api-call': '#8b5cf6',
+  'skill-tool': '#e879f9'
+};
+const connDash = {
+  'data-flow': '',
+  'tool-call': '6,3',
+  'skill-route': '8,4',
+  'api-call': '4,4',
+  'skill-tool': '3,3'
+};
+
+// ============================================
+// SVG Coordinate Helpers
+// ============================================
+const svg = document.getElementById('diagram');
+const wrapper = document.getElementById('canvas-wrapper');
+
+function screenToSVG(clientX, clientY) {
+  const rect = wrapper.getBoundingClientRect();
+  return {
+    x: (clientX - rect.left) / state.zoom - state.panX,
+    y: (clientY - rect.top) / state.zoom - state.panY,
+  };
+}
+
+function snapToGrid(val) {
+  return Math.round(val / GRID) * GRID;
+}
+
+function getNodeById(id) { return nodes.find(n => n.id === id); }
+
+// ============================================
+// Smart Connection Routing
+// ============================================
+
+function getConnectionPoints(from, to) {
+  const fcx = from.x + from.w / 2, fcy = from.y + from.h / 2;
+  const tcx = to.x + to.w / 2, tcy = to.y + to.h / 2;
+  const dx = tcx - fcx, dy = tcy - fcy;
+
+  let sx, sy, ex, ey;
+
+  // Determine best side to connect from/to
+  if (Math.abs(dx) > Math.abs(dy) * 1.2) {
+    // Horizontal dominant
+    if (dx > 0) {
+      sx = from.x + from.w; sy = fcy;
+      ex = to.x; ey = tcy;
+    } else {
+      sx = from.x; sy = fcy;
+      ex = to.x + to.w; ey = tcy;
+    }
+  } else {
+    // Vertical dominant
+    if (dy > 0) {
+      sx = fcx; sy = from.y + from.h;
+      ex = tcx; ey = to.y;
+    } else {
+      sx = fcx; sy = from.y;
+      ex = tcx; ey = to.y + to.h;
+    }
+  }
+
+  return { sx, sy, ex, ey };
+}
+
+function buildPath(sx, sy, ex, ey) {
+  const dx = ex - sx, dy = ey - sy;
+  // Mostly horizontal
+  if (Math.abs(dx) > Math.abs(dy) * 0.8) {
+    const mx = sx + dx * 0.5;
+    return `M${sx},${sy} C${mx},${sy} ${mx},${ey} ${ex},${ey}`;
+  }
+  // Mostly vertical
+  const my = sy + dy * 0.45;
+  const my2 = sy + dy * 0.55;
+  return `M${sx},${sy} C${sx},${my} ${ex},${my2} ${ex},${ey}`;
+}
+
+// ============================================
+// Rendering
+// ============================================
+
+function renderDiagram() {
+  const rect = wrapper.getBoundingClientRect();
+  const vbX = -state.panX;
+  const vbY = -state.panY;
+  const vbW = rect.width / state.zoom;
+  const vbH = rect.height / state.zoom;
+  svg.setAttribute('viewBox', `${vbX} ${vbY} ${vbW} ${vbH}`);
+
+  let html = '';
+
+  // Defs: arrow markers + grid pattern
+  html += '<defs>';
+  for (const [type, color] of Object.entries(connColors)) {
+    html += `<marker id="arrow-${type}" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="${color}" opacity="0.7"/></marker>`;
+  }
+  // Grid dot pattern
+  html += `<pattern id="grid-dots" width="${GRID}" height="${GRID}" patternUnits="userSpaceOnUse">
+    <circle cx="${GRID/2}" cy="${GRID/2}" r="0.8" fill="#2a2e3a"/>
+  </pattern>`;
+  // Selection glow filter
+  html += `<filter id="glow"><feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#3b82f6" flood-opacity="0.6"/></filter>`;
+  // Drag shadow filter
+  html += `<filter id="drag-shadow"><feDropShadow dx="2" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.5"/></filter>`;
+  html += '</defs>';
+
+  // Grid background
+  html += `<rect x="${vbX}" y="${vbY}" width="${vbW}" height="${vbH}" fill="url(#grid-dots)"/>`;
+
+  // Connections
+  const visibleConns = connections.filter(c => {
+    if (!state.connections[c.type]) return false;
+    const fromNode = getNodeById(c.from);
+    const toNode = getNodeById(c.to);
+    return fromNode && toNode && state.layers[fromNode.layer] && state.layers[toNode.layer];
+  });
+
+  for (const conn of visibleConns) {
+    const from = getNodeById(conn.from);
+    const to = getNodeById(conn.to);
+    const { sx, sy, ex, ey } = getConnectionPoints(from, to);
+    const path = buildPath(sx, sy, ex, ey);
+
+    // Highlight connections involving selected node
+    const isActive = state.selected && (conn.from === state.selected || conn.to === state.selected);
+    const opacity = isActive ? 0.85 : 0.4;
+    const width = isActive ? 2.5 : 1.5;
+
+    html += `<path d="${path}" stroke="${connColors[conn.type]}" stroke-width="${width}" fill="none" opacity="${opacity}" stroke-dasharray="${connDash[conn.type]}" marker-end="url(#arrow-${conn.type})"/>`;
+
+    if (conn.label) {
+      const lx = (sx + ex) / 2;
+      const ly = (sy + ey) / 2 - 5;
+      html += `<text x="${lx}" y="${ly}" fill="${connColors[conn.type]}" font-size="9" text-anchor="middle" opacity="${isActive ? 0.9 : 0.5}" font-family="system-ui">${conn.label}</text>`;
+    }
+  }
+
+  // Nodes (draw dragged node last so it's on top)
+  const visibleNodes = nodes.filter(n => state.layers[n.layer]);
+  const sortedNodes = visibleNodes.slice().sort((a, b) => {
+    if (a.id === state.dragging) return 1;
+    if (b.id === state.dragging) return -1;
+    return 0;
+  });
+
+  for (const node of sortedNodes) {
+    const hasComment = state.comments.some(c => c.target === node.id);
+    const isSelected = node.id === state.selected;
+    const isDragging = node.id === state.dragging;
+    const strokeColor = hasComment ? '#fbbf24' : (isSelected ? '#3b82f6' : node.border);
+    const strokeWidth = isSelected ? 2.5 : (hasComment ? 2.5 : 1.5);
+    const filter = isDragging ? ' filter="url(#drag-shadow)"' : (isSelected ? ' filter="url(#glow)"' : '');
+    const cursor = isDragging ? 'grabbing' : 'grab';
+
+    html += `<g class="node" data-id="${node.id}" style="cursor:${cursor}"${filter}>`;
+    html += `<rect x="${node.x}" y="${node.y}" width="${node.w}" height="${node.h}" rx="8" fill="${node.color}" stroke="${strokeColor}" stroke-width="${strokeWidth}" opacity="0.95"/>`;
+    if (node.highlight && !isDragging) {
+      html += `<rect x="${node.x - 2}" y="${node.y - 2}" width="${node.w + 4}" height="${node.h + 4}" rx="10" fill="none" stroke="${node.border}" stroke-width="1" opacity="0.3" stroke-dasharray="4,2"/>`;
+    }
+    html += `<text x="${node.x + node.w / 2}" y="${node.y + 17}" fill="#fff" font-size="12" font-weight="600" text-anchor="middle" font-family="system-ui" pointer-events="none">${node.label}</text>`;
+    html += `<text x="${node.x + node.w / 2}" y="${node.y + 30}" fill="#ffffff88" font-size="9" text-anchor="middle" font-family="'SF Mono',monospace" pointer-events="none">${node.subtitle}</text>`;
+    if (hasComment) {
+      html += `<circle cx="${node.x + node.w - 4}" cy="${node.y + 4}" r="5" fill="#fbbf24"/>`;
+      html += `<text x="${node.x + node.w - 4}" y="${node.y + 7.5}" fill="#000" font-size="7" font-weight="700" text-anchor="middle" pointer-events="none">!</text>`;
+    }
+    html += `</g>`;
+  }
+
+  svg.innerHTML = html;
+}
+
+// ============================================
+// Mouse Interaction — Drag nodes + Pan canvas
+// ============================================
+
+let isPanning = false;
+let panStartMouse = null;
+let panStartState = null;
+
+wrapper.addEventListener('mousedown', (e) => {
+  if (e.target.closest('.zoom-controls') || e.target.closest('.legend')) return;
+  if (e.button !== 0) return; // left click only
+
+  const svgPt = screenToSVG(e.clientX, e.clientY);
+
+  // Check if clicked on a node
+  const nodeEl = e.target.closest('.node');
+  if (nodeEl) {
+    const nodeId = nodeEl.dataset.id;
+    const node = getNodeById(nodeId);
+    state.dragging = nodeId;
+    state.selected = nodeId;
+    state.dragStartMouse = svgPt;
+    state.dragStartNode = { x: node.x, y: node.y };
+    state.didDrag = false;
+    wrapper.classList.add('grabbing');
+    renderDiagram();
+    e.preventDefault();
+    return;
+  }
+
+  // Otherwise start panning
+  isPanning = true;
+  panStartMouse = { x: e.clientX, y: e.clientY };
+  panStartState = { px: state.panX, py: state.panY };
+  state.selected = null;
+  wrapper.classList.add('grabbing');
+  renderDiagram();
+  e.preventDefault();
+});
+
+document.addEventListener('mousemove', (e) => {
+  // Node dragging
+  if (state.dragging) {
+    const svgPt = screenToSVG(e.clientX, e.clientY);
+    const dx = svgPt.x - state.dragStartMouse.x;
+    const dy = svgPt.y - state.dragStartMouse.y;
+
+    if (!state.didDrag && (Math.abs(dx) > 3 || Math.abs(dy) > 3)) {
+      state.didDrag = true;
+    }
+
+    if (state.didDrag) {
+      const node = getNodeById(state.dragging);
+      node.x = snapToGrid(state.dragStartNode.x + dx);
+      node.y = snapToGrid(state.dragStartNode.y + dy);
+      renderDiagram();
+    }
+    return;
+  }
+
+  // Canvas panning
+  if (isPanning) {
+    const dx = e.clientX - panStartMouse.x;
+    const dy = e.clientY - panStartMouse.y;
+    state.panX = panStartState.px + dx / state.zoom;
+    state.panY = panStartState.py + dy / state.zoom;
+    renderDiagram();
+  }
+});
+
+document.addEventListener('mouseup', (e) => {
+  if (state.dragging) {
+    wrapper.classList.remove('grabbing');
+    state.dragging = null;
+    state.dragStartMouse = null;
+    state.dragStartNode = null;
+    return;
+  }
+  if (isPanning) {
+    isPanning = false;
+    panStartMouse = null;
+    panStartState = null;
+    wrapper.classList.remove('grabbing');
+  }
+});
+
+// Double-click to open comment modal
+wrapper.addEventListener('dblclick', (e) => {
+  const nodeEl = e.target.closest('.node');
+  if (nodeEl) {
+    openModal(nodeEl.dataset.id);
+  }
+});
+
+// Zoom with scroll (zoom toward cursor)
+wrapper.addEventListener('wheel', (e) => {
+  e.preventDefault();
+  const oldZoom = state.zoom;
+  if (e.deltaY < 0) {
+    state.zoom = Math.min(state.zoom * 1.15, 3);
+  } else {
+    state.zoom = Math.max(state.zoom / 1.15, 0.25);
+  }
+  // Zoom toward cursor position
+  const rect = wrapper.getBoundingClientRect();
+  const mx = e.clientX - rect.left;
+  const my = e.clientY - rect.top;
+  const scale = state.zoom / oldZoom;
+  state.panX = mx / state.zoom - (mx / oldZoom - state.panX) ;
+  state.panY = my / state.zoom - (my / oldZoom - state.panY) ;
+  // Simpler: just keep panX/panY and re-render
+  renderDiagram();
+}, { passive: false });
+
+function zoomIn() { state.zoom = Math.min(state.zoom * 1.2, 3); renderDiagram(); }
+function zoomOut() { state.zoom = Math.max(state.zoom / 1.2, 0.25); renderDiagram(); }
+function zoomReset() { state.zoom = 1; state.panX = 0; state.panY = 0; renderDiagram(); }
+
+// ============================================
+// Sidebar Interactions
+// ============================================
+
+function setPreset(name) {
+  state.preset = name;
+  const preset = presets[name];
+  Object.assign(state.layers, preset.layers);
+  Object.assign(state.connections, preset.connections);
+
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.preset-btn[onclick="setPreset('${name}')"]`).classList.add('active');
+
+  document.querySelectorAll('.layer-toggle').forEach(el => {
+    const layer = el.dataset.layer;
+    el.querySelector('input').checked = state.layers[layer];
+  });
+  document.querySelectorAll('.conn-toggle input').forEach(el => {
+    const type = el.getAttribute('onchange').match(/'([^']+)'/)[1];
+    el.checked = state.connections[type];
+  });
+
+  renderDiagram();
+  updatePrompt();
+}
+
+function toggleLayer(layer) {
+  state.layers[layer] = !state.layers[layer];
+  state.preset = 'custom';
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+  renderDiagram();
+  updatePrompt();
+}
+
+function toggleConnection(type) {
+  state.connections[type] = !state.connections[type];
+  renderDiagram();
+  updatePrompt();
+}
+
+// ============================================
+// Comment System
+// ============================================
+
+function openModal(nodeId) {
+  const node = getNodeById(nodeId);
+  state.modalTarget = nodeId;
+  document.getElementById('modal-title').textContent = node.label;
+  document.getElementById('modal-file').textContent = node.subtitle;
+  document.getElementById('modal-text').value = '';
+  document.getElementById('modal').classList.add('active');
+  setTimeout(() => document.getElementById('modal-text').focus(), 100);
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('active');
+  state.modalTarget = null;
+}
+
+function saveComment() {
+  const text = document.getElementById('modal-text').value.trim();
+  if (!text) { closeModal(); return; }
+  const node = getNodeById(state.modalTarget);
+  state.comments.push({
+    id: Date.now(),
+    target: node.id,
+    targetLabel: node.label,
+    targetFile: node.subtitle,
+    text
+  });
+  closeModal();
+  renderComments();
+  renderDiagram();
+  updatePrompt();
+}
+
+function deleteComment(id) {
+  state.comments = state.comments.filter(c => c.id !== id);
+  renderComments();
+  renderDiagram();
+  updatePrompt();
+}
+
+function renderComments() {
+  const list = document.getElementById('comments-list');
+  document.getElementById('comment-count').textContent = state.comments.length;
+
+  if (state.comments.length === 0) {
+    list.innerHTML = '<div class="no-comments">Double-click a node to add feedback</div>';
+    return;
+  }
+
+  list.innerHTML = state.comments.map(c => `
+    <div class="comment-item">
+      <button class="delete" onclick="deleteComment(${c.id})">&times;</button>
+      <div class="target">${c.targetLabel}</div>
+      <div class="file">${c.targetFile}</div>
+      <div class="text">${c.text}</div>
+    </div>
+  `).join('');
+}
+
+// ============================================
+// Prompt Output
+// ============================================
+
+function updatePrompt() {
+  const parts = [];
+  const visibleLayers = Object.entries(state.layers).filter(([, v]) => v).map(([k]) => k);
+  const layerNames = { external: 'External Services', server: 'Server/Endpoints', agent: 'Agent/Logic', skills: 'Skills', tools: 'Tools', data: 'Data Layer' };
+
+  if (visibleLayers.length < 6) {
+    parts.push(`Focusing on: ${visibleLayers.map(l => layerNames[l]).join(', ')}.`);
+  }
+
+  parts.push(`This is the Maria CEA-AWS agent architecture — a WhatsApp chatbot for CEA Queretaro (water utility). Built with Claude Agent SDK, Express server, 7 AGORA skills (CON, FAC, CTR, CVN, REP, SRV, CNS), and MCP-served tools that query CEA SOAP APIs and PostgreSQL databases.`);
+
+  if (state.comments.length > 0) {
+    parts.push('');
+    parts.push('Feedback on specific components:');
+    for (const c of state.comments) {
+      parts.push('');
+      parts.push(`**${c.targetLabel}** (${c.targetFile}):`);
+      parts.push(c.text);
+    }
+  }
+
+  document.getElementById('prompt-output').textContent = parts.join('\n');
+}
+
+function copyPrompt() {
+  const text = document.getElementById('prompt-output').textContent;
+  navigator.clipboard.writeText(text);
+  const btn = document.querySelector('.copy-btn');
+  btn.textContent = 'Copied!';
+  btn.classList.add('copied');
+  setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);
+}
+
+// Keyboard
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+  if (e.key === 'Enter' && document.getElementById('modal').classList.contains('active')) saveComment();
+  // Delete selected node's position reset? No — just deselect
+  if (e.key === 'Escape' && !document.getElementById('modal').classList.contains('active')) {
+    state.selected = null;
+    renderDiagram();
+  }
+});
+
+// ============================================
+// Init
+// ============================================
+renderDiagram();
+updatePrompt();
+</script>
+</body>
+</html>

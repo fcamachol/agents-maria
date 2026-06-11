@@ -22,6 +22,13 @@ export interface SupraResponse<T> {
     error?: string;
 }
 
+export class ContratoNoEncontradoError extends Error {
+    constructor(public readonly contrato: string) {
+        super(`Contrato ${contrato} no encontrado`);
+        this.name = "ContratoNoEncontradoError";
+    }
+}
+
 // ============================================
 // Response Shape Interfaces
 // ============================================
@@ -170,6 +177,15 @@ async function supraFetch<T>(
 
     if (!response.ok) {
         const text = await response.text().catch(() => "");
+        let parsed: { error?: string; codigoError?: number } | null = null;
+        try { parsed = JSON.parse(text); } catch { /* ignore */ }
+
+        if (response.status === 404 && parsed?.codigoError === -501) {
+            const match = path.match(/\/contrato\/([^/?]+)/);
+            const contrato = match ? decodeURIComponent(match[1]) : "";
+            throw new ContratoNoEncontradoError(contrato);
+        }
+
         throw new Error(
             `SUPRA ${init?.method ?? "GET"} ${path} → HTTP ${response.status}: ${text}`
         );

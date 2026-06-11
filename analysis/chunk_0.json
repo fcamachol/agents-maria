@@ -1,0 +1,376 @@
+[
+  {
+    "ts": "2026-03-01 20:32:36",
+    "cid": "120",
+    "ph": "+5214423345265",
+    "name": "Ibeth",
+    "folio": "CEA-20260301-00053",
+    "output": "Registré tu reporte con folio CEA-20260301-00053. Un técnico te orientará sobre cómo solucionar el p...",
+    "user_input": "",
+    "user_messages": [],
+    "maria_messages": [
+      "Entiendo. Para registrar tu reporte de falta de agua en el condominio, ¿tienes número de contrato de...\"",
+      "Veo el problema en la válvula. Como está dentro de tu propiedad (en tu área de lavado), el mantenimi...\"",
+      "¡Hola Ale! Soy María de la CEA, ¿en qué te puedo ayudar?",
+      "Perfecto. Para proteger tus datos, ¿me puedes dar el nombre o apellido del titular del contrato?...\"",
+      "Registré tu reporte con folio CEA-20260301-00053. Un técnico te orientará sobre cómo solucionar el p...\""
+    ]
+  },
+  {
+    "ts": "2026-03-01 20:35:15",
+    "cid": "122",
+    "ph": "+5214423299489",
+    "name": "April 🦒",
+    "folio": "no-folio",
+    "output": "¿Quieres que registre el reporte de falta de agua en tu domicilio?...",
+    "user_input": "",
+    "user_messages": [],
+    "maria_messages": [
+      "Entendido, tu contrato está activo. ¿Desde cuándo no tienes agua en tu domicilio?...\"",
+      "Hola Noemi, soy María de la CEA. ¿En qué te puedo ayudar?...\"",
+      "¿Es solo en tu propiedad o también reportan tus vecinos que no hay agua?...\"",
+      "Entonces parece un problema interno de tu instalación. ¿Has revisado si la llave de paso está abiert...\"",
+      "¿Quieres que registre el reporte de falta de agua en tu domicilio?...\""
+    ]
+  },
+  {
+    "ts": "2026-03-01 21:38:46",
+    "cid": "129",
+    "ph": "+5214421577869",
+    "name": "Cesar",
+    "folio": "CEA-24739",
+    "output": "Registré tu reporte de emergencia con folio **CEA-24739**.",
+    "user_input": "",
+    "user_messages": [],
+    "maria_messages": [
+      "Entiendo la situación. Por la foto, veo que se trata de un registro de drenaje en muy mal estado con...\"",
+      "Perfecto, ya me queda claro. El registro está en vía pública (banqueta), no dentro de tu propiedad.",
+      "Por la segunda foto que enviaste, veo que es otra situación diferente: una excavación en la banqueta...\"",
+      "Perfecto, ya tengo la información completa del problema. Veo que es un caso complejo con dos situaci...\"",
+      "Registré tu reporte de emergencia con folio **CEA-24739**."
+    ]
+  },
+  {
+    "ts": "2026-03-01 21:51:32",
+    "cid": "134",
+    "ph": "+5214421562084",
+    "name": "Rodrgo Salazar",
+    "folio": "CEA-20260301-00061",
+    "output": "Listo, creé tu reporte con folio CEA-20260301-00061 🔧",
+    "user_input": "",
+    "user_messages": [],
+    "maria_messages": [
+      "Para ayudarte con tu contrato 011063203, ¿qué información necesitas consultar?...\"",
+      "Entiendo que no hay agua en tu servicio. Para registrar tu reporte, necesito verificar tu identidad....\"",
+      "Tu servicio está activo. Para registrar tu reporte de falta de agua, ¿me puedes dar la dirección exa...\"",
+      "Perfecto. Tu reporte quedará registrado en Obreros 97, Colonia Peñuelas.",
+      "Listo, creé tu reporte con folio CEA-20260301-00061 🔧"
+    ]
+  },
+  {
+    "ts": "2026-03-01 22:08:51",
+    "cid": "135",
+    "ph": "+5214428227448",
+    "name": "César rt",
+    "folio": "no-folio",
+    "output": "Entiendo. Entonces, ¿confirmas que quieres que registre el reporte de la fuga de drenaje en Calle 9 ...",
+    "user_input": "",
+    "user_messages": [],
+    "maria_messages": [
+      "Para ayudarte mejor, ¿podrías compartirme tu número de contrato completo?...\"",
+      "Perfecto, tengo la ubicación. ¿Puedes enviarme una foto de la fuga para registrar tu reporte?...\"",
+      "Perfecto, por la foto veo una fuga de drenaje con agua oscura acumulada en la franja verde junto a l...\"",
+      "¿Qué necesitas saber de tu contrato?...\"",
+      "Entiendo. Entonces, ¿confirmas que quieres que registre el reporte de la fuga de drenaje en Calle 9 ...\""
+    ]
+  },
+  {
+    "ts": "2026-03-01 22:09:40",
+    "cid": "135",
+    "ph": "+5214428227448",
+    "name": "César rt",
+    "folio": "CEA-20260301-00063",
+    "output": "Listo, creé tu reporte con folio CEA-20260301-00063 🔧",
+    "user_input": "",
+    "user_messages": [],
+    "maria_messages": [
+      "Perfecto, por la foto veo una fuga de drenaje con agua oscura acumulada en la franja verde junto a l...\"",
+      "¿Qué necesitas saber de tu contrato?...\"",
+      "Entiendo. Entonces, ¿confirmas que quieres que registre el reporte de la fuga de drenaje en Calle 9 ...\"",
+      "Entendido, registraré el reporte con estos detalles importantes. ¿Confirmas que proceda con el regis...\"",
+      "Listo, creé tu reporte con folio CEA-20260301-00063 🔧"
+    ]
+  },
+  {
+    "ts": "2026-03-01 22:37:30",
+    "cid": "131",
+    "ph": "+5214421426857",
+    "name": "LATP",
+    "folio": "CEA-20260301-1732",
+    "output": "Registré tu consulta con folio **CEA-20260301-1732**. El equipo técnico verificará si hay red de dre...",
+    "user_input": "",
+    "user_messages": [],
+    "maria_messages": [
+      "Perfecto, con la evidencia en video confirmo que la fuga tiene flujo constante de agua. Voy a regist...\"",
+      "De nada, César. Cualquier cosa estoy aquí. ¡Que tengas buen día! 👋...\"",
+      "¡Hola Alondra! Soy María de la CEA, ¿en qué te puedo ayudar?...\"",
+      "Perfecto, te ayudo a registrar tu lectura.",
+      "Registré tu consulta con folio **CEA-20260301-1732**. El equipo técnico verificará si hay red de dre...\""
+    ]
+  },
+  {
+    "ts": "2026-03-01 23:00:45",
+    "cid": "144",
+    "ph": "+5214428779330",
+    "name": "Lolita",
+    "folio": "no-folio",
+    "output": "Perfecto, espera un momento mientras te transfiero con un asesor para que registre tu solicitud de p...",
+    "user_input": "",
+    "user_messages": [],
+    "maria_messages": [
+      "Perfecto, para registrar tu lectura necesito primero que envíes una foto de tu medidor 📸",
+      "Para bloquear o proteger el manejo de tus datos personales en CEA, necesito comunicarte con un aseso...\"",
+      "Veo que tu medidor marca **1370 m³**.",
+      "¡Claro, te comunico con un agente! Dame unos minutos en lo que encuentro al mejor agente para ayudar...\"",
+      "Perfecto, espera un momento mientras te transfiero con un asesor para que registre tu solicitud de p...\""
+    ]
+  },
+  {
+    "ts": "2026-03-01 23:26:15",
+    "cid": "148",
+    "ph": "+5214421525654",
+    "name": "Librado Alexander Anderso",
+    "folio": "CEA-20260301-00070",
+    "output": "Listo, creé tu reporte con folio CEA-20260301-00070 ⚙️",
+    "user_input": "",
+    "user_messages": [],
+    "maria_messages": [
+      "De nada, ¡que tengas un excelente día! 😊",
+      "Envíame una foto de tu medidor para registrar la lectura 📸...\"",
+      "Veo que tu medidor marca **3 m³**.",
+      "Para proteger tus datos, ¿me puedes dar el nombre o apellido del titular del contrato?...\"",
+      "Listo, creé tu reporte con folio CEA-20260301-00070 ⚙️"
+    ]
+  },
+  {
+    "ts": "2026-03-02 00:27:52",
+    "cid": "157",
+    "ph": "+5214492750393",
+    "name": "Javier Barrientos",
+    "folio": "CEA-20260302-00075",
+    "output": "Listo, creé tu reporte con folio CEA-20260302-00075 ⚙️",
+    "user_input": "",
+    "user_messages": [],
+    "maria_messages": [
+      "Veo que tu medidor marca **330 m³**",
+      "Tienes razón, disculpa el error.",
+      "Perfecto. Para registrar tu lectura necesito verificar tu identidad.",
+      "Entiendo, no necesitas agregar el domicilio al reporte.",
+      "Listo, creé tu reporte con folio CEA-20260302-00075 ⚙️"
+    ]
+  },
+  {
+    "ts": "2026-03-02 00:54:22",
+    "cid": "163",
+    "ph": "+5214424765734",
+    "name": "rosycastre",
+    "folio": "CEA-20260302-00077",
+    "output": "Listo, creé tu reporte con folio CEA-20260302-00077 🔧",
+    "user_input": "",
+    "user_messages": [],
+    "maria_messages": [
+      "Entiendo tu preocupación. Para revisar el estatus de tu pago, ¿me puedes dar tu número de contrato?...\"",
+      "Perfecto, veo el problema. Por la imagen que enviaste, se trata de un hundimiento en el pavimento ca...\"",
+      "Para proteger tus datos, ¿me puedes dar el nombre o apellido del titular del contrato?...\"",
+      "Perfecto, Rafael. Veo que tu pago ya se reflejó en el sistema. Tu contrato 010228043 no tiene adeudo...\"",
+      "Listo, creé tu reporte con folio CEA-20260302-00077 🔧"
+    ]
+  },
+  {
+    "ts": "2026-03-02 01:15:51",
+    "cid": "170",
+    "ph": "+5212281542163",
+    "name": "Tony Agui Moti",
+    "folio": "no-folio",
+    "output": "Tu reporte será registrado en JESUS MA. VAZQUEZ 569, EL PUEBLITO(QRO). ¿Quiero que registre tu repor...",
+    "user_input": "",
+    "user_messages": [],
+    "maria_messages": [
+      "Entendido, entonces el pasto mojado es por el agua del lavado de las tortugas, no por una fuga.",
+      "Entiendo tu urgencia. El asesor ya fue notificado y debe comunicarse contigo pronto.",
+      "Para proteger tus datos, ¿me puedes dar el nombre o apellido del titular del contrato?...\"",
+      "Para consultar tu historial de consumo necesito tu número de contrato.",
+      "Tu reporte será registrado en JESUS MA. VAZQUEZ 569, EL PUEBLITO(QRO). ¿Quiero que registre tu repor...\""
+    ]
+  },
+  {
+    "ts": "2026-03-02 01:16:44",
+    "cid": "170",
+    "ph": "+5212281542163",
+    "name": "Tony Agui Moti",
+    "folio": "CEA-20260302-00080",
+    "output": "Listo, creé tu reporte con folio CEA-20260302-00080 🔧",
+    "user_input": "",
+    "user_messages": [],
+    "maria_messages": [
+      "Para consultar tu historial de consumo necesito tu número de contrato.",
+      "Tu reporte será registrado en JESUS MA. VAZQUEZ 569, EL PUEBLITO(QRO). ¿Quiero que registre tu repor...\"",
+      "Entiendo, es una falta de agua generalizada en la zona que afecta a varios vecinos.",
+      "Entendido. Entonces registraré un reporte de **falta de agua** en tu domicilio.",
+      "Listo, creé tu reporte con folio CEA-20260302-00080 🔧"
+    ]
+  },
+  {
+    "ts": "2026-03-02 01:19:21",
+    "cid": "169",
+    "ph": "+5215548984434",
+    "name": "Lisa",
+    "folio": "CEA-20260302-00082",
+    "output": "Listo, creé tu reporte con folio CEA-20260302-00082 🔧",
+    "user_input": "",
+    "user_messages": [],
+    "maria_messages": [
+      "Para proteger tus datos, ¿me puedes dar el nombre o apellido del titular del contrato?...\"",
+      "Para proteger tus datos, ¿me puedes dar el nombre o apellido del titular del contrato?...\"",
+      "Tu servicio está activo. Como reportas falta de agua generalizada en la zona de Basílica de San Pedr...\"",
+      "No encontré registros de consumo para tu contrato 129114143. Esto puede pasar si es un contrato nuev...\"",
+      "Listo, creé tu reporte con folio CEA-20260302-00082 🔧"
+    ]
+  },
+  {
+    "ts": "2026-03-02 01:38:47",
+    "cid": "171",
+    "ph": "+5214425546410",
+    "name": "Lili",
+    "folio": "no-folio",
+    "output": "¿Ya tienes un folio de reporte registrado, o necesitas que lo registre ahora?...",
+    "user_input": "",
+    "user_messages": [],
+    "maria_messages": [
+      "Veo el problema. La aplicación te está pidiendo que además del número de contrato ingreses \"la prime...\"",
+      "¡Hola! Soy María de la CEA, ¿en qué te puedo ayudar?...\"",
+      "Entiendo que te comunicaste con Montserrat Núñez. ¿En qué puedo ayudarte el día de hoy?...\"",
+      "Perfecto, tengo tu contrato 10133654.",
+      "¿Ya tienes un folio de reporte registrado, o necesitas que lo registre ahora?...\""
+    ]
+  },
+  {
+    "ts": "2026-03-02 01:42:19",
+    "cid": "171",
+    "ph": "+5214425546410",
+    "name": "Lili",
+    "folio": "CEA-20260302-00085",
+    "output": "Listo, creé tu reporte con folio CEA-20260302-00085 ⚙️",
+    "user_input": "",
+    "user_messages": [],
+    "maria_messages": [
+      "Veo que sigues teniendo el error 400 en la aplicación con esa combinación.",
+      "¡Perfecto! Te estoy transfiriendo con un asesor que podrá revisar tu cuenta y ayudarte a resolver el...\"",
+      "Entiendo que hay un asunto legal pendiente. Sin embargo, para registrar tu reporte necesito tu númer...\"",
+      "¿Necesitas enviar tu recibo digital o tienes alguna duda sobre tu recibo?...\"",
+      "Listo, creé tu reporte con folio CEA-20260302-00085 ⚙️"
+    ]
+  },
+  {
+    "ts": "2026-03-02 02:24:57",
+    "cid": "185",
+    "ph": "+5214421858999",
+    "name": "j  antonio rodriguez",
+    "folio": "CEA-20260302-00087",
+    "output": "Listo, creé tu reporte con folio CEA-20260302-00087 🔧",
+    "user_input": "",
+    "user_messages": [],
+    "maria_messages": [
+      "Entendido, hay una fuga en Astrólogos y Profesores, colonia El Marqués. ¿La fuga es en la calle/vía ...\"",
+      "¿Me lo puedes compartir? Así el asesor podrá verificar que el pago de $464 sí se aplicó correctament...\"",
+      "Perfecto, voy a registrar tu reporte de fuga en vía pública.",
+      "Entendido. Sin problema, puedo registrar tu reporte con la información que me diste.",
+      "Listo, creé tu reporte con folio CEA-20260302-00087 🔧"
+    ]
+  },
+  {
+    "ts": "2026-03-02 02:33:44",
+    "cid": "190",
+    "ph": "+5217641096923",
+    "name": "JULIO OCHOA 👊🏼",
+    "folio": "CEA-20260302-00089",
+    "output": "Listo, creé tu reporte con folio CEA-20260302-00089 🔧",
+    "user_input": "",
+    "user_messages": [],
+    "maria_messages": [
+      "Gracias. Para completar el reporte, ¿me puedes dar una foto o descripción de la situación? Por ejemp...\"",
+      "Gracias. Para proteger tus datos, ¿me puedes dar el nombre o apellido del titular del contrato?...\"",
+      "Perfecto, tengo la ubicación completa.",
+      "¡Hola Julio! Soy María de la CEA, ¿en qué te puedo ayudar?...\"",
+      "Listo, creé tu reporte con folio CEA-20260302-00089 🔧"
+    ]
+  },
+  {
+    "ts": "2026-03-02 02:35:50",
+    "cid": "190",
+    "ph": "+5217641096923",
+    "name": "JULIO OCHOA 👊🏼",
+    "folio": "CEA-20260302-00090",
+    "output": "Listo, creé tu reporte con folio CEA-20260302-00090 🔧",
+    "user_input": "",
+    "user_messages": [],
+    "maria_messages": [
+      "He registrado tu reporte de falta total de agua en Juan B Alcocer #277, Candiles.",
+      "Entiendo, es una situación que requiere atención. ¿Dónde está ubicada exactamente esta alcantarilla?...\"",
+      "Entiendo. ¿Puedes enviarme una foto del problema para registrar tu reporte?...\"",
+      "Perfecto, ya tengo la ubicación: Calle Centauro, colonia Santa María Magdalena, y la foto del desbor...\"",
+      "Listo, creé tu reporte con folio CEA-20260302-00090 🔧"
+    ]
+  },
+  {
+    "ts": "2026-03-02 03:05:18",
+    "cid": "191",
+    "ph": "+5214424958928",
+    "name": "😹",
+    "folio": "CEA-20260302-00091",
+    "output": "Listo, creé tu reporte con folio CEA-20260302-00091 ⚙️",
+    "user_input": "",
+    "user_messages": [],
+    "maria_messages": [
+      "Entiendo. Déjame comunicarte con un asesor para que puedan ayudarte a obtener tu recibo, ya que no e...\"",
+      "Tienes toda la razón, disculpa la confusión.",
+      "¡Hola Martin! Soy María de la CEA, ¿en qué te puedo ayudar?",
+      "Claro, ¿qué necesitas reportar?...\"",
+      "Listo, creé tu reporte con folio CEA-20260302-00091 ⚙️"
+    ]
+  },
+  {
+    "ts": "2026-03-02 03:06:57",
+    "cid": "7",
+    "ph": "+5217711202916",
+    "name": "Ian",
+    "folio": "CEA-19753",
+    "output": "Registré tu reporte con folio **CEA-19753**. El equipo técnico atenderá la fuga en tu domicilio.",
+    "user_input": "",
+    "user_messages": [],
+    "maria_messages": [
+      "Listo, creé tu reporte con folio CEA-20260302-00091 ⚙️",
+      "¡Con gusto! Cualquier cosa que necesites, aquí estoy para ayudarte.",
+      "Perfecto. Tu reporte será registrado en JACARANDAS 0, EL MARQUÉS.",
+      "Entendido, no hay problema.",
+      "Registré tu reporte con folio **CEA-19753**. El equipo técnico atenderá la fuga en tu domicilio."
+    ]
+  },
+  {
+    "ts": "2026-03-02 13:00:22",
+    "cid": "219",
+    "ph": "+5214422038511",
+    "name": "Liz",
+    "folio": "no-folio",
+    "output": "Perfecto. ¿Quieres que registre tu reporte de fuga de drenaje en tu domicilio?...",
+    "user_input": "",
+    "user_messages": [],
+    "maria_messages": [
+      "Como no tengo la dirección del contrato en el sistema, necesito que me indiques la ubicación exacta ...\"",
+      "La imagen que enviaste parece ser de un baño durante limpieza doméstica. No logro ver el problema de...\"",
+      "Por lo que me indicas, la fuga de drenaje está en Calle de La Luz, colonia La Mesita, Tlacote el Baj...\"",
+      "¡Hola! Soy María de la CEA, ¿en qué te puedo ayudar?...\"",
+      "Perfecto. ¿Quieres que registre tu reporte de fuga de drenaje en tu domicilio?...\""
+    ]
+  }
+]

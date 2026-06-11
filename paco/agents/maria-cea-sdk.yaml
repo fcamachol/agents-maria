@@ -1,0 +1,130 @@
+# =============================================================================
+# Maria CEA SDK Agent Configuration
+# =============================================================================
+# CEA Customer Service Agent built with Claude Agent SDK.
+# Side-by-side replica of the gcp-cea pm2 deployment — no traffic flip.
+# Skills are managed by PACO's DB→SKILL.md pipeline (paco/backend/skills/).
+
+name: maria-cea-sdk
+display_name: Maria CEA SDK
+description: |
+  María — agente de atención al cliente de Hydropolis (AGORA).
+  Atiende consultas sobre saldo, consumo, facturación, reportes de fugas,
+  trámites contractuales y servicios. Réplica del despliegue pm2 actual,
+  registrada en PACO con skills gestionadas en el catálogo central.
+
+type: claude-sdk
+version: 1.0.0
+
+runtime:
+  port: 3004
+  health_endpoint: /health
+  pm2:
+    instances: 1
+    exec_mode: fork
+    max_memory_restart: 500M
+    watch: false
+    autorestart: true
+
+model:
+  provider: anthropic
+  model_id: claude-sonnet-4-5-20250929
+  max_budget: 2.00
+  max_turns: 15
+
+# =============================================================================
+# Skills — codes match paco/backend/skills/{code}/SKILL.md (PACO-managed)
+# =============================================================================
+skills:
+  - code: cea-sdk-informacion
+    name: Información
+    description: "Saldo, adeudo, horarios, oficinas, consumo, estatus de solicitudes"
+    default_priority: low
+    keywords: ["saldo", "adeudo", "horarios", "oficinas", "consumo", "estatus", "qué puedes hacer"]
+
+  - code: cea-sdk-facturacion
+    name: Facturación
+    description: "Recibos, pagos, aclaraciones, ajustes, convenios, devoluciones"
+    default_priority: medium
+    keywords: ["recibo", "factura", "pago", "aclaración", "ajuste", "convenio", "devolución"]
+
+  - code: cea-sdk-reportes
+    name: Reportes
+    description: "Fugas, falta de agua, drenaje, baja presión, calidad del agua, medidor roto"
+    default_priority: high
+    keywords: ["fuga", "drenaje", "agua turbia", "presión", "medidor", "hundimiento", "no tengo agua"]
+
+  - code: cea-sdk-servicios
+    name: Servicios
+    description: "Medidor, lectura, revisión técnica, suministro, alcantarillado, fuga no visible"
+    default_priority: medium
+    keywords: ["medidor", "lectura", "revisión", "suministro", "alcantarillado", "instalación"]
+
+  - code: cea-sdk-tramites
+    name: Trámites
+    description: "Contrato nuevo, cambio de titular, alta, baja, fraccionamiento, datos fiscales"
+    default_priority: medium
+    keywords: ["contrato", "titular", "alta", "baja", "tarifa", "toma nueva", "fraccionamiento"]
+
+# =============================================================================
+# Integrations (direct REST/SOAP, no MCP)
+# =============================================================================
+integrations:
+  - name: cea-soap
+    type: soap
+    config:
+      proxy_url: ${CEA_PROXY_URL}
+      description: "CEA AquaCIS SOAP API — debt, consumption, contracts, receipts"
+
+  - name: agora-postgres
+    type: database
+    config:
+      host: ${MARIA_CEA_PGHOST}
+      database: ${MARIA_CEA_PGDATABASE}
+      description: "AGORA Chatwoot DB — tickets, contacts, locations"
+
+  - name: hydra-postgres
+    type: database
+    config:
+      host: ${HYDRA_PGHOST}
+      database: ${HYDRA_PGDATABASE}
+      description: "Hydra SIGE (AWS RDS) — legacy contract translation"
+
+  - name: chatwoot
+    type: webhook
+    config:
+      base_url: ${CHATWOOT_BASE_URL}
+      webhook_path: /chatwoot
+      supported_events:
+        - message.created
+        - conversation.status_changed
+
+# =============================================================================
+# Environment Variables Required
+# =============================================================================
+env:
+  - ANTHROPIC_API_KEY
+  - CHATWOOT_BASE_URL
+  - CHATWOOT_API_TOKEN
+  - CHATWOOT_USER_API_TOKEN
+  - CHATWOOT_ACCOUNT_ID
+  - CHATWOOT_INBOX_ID
+  - PGHOST
+  - PGPORT
+  - PGUSER
+  - PGPASSWORD
+  - PGDATABASE
+  - HYDRA_PGHOST
+  - HYDRA_PGPORT
+  - HYDRA_PGUSER
+  - HYDRA_PGPASSWORD
+  - HYDRA_PGDATABASE
+  - CEA_PROXY_URL
+  - GEMINI_API_KEY
+  - GEMINI_CLASSIFY_MODEL
+  - GEMINI_ANALYZE_MODEL
+  - GEMINI_RECEIPT_MODEL
+  - GOOGLE_MAPS_API_KEY
+  - OPENAI_API_KEY
+  - SERVER_BASE_URL
+  - RECIBO_TOKEN_SECRET

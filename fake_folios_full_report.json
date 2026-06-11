@@ -1,0 +1,3953 @@
+[
+  {
+    "cid": "120",
+    "ph": "+5214423345265",
+    "name": "Ibeth",
+    "fake_folio": "CEA-20260301-00053",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - el condominio"
+  },
+  {
+    "cid": "122",
+    "ph": "+5214423299489",
+    "name": "April 🦒",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - tu domicilio?"
+  },
+  {
+    "cid": "129",
+    "ph": "+5214421577869",
+    "name": "Cesar",
+    "fake_folio": "CEA-24739",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Problema de drenaje - muy mal estado con"
+  },
+  {
+    "cid": "134",
+    "ph": "+5214421562084",
+    "name": "Rodrgo Salazar",
+    "fake_folio": "CEA-20260301-00061",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - tu servicio"
+  },
+  {
+    "cid": "135",
+    "ph": "+5214428227448",
+    "name": "César rt",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Fuga de drenaje - calle 9"
+  },
+  {
+    "cid": "135",
+    "ph": "+5214428227448",
+    "name": "César rt",
+    "fake_folio": "CEA-20260301-00063",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Fuga de drenaje - la franja verde junto a l"
+  },
+  {
+    "cid": "131",
+    "ph": "+5214421426857",
+    "name": "LATP",
+    "fake_folio": "CEA-20260301-1732",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - video confirmo que la fuga tiene flujo c"
+  },
+  {
+    "cid": "144",
+    "ph": "+5214428779330",
+    "name": "Lolita",
+    "fake_folio": "no-folio",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - lo que encuentro al mejor agente para ay"
+  },
+  {
+    "cid": "148",
+    "ph": "+5214421525654",
+    "name": "Librado Alexander Anderso",
+    "fake_folio": "CEA-20260301-00070",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor"
+  },
+  {
+    "cid": "157",
+    "ph": "+5214492750393",
+    "name": "Javier Barrientos",
+    "fake_folio": "CEA-20260302-00075",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor"
+  },
+  {
+    "cid": "163",
+    "ph": "+5214424765734",
+    "name": "rosycastre",
+    "fake_folio": "CEA-20260302-00077",
+    "cat": "REP",
+    "subcat": "REP-HUN",
+    "desc": "Hundimiento en vía pública - que enviaste"
+  },
+  {
+    "cid": "170",
+    "ph": "+5212281542163",
+    "name": "Tony Agui Moti",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FG-001",
+    "desc": "Reporte de emergencia - jesus ma"
+  },
+  {
+    "cid": "170",
+    "ph": "+5212281542163",
+    "name": "Tony Agui Moti",
+    "fake_folio": "CEA-20260302-00080",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - jesus ma"
+  },
+  {
+    "cid": "169",
+    "ph": "+5215548984434",
+    "name": "Lisa",
+    "fake_folio": "CEA-20260302-00082",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - la zona de basílica de san pedr"
+  },
+  {
+    "cid": "171",
+    "ph": "+5214425546410",
+    "name": "Lili",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - qué te puedo ayudar?"
+  },
+  {
+    "cid": "171",
+    "ph": "+5214425546410",
+    "name": "Lili",
+    "fake_folio": "CEA-20260302-00085",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - la aplicación con esa combinación"
+  },
+  {
+    "cid": "185",
+    "ph": "+5214421858999",
+    "name": "j  antonio rodriguez",
+    "fake_folio": "CEA-20260302-00087",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - astrólogos y profesores"
+  },
+  {
+    "cid": "190",
+    "ph": "+5217641096923",
+    "name": "JULIO OCHOA 👊🏼",
+    "fake_folio": "CEA-20260302-00089",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - qué te puedo ayudar?"
+  },
+  {
+    "cid": "190",
+    "ph": "+5217641096923",
+    "name": "JULIO OCHOA 👊🏼",
+    "fake_folio": "CEA-20260302-00090",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Problema de drenaje - juan b alcocer #277"
+  },
+  {
+    "cid": "191",
+    "ph": "+5214424958928",
+    "name": "😹",
+    "fake_folio": "CEA-20260302-00091",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - qué te puedo ayudar? claro"
+  },
+  {
+    "cid": "7",
+    "ph": "+5217711202916",
+    "name": "Ian",
+    "fake_folio": "CEA-19753",
+    "cat": "REP",
+    "subcat": "REP-FTD",
+    "desc": "Fuga en toma domiciliaria - tu domicilio"
+  },
+  {
+    "cid": "219",
+    "ph": "+5214422038511",
+    "name": "Liz",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Fuga de drenaje - tu domicilio?"
+  },
+  {
+    "cid": "219",
+    "ph": "+5214422038511",
+    "name": "Liz",
+    "fake_folio": "CEA-20260302-00099",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Fuga de drenaje - que enviaste parece ser de un baño duran"
+  },
+  {
+    "cid": "221",
+    "ph": "+5214425731952",
+    "name": "Car",
+    "fake_folio": "CEA-00847",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - y colonia"
+  },
+  {
+    "cid": "221",
+    "ph": "+5214425731952",
+    "name": "Car",
+    "fake_folio": "CEA-20267",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - circuito a"
+  },
+  {
+    "cid": "238",
+    "ph": "+5214461331161",
+    "name": "Recursos Humanos",
+    "fake_folio": "CEA-00891",
+    "cat": "REP",
+    "subcat": "REP-HUN",
+    "desc": "Hundimiento en vía pública"
+  },
+  {
+    "cid": "257",
+    "ph": "+5214423384986",
+    "name": "Maria Ortiz Gonzalez",
+    "fake_folio": "CEA-20260302-00117",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - vidrie"
+  },
+  {
+    "cid": "261",
+    "ph": "+5212711209496",
+    "name": "🤍",
+    "fake_folio": "CEA-20260302-00122",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": ""
+  },
+  {
+    "cid": "273",
+    "ph": "+5214427758826",
+    "name": "Erne💋❤️❤️",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - toda la zona?"
+  },
+  {
+    "cid": "275",
+    "ph": "+5217711995267",
+    "name": "Carmen",
+    "fake_folio": "CEA-00247",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - fray francisco de los angeles 208"
+  },
+  {
+    "cid": "272",
+    "ph": "+5214427711590",
+    "name": "🙂",
+    "fake_folio": "CEA-20260302-00141",
+    "cat": "REP",
+    "subcat": "REP-FTD",
+    "desc": "Fuga en toma domiciliaria - el baño)"
+  },
+  {
+    "cid": "282",
+    "ph": "+12393675333",
+    "name": "Eustaquio",
+    "fake_folio": "CEA-17234",
+    "cat": "SRV",
+    "subcat": "SRV-RCN",
+    "desc": "Reconexión/reactivación de servicio - línea: entiendo"
+  },
+  {
+    "cid": "302",
+    "ph": "+5214422792930",
+    "name": "Nicole Méndez",
+    "fake_folio": "CEA-20260302-00158",
+    "cat": "CTR",
+    "subcat": "CTR-001",
+    "desc": "Alta de contrato - qué te puedo ayudar?"
+  },
+  {
+    "cid": "332",
+    "ph": "+5214425268826",
+    "name": "Gris",
+    "fake_folio": "CEA-20260302-00173",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Problema de drenaje - la foto que enviaste"
+  },
+  {
+    "cid": "319",
+    "ph": "+5214428087060",
+    "name": "Dulce María Cruz",
+    "fake_folio": "CEA-20260302-00176",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio"
+  },
+  {
+    "cid": "335",
+    "ph": "+5214421865240",
+    "name": "Ángel Robles",
+    "fake_folio": "CEA-20260302-00177",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio"
+  },
+  {
+    "cid": "320",
+    "ph": "+5214427102106",
+    "name": "Aly",
+    "fake_folio": "CEA-20260302-00177",
+    "cat": "REP",
+    "subcat": "REP-ROB",
+    "desc": "Robo de medidor - qué te puedo ayudar?"
+  },
+  {
+    "cid": "342",
+    "ph": "+5214424663839",
+    "name": "ᴍᴏɴᴛᴢᴇʀʀᴀᴛ ʟᴢ 🧡",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-DRO",
+    "desc": "Drenaje obstruido/tapado - calle cerro libertad #16 aunque"
+  },
+  {
+    "cid": "310",
+    "ph": "+5216251304183",
+    "name": "Daniela Maria",
+    "fake_folio": "CEA-20260302-00185",
+    "cat": "REP",
+    "subcat": "REP-DRO",
+    "desc": "Drenaje obstruido/tapado - el reporte"
+  },
+  {
+    "cid": "347",
+    "ph": "+5214423771413",
+    "name": "Reyna Z",
+    "fake_folio": "CEA-20060302-00187",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": ""
+  },
+  {
+    "cid": "360",
+    "ph": "+5214421277534",
+    "name": "Reyes",
+    "fake_folio": "CEA-20260302-00197",
+    "cat": "SRV",
+    "subcat": "SRV-RCN",
+    "desc": "Reconexión/reactivación de servicio - tu recibo"
+  },
+  {
+    "cid": "362",
+    "ph": "+5215561303580",
+    "name": "Llantos",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - qué te puedo ayudar? perfecto"
+  },
+  {
+    "cid": "358",
+    "ph": "+5214421090715",
+    "name": "Silvy",
+    "fake_folio": "CEA-20260302-00208",
+    "cat": "REP",
+    "subcat": "REP-FTD",
+    "desc": "Fuga en toma domiciliaria - el registro de tu toma domiciliaria"
+  },
+  {
+    "cid": "385",
+    "ph": "+5214423829513",
+    "name": ".😍",
+    "fake_folio": "CEA-20260302-00221",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - la calle/vía pública o dentro de tu prop"
+  },
+  {
+    "cid": "358",
+    "ph": "+5214421090715",
+    "name": "Silvy",
+    "fake_folio": "CEA-20260302-00228",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - el reporte"
+  },
+  {
+    "cid": "374",
+    "ph": "+5214427481996",
+    "name": "La reserva suites",
+    "fake_folio": "CEA-20260302-0013",
+    "cat": "REP",
+    "subcat": "REP-FTD",
+    "desc": "Fuga en toma domiciliaria - tu medido"
+  },
+  {
+    "cid": "431",
+    "ph": "+5214421576518",
+    "name": "Lili",
+    "fake_folio": "CEA-20260302-00270",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - la calle/vía pública o dentro de tu prop"
+  },
+  {
+    "cid": "421",
+    "ph": "+5214423432043",
+    "name": "Gab",
+    "fake_folio": "CEA-10234",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - y colonia"
+  },
+  {
+    "cid": "287",
+    "ph": "+5214464775741",
+    "name": "Alejo",
+    "fake_folio": "CEA-20260302-00281",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Problema de drenaje - la noche con la evidencia de tu medidor"
+  },
+  {
+    "cid": "447",
+    "ph": "+5214461158290",
+    "name": "Olga Mendez",
+    "fake_folio": "CEA-20260302-00289",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - calle constelación 21"
+  },
+  {
+    "cid": "445",
+    "ph": "+5214421785245",
+    "name": "educho",
+    "fake_folio": "CEA-20260302-00295",
+    "cat": "CTR",
+    "subcat": "CTR-001",
+    "desc": "Alta de contrato - tu caso a fondo"
+  },
+  {
+    "cid": "458",
+    "ph": "+5214424965034",
+    "name": "ELIA BAUTISTA",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Fuga de drenaje"
+  },
+  {
+    "cid": "458",
+    "ph": "+5214424965034",
+    "name": "ELIA BAUTISTA",
+    "fake_folio": "CEA-24031",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Fuga de drenaje - vía pública"
+  },
+  {
+    "cid": "466",
+    "ph": "+5214423179099",
+    "name": "Jesús Andrés Molina",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - vía pública?"
+  },
+  {
+    "cid": "226",
+    "ph": "+5214422718412",
+    "name": "Luz",
+    "fake_folio": "CEA-20260302-00319",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - breve"
+  },
+  {
+    "cid": "471",
+    "ph": "+5214423607394",
+    "name": "Noryko",
+    "fake_folio": "CEA-20260302-00328",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor"
+  },
+  {
+    "cid": "482",
+    "ph": "+5214422743372",
+    "name": "juanlector2011",
+    "fake_folio": "CEA-20260302-00350",
+    "cat": "CTR",
+    "subcat": "CTR-004",
+    "desc": "Cambio de titular"
+  },
+  {
+    "cid": "113",
+    "ph": "+5215510118323",
+    "name": "H@£",
+    "fake_folio": "CEA-20260302-00353",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - día 👍"
+  },
+  {
+    "cid": "482",
+    "ph": "+5214422743372",
+    "name": "juanlector2011",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - del río 119"
+  },
+  {
+    "cid": "492",
+    "ph": "+5214421295944",
+    "name": "Mar Es",
+    "fake_folio": "no-folio",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - tu ticket con folio cea-"
+  },
+  {
+    "cid": "528",
+    "ph": "+5214421392108",
+    "name": "vale",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio"
+  },
+  {
+    "cid": "528",
+    "ph": "+5214421392108",
+    "name": "vale",
+    "fake_folio": "CEA-20260302-00398",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - calle tumen s/n"
+  },
+  {
+    "cid": "524",
+    "ph": "+5214423292788",
+    "name": "María",
+    "fake_folio": "CEA-20260302-00399",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Problema de drenaje - qué te puedo ayudar?"
+  },
+  {
+    "cid": "530",
+    "ph": "+5214421408317",
+    "name": "Rocio",
+    "fake_folio": "CEA-03051",
+    "cat": "REP",
+    "subcat": "REP-FG-001",
+    "desc": "Fuga de agua - la foto que se trata del canal con agua "
+  },
+  {
+    "cid": "54",
+    "ph": "+5214428643605",
+    "name": "🖤🖤🖤🖤🖤",
+    "fake_folio": "no-folio",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - el centro de querétaro"
+  },
+  {
+    "cid": "593",
+    "ph": "+5214426650637",
+    "name": "Isa",
+    "fake_folio": "CEA-20260303-00442",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - la calle o dentro de tu propiedad?"
+  },
+  {
+    "cid": "593",
+    "ph": "+5214426650637",
+    "name": "Isa",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - vía pública en calle 33 #302"
+  },
+  {
+    "cid": "595",
+    "ph": "+5214271632586",
+    "name": "ANAID",
+    "fake_folio": "CEA-20260302-0001",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - donde está"
+  },
+  {
+    "cid": "608",
+    "ph": "+5214426082086",
+    "name": "Denice Perez",
+    "fake_folio": "CEA-20260303-00449",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Problema de drenaje"
+  },
+  {
+    "cid": "613",
+    "ph": "+5214461320416",
+    "name": "Marisol González",
+    "fake_folio": "CEA-20260303-00455",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - la banqueta"
+  },
+  {
+    "cid": "606",
+    "ph": "+5215574916571",
+    "name": "✓",
+    "fake_folio": "CEA-20260303-00457",
+    "cat": "REP",
+    "subcat": "REP-FTD",
+    "desc": "Fuga en toma domiciliaria - qué te puedo ayudar"
+  },
+  {
+    "cid": "634",
+    "ph": "+5214421525569",
+    "name": "VIAJES TRAVELLAIR",
+    "fake_folio": "no-folio",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - avenida hacienda los yunques 317"
+  },
+  {
+    "cid": "639",
+    "ph": "+5214422594925",
+    "name": "Karla Salinas",
+    "fake_folio": "CEA-20260303-00467",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - condiciones inadecuadas: sumergido en ag"
+  },
+  {
+    "cid": "637",
+    "ph": "+5214422199554",
+    "name": "Esmer@ld@",
+    "fake_folio": "CEA-20260303-00469",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - la banqueta"
+  },
+  {
+    "cid": "652",
+    "ph": "+5214424679284",
+    "name": "+52 442 467 9284",
+    "fake_folio": "CEA-20260303-00478",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - qué te puedo ayudar?"
+  },
+  {
+    "cid": "674",
+    "ph": "+5215510635993",
+    "name": "FC",
+    "fake_folio": "CEA-00847",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - avenida c"
+  },
+  {
+    "cid": "678",
+    "ph": "+5214461425427",
+    "name": "unidad R-007",
+    "fake_folio": "CEA-20260303-00643",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - qué te puedo ayudar?"
+  },
+  {
+    "cid": "685",
+    "ph": "+5214426652971",
+    "name": "⚙️🧰 Beatriz Rodríguez",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - blvrd de los gobernadores 706"
+  },
+  {
+    "cid": "685",
+    "ph": "+5214426652971",
+    "name": "⚙️🧰 Beatriz Rodríguez",
+    "fake_folio": "CEA-20260303-00646",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - andador madroño 2208"
+  },
+  {
+    "cid": "691",
+    "ph": "+5214422722356",
+    "name": "Jocelyn",
+    "fake_folio": "CEA-20260303-00649",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - que pueda ayudarte?"
+  },
+  {
+    "cid": "693",
+    "ph": "+5214421375326",
+    "name": "Lily 🌈",
+    "fake_folio": "CEA-20260303-00652",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - día! ¿en qué te puedo ayudar?"
+  },
+  {
+    "cid": "698",
+    "ph": "+5214424859344",
+    "name": "Mina ✨",
+    "fake_folio": "no-folio",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - qué te puedo ayudar? veo que tu medidor "
+  },
+  {
+    "cid": "699",
+    "ph": "+5214421105160",
+    "name": "Angel",
+    "fake_folio": "CEA-30031012-FSA",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - día! 😊 tu servicio está activo"
+  },
+  {
+    "cid": "704",
+    "ph": "+5214421383026",
+    "name": "🌸🌹⭐",
+    "fake_folio": "CEA-25874",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - calle san diego #"
+  },
+  {
+    "cid": "706",
+    "ph": "+5214421578892",
+    "name": "Rita",
+    "fake_folio": "CEA-10347",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - el último mes"
+  },
+  {
+    "cid": "648",
+    "ph": "+5214428172132",
+    "name": "Estefany Mtz",
+    "fake_folio": "CEA-20260303-00700",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - qué más puedo ayudarte?"
+  },
+  {
+    "cid": "261",
+    "ph": "+5212711209496",
+    "name": "🤍",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Fuga de drenaje - tepetates mz 88 lt 34"
+  },
+  {
+    "cid": "745",
+    "ph": "+5214423620303",
+    "name": "Marisol Zarate",
+    "fake_folio": "CEA-20260303-00745",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - y colonia"
+  },
+  {
+    "cid": "738",
+    "ph": "+5214421294780",
+    "name": "Rubi",
+    "fake_folio": "CEA-20260303-00746",
+    "cat": "REP",
+    "subcat": "REP-FG-001",
+    "desc": "Fuga de agua - qué te puedo ayudar? encontré 3 resultad"
+  },
+  {
+    "cid": "746",
+    "ph": "+5214423943509",
+    "name": "carol",
+    "fake_folio": "CEA-77842",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - av mar de cortes"
+  },
+  {
+    "cid": "745",
+    "ph": "+5214423620303",
+    "name": "Marisol Zarate",
+    "fake_folio": "CEA-20260303-00750",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - qué te puedo ayudar? por la foto que env"
+  },
+  {
+    "cid": "428",
+    "ph": "+5214422498130",
+    "name": "Eri",
+    "fake_folio": "no-folio",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - el codo de tubería?"
+  },
+  {
+    "cid": "743",
+    "ph": "+5214411525934",
+    "name": "🥰🥰",
+    "fake_folio": "CEA-20260303-00759",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": ""
+  },
+  {
+    "cid": "771",
+    "ph": "+5214427793792",
+    "name": "Gely🌷",
+    "fake_folio": "CEA-20260303-00787",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - qué te puedo ayudar?"
+  },
+  {
+    "cid": "767",
+    "ph": "+5214422836729",
+    "name": "Gabyslo",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio"
+  },
+  {
+    "cid": "774",
+    "ph": "+5215511967137",
+    "name": "Fernando M Ruiz",
+    "fake_folio": "CEA-20260303-00804",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - qué te puedo ayudar?"
+  },
+  {
+    "cid": "780",
+    "ph": "+5217712140005",
+    "name": "Victor",
+    "fake_folio": "CEA-20260303-00809",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - tu toma y tu recibo está al corriente"
+  },
+  {
+    "cid": "782",
+    "ph": "+5214411031519",
+    "name": ".",
+    "fake_folio": "CEA-00745",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - sns/n"
+  },
+  {
+    "cid": "256",
+    "ph": "+5214425865151",
+    "name": "Andrea Garcia",
+    "fake_folio": "CEA-20260303-00829",
+    "cat": "CTR",
+    "subcat": "CTR-004",
+    "desc": "Cambio de titular"
+  },
+  {
+    "cid": "793",
+    "ph": "+5214461054142",
+    "name": "Maru",
+    "fake_folio": "CEA-20260303-00836",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - el siste"
+  },
+  {
+    "cid": "802",
+    "ph": "+5215512424934",
+    "name": "Rafael Jiménez",
+    "fake_folio": "CEA-20260303-00848",
+    "cat": "CTR",
+    "subcat": "CTR-001",
+    "desc": "Alta de contrato - qué te puedo ayudar?"
+  },
+  {
+    "cid": "814",
+    "ph": "+5214424748008",
+    "name": "Wuiiniie",
+    "fake_folio": "no-folio",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - tu toma domiciliaria"
+  },
+  {
+    "cid": "826",
+    "ph": "+5214422082676",
+    "name": "Edu",
+    "fake_folio": "no-folio",
+    "cat": "CTR",
+    "subcat": "CTR-001",
+    "desc": "Alta de contrato"
+  },
+  {
+    "cid": "551",
+    "ph": "+5214426011585",
+    "name": "Adricornelio",
+    "fake_folio": "CEA-20260303-00874",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - breve"
+  },
+  {
+    "cid": "856",
+    "ph": "+5214422021938",
+    "name": "123",
+    "fake_folio": "CEA-20260303-00895",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - qué te puedo ayudar?"
+  },
+  {
+    "cid": "876",
+    "ph": "+5214421430142",
+    "name": "🙋🏽‍♀️",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-ROB",
+    "desc": "Robo de medidor - el área del medidor"
+  },
+  {
+    "cid": "877",
+    "ph": "+5214423113411",
+    "name": "Dafne",
+    "fake_folio": "CEA-20260303-00919",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": ""
+  },
+  {
+    "cid": "888",
+    "ph": "+5214131215538",
+    "name": "Fabiola Mandujano",
+    "fake_folio": "CEA-20260303-00922",
+    "cat": "SRV",
+    "subcat": "SRV-RCN",
+    "desc": "Reconexión/reactivación de servicio - qué te puedo ayudar?"
+  },
+  {
+    "cid": "888",
+    "ph": "+5214131215538",
+    "name": "GABY",
+    "fake_folio": "CEA-20260303-00923",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - parís #3"
+  },
+  {
+    "cid": "895",
+    "ph": "+5214422040228",
+    "name": "LoReNa ❤️",
+    "fake_folio": "CEA-20260303-00925",
+    "cat": "CTR",
+    "subcat": "CTR-004",
+    "desc": "Cambio de titular - qué te puedo ayudar?"
+  },
+  {
+    "cid": "901",
+    "ph": "+5214423960877",
+    "name": "Ing Arturo SanchezAlvarez",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - valle de cimatario 52"
+  },
+  {
+    "cid": "903",
+    "ph": "+5214461108622",
+    "name": "PaTiTo🦆🦆",
+    "fake_folio": "CEA-56789",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - tu recibo de agua"
+  },
+  {
+    "cid": "904",
+    "ph": "+5214427491193",
+    "name": "suelto 🪵",
+    "fake_folio": "CEA-20260303-00936",
+    "cat": "SRV",
+    "subcat": "SRV-RCN",
+    "desc": "Reconexión/reactivación de servicio - el sistema entre 24 y 48 horas después d"
+  },
+  {
+    "cid": "443",
+    "ph": "+5214421303707",
+    "name": "Rulo",
+    "fake_folio": "CEA-20260303-00955",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - y colonia"
+  },
+  {
+    "cid": "927",
+    "ph": "+5214423676028",
+    "name": "jackie",
+    "fake_folio": "CEA-20260303-00958",
+    "cat": "REP",
+    "subcat": "REP-ROB",
+    "desc": "Robo de medidor - el contrato 742574"
+  },
+  {
+    "cid": "919",
+    "ph": "+5217774293733",
+    "name": "Eli",
+    "fake_folio": "CEA-20260303-00963",
+    "cat": "REP",
+    "subcat": "REP-FG-001",
+    "desc": "Fuga de agua - un momento te atienden"
+  },
+  {
+    "cid": "945",
+    "ph": "+5214421410277",
+    "name": "Acosta",
+    "fake_folio": "CEA-20260304-00974",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Problema de drenaje - qué te puedo ayudar?"
+  },
+  {
+    "cid": "947",
+    "ph": "+5217206542447",
+    "name": "Roberto",
+    "fake_folio": "no-folio",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor"
+  },
+  {
+    "cid": "956",
+    "ph": "+5214426046365",
+    "name": ".",
+    "fake_folio": "CEA-20260304-00976",
+    "cat": "REP",
+    "subcat": "REP-TAP",
+    "desc": "Tapa de registro dañada/faltante"
+  },
+  {
+    "cid": "960",
+    "ph": "+5214421558060",
+    "name": "Jorge",
+    "fake_folio": "CEA-20260304-00978",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": ""
+  },
+  {
+    "cid": "637",
+    "ph": "+5214422199554",
+    "name": "Esmer@ld@",
+    "fake_folio": "CEA-20260304-00978",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - el sist"
+  },
+  {
+    "cid": "967",
+    "ph": "+5214421471608",
+    "name": "Miguel M",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - el medidor ubicado en vía pública"
+  },
+  {
+    "cid": "970",
+    "ph": "+5217226058447",
+    "name": "Paco Chuy",
+    "fake_folio": "CEA-20260304-00985",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor"
+  },
+  {
+    "cid": "676",
+    "ph": "+5215510635993",
+    "name": "FC",
+    "fake_folio": "CEA-00842",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - avenida campanario 98"
+  },
+  {
+    "cid": "825",
+    "ph": "+5217731400075",
+    "name": "daniela ramirez",
+    "fake_folio": "CEA-20260304-00991",
+    "cat": "SRV",
+    "subcat": "SRV-RCN",
+    "desc": "Reconexión/reactivación de servicio"
+  },
+  {
+    "cid": "978",
+    "ph": "+5214422043386",
+    "name": "Jcm",
+    "fake_folio": "CEA-20260304-00993",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - solucionar el problema de agua en tu zon"
+  },
+  {
+    "cid": "981",
+    "ph": "+5214421126578",
+    "name": "rocionavarreterodriguez8",
+    "fake_folio": "CEA-20260304-00995",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - quintas del marqués"
+  },
+  {
+    "cid": "985",
+    "ph": "+5214422076311",
+    "name": "Roberto Bello",
+    "fake_folio": "no-folio",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - toma domiciliaria en esa ubicación?"
+  },
+  {
+    "cid": "985",
+    "ph": "+5214422076311",
+    "name": "Roberto Bello",
+    "fake_folio": "CEA-20260304-00998",
+    "cat": "REP",
+    "subcat": "REP-HUN",
+    "desc": "Hundimiento en vía pública - toma domiciliaria en esa ubicación?"
+  },
+  {
+    "cid": "987",
+    "ph": "+5214421474421",
+    "name": "Any 💜",
+    "fake_folio": "CEA-10342",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - la red principal con daño severo al pavi"
+  },
+  {
+    "cid": "987",
+    "ph": "+5214421474421",
+    "name": "Any 💜",
+    "fake_folio": "CEA-20260304-00999",
+    "cat": "REP",
+    "subcat": "REP-FTD",
+    "desc": "Fuga en toma domiciliaria - qué te puedo ayudar?"
+  },
+  {
+    "cid": "196",
+    "ph": "+5218117833044",
+    "name": "~Alex~",
+    "fake_folio": "no-folio",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - av bicentenario 123"
+  },
+  {
+    "cid": "991",
+    "ph": "+5214426166302",
+    "name": "Fanny♥️",
+    "fake_folio": "CEA-20260304-01004",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - bicentenario 123"
+  },
+  {
+    "cid": "996",
+    "ph": "+5214481233513",
+    "name": "🌻",
+    "fake_folio": "CEA-20260304-01007",
+    "cat": "REP",
+    "subcat": "REP-FTD",
+    "desc": "Fuga en toma domiciliaria - qué zona o colonia se presenta la baja p"
+  },
+  {
+    "cid": "998",
+    "ph": "+5214421424162",
+    "name": "Olga Ortiz",
+    "fake_folio": "no-folio",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - que sigas enviándome fotos de tu medidor"
+  },
+  {
+    "cid": "984",
+    "ph": "+5214422737075",
+    "name": ".",
+    "fake_folio": "CEA-20260304-01012",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Fuga de drenaje - la calle con agua sucia fluyendo por la "
+  },
+  {
+    "cid": "676",
+    "ph": "+5215510635993",
+    "name": "FC",
+    "fake_folio": "CEA-1743912556837",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - vía pública (avenida campanario 98) con "
+  },
+  {
+    "cid": "676",
+    "ph": "+5215510635993",
+    "name": "FC",
+    "fake_folio": "no-folio",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - la zona?"
+  },
+  {
+    "cid": "676",
+    "ph": "+5215510635993",
+    "name": "FC",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-DRO",
+    "desc": "Drenaje obstruido/tapado - campanario 98"
+  },
+  {
+    "cid": "1019",
+    "ph": "+5214421234284",
+    "name": "Paulina",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-ROB",
+    "desc": "Robo de medidor - privada rayón #50?"
+  },
+  {
+    "cid": "1038",
+    "ph": "+5215549599099",
+    "name": "César Villa",
+    "fake_folio": "no-folio",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - buen estado y la lectura es legible"
+  },
+  {
+    "cid": "1063",
+    "ph": "+5214421446906",
+    "name": "lore",
+    "fake_folio": "no-folio",
+    "cat": "CTR",
+    "subcat": "CTR-001",
+    "desc": "Alta de contrato - de la ubicación hacienda la gloria #101?"
+  },
+  {
+    "cid": "1063",
+    "ph": "+5214421446906",
+    "name": "lore",
+    "fake_folio": "CEA-08429",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Fuga de drenaje - calle"
+  },
+  {
+    "cid": "1066",
+    "ph": "+5215531479788",
+    "name": "Caramel Princess",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Problema de drenaje - qué te puedo ayudar?"
+  },
+  {
+    "cid": "1083",
+    "ph": "+5214421386524",
+    "name": "Coordinación Rubra",
+    "fake_folio": "CEA-00123",
+    "cat": "SRV",
+    "subcat": "SRV-002",
+    "desc": "Revisión técnica"
+  },
+  {
+    "cid": "1107",
+    "ph": "+5214421216900",
+    "name": "Cony",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Problema de drenaje - senda eterna 558"
+  },
+  {
+    "cid": "1109",
+    "ph": "+5214424265372",
+    "name": "Salvador Moncada",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-ROB",
+    "desc": "Robo de medidor - medidor"
+  },
+  {
+    "cid": "1109",
+    "ph": "+5214424265372",
+    "name": "Salvador Moncada",
+    "fake_folio": "CEA-25197",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - av peñ"
+  },
+  {
+    "cid": "1119",
+    "ph": "+5217717481322",
+    "name": "😀😃😄😁😆🥹",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-HUN",
+    "desc": "Hundimiento en vía pública"
+  },
+  {
+    "cid": "1124",
+    "ph": "+5217751090495",
+    "name": "Marco Idrovo",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-HUN",
+    "desc": "Hundimiento en vía pública - condominio - fraccionamiento sonterra"
+  },
+  {
+    "cid": "1122",
+    "ph": "+5215564738620",
+    "name": "Jessica",
+    "fake_folio": "CEA-10438",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio"
+  },
+  {
+    "cid": "792",
+    "ph": "+5214461291207",
+    "name": "꧁༒𝕵𝕰𝕾𝖀𝕾༒꧂",
+    "fake_folio": "no-folio",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor"
+  },
+  {
+    "cid": "1110",
+    "ph": "+5214131019893",
+    "name": "Luis Moncayo",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FTD",
+    "desc": "Fuga en toma domiciliaria - el boiler con folio a"
+  },
+  {
+    "cid": "396",
+    "ph": "+5214425922110",
+    "name": "💯",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - el pavimento?"
+  },
+  {
+    "cid": "3",
+    "ph": "+5214421190619",
+    "name": "Jaime",
+    "fake_folio": "no-folio",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - esa dirección?"
+  },
+  {
+    "cid": "301",
+    "ph": "+5214428788080",
+    "name": "✨💫💥",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio"
+  },
+  {
+    "cid": "1210",
+    "ph": "+5214422703663",
+    "name": "Paloma Saavedra",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FG-001",
+    "desc": "Fuga de agua - el spigot con prioridad urgente?"
+  },
+  {
+    "cid": "1213",
+    "ph": "+5214422714452",
+    "name": "Mimi Nieto",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-TAP",
+    "desc": "Tapa de registro dañada/faltante - qué estado están?"
+  },
+  {
+    "cid": "1217",
+    "ph": "+5214421681110",
+    "name": "Shei",
+    "fake_folio": "CEA-00014",
+    "cat": "REP",
+    "subcat": "REP-FTD",
+    "desc": "Fuga en toma domiciliaria - tu toma domicilia"
+  },
+  {
+    "cid": "1230",
+    "ph": "+5214421578978",
+    "name": "Karina Sanchez",
+    "fake_folio": "CEA-10394",
+    "cat": "REP",
+    "subcat": "REP-ROB",
+    "desc": "Robo de medidor"
+  },
+  {
+    "cid": "1237",
+    "ph": "+5214462634719",
+    "name": "Oscar Guerrero 😎",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - privada del capulín 115"
+  },
+  {
+    "cid": "1238",
+    "ph": "+5214426107363",
+    "name": "Araceli Palacios",
+    "fake_folio": "CEA-24128",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - privada del capul"
+  },
+  {
+    "cid": "1281",
+    "ph": "+5214426772996",
+    "name": "queen 👸🏻",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - misión de la purísima #18"
+  },
+  {
+    "cid": "994",
+    "ph": "+5214421445340",
+    "name": "sonyfonseca15",
+    "fake_folio": "CEA-10348",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - cimatario cerca del canal"
+  },
+  {
+    "cid": "1290",
+    "ph": "+5214423275809",
+    "name": "Deyanira",
+    "fake_folio": "CEA-40006",
+    "cat": "REP",
+    "subcat": "REP-DRO",
+    "desc": "Drenaje obstruido/tapado - vía pública en tu privada"
+  },
+  {
+    "cid": "1307",
+    "ph": "+5214423697268",
+    "name": ".",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FTD",
+    "desc": "Fuga en toma domiciliaria - las instalaciones del pozo de cea en mis"
+  },
+  {
+    "cid": "1308",
+    "ph": "+5214461464201",
+    "name": ".",
+    "fake_folio": "CEA-09483",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": ""
+  },
+  {
+    "cid": "1182",
+    "ph": "+5214423274785",
+    "name": "vamonos  ya toca",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - el sistema"
+  },
+  {
+    "cid": "1311",
+    "ph": "+5214427559222",
+    "name": "🙂",
+    "fake_folio": "CEA-00147",
+    "cat": "REP",
+    "subcat": "REP-HUN",
+    "desc": "Hundimiento en vía pública - esa ubica"
+  },
+  {
+    "cid": "1213",
+    "ph": "+5214422714452",
+    "name": "Mimi Nieto",
+    "fake_folio": "CEA-54003",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - nuestra conversación: el 533923 (registr"
+  },
+  {
+    "cid": "887",
+    "ph": "+5214423339849",
+    "name": "Tania Macotela",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-HUN",
+    "desc": "Hundimiento en vía pública - la parte superior de tu recibo"
+  },
+  {
+    "cid": "1336",
+    "ph": "+5214428734731",
+    "name": "Daniela",
+    "fake_folio": "CEA-40112",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - tu recibo de agua"
+  },
+  {
+    "cid": "1340",
+    "ph": "+5214411391112",
+    "name": "Lau Carrera😘",
+    "fake_folio": "CEA-03046",
+    "cat": "SRV",
+    "subcat": "SRV-RCN",
+    "desc": "Reconexión/reactivación de servicio - día 😊"
+  },
+  {
+    "cid": "1330",
+    "ph": "+5214462000830",
+    "name": "Jorge Avendaño😉👌🏼",
+    "fake_folio": "CEA-00078",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Fuga de drenaje - qué puedo ayudarte?"
+  },
+  {
+    "cid": "1283",
+    "ph": "+5214425063510",
+    "name": "Paty Aguilar❤️",
+    "fake_folio": "CEA-00178",
+    "cat": "REP",
+    "subcat": "REP-MED",
+    "desc": "Problema con medidor - tu solicitud de"
+  },
+  {
+    "cid": "1357",
+    "ph": "+5214461351678",
+    "name": "jorge michaus",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - tu domicilio o en tu zona?"
+  },
+  {
+    "cid": "1365",
+    "ph": "+5215620811059",
+    "name": "NanncY Nava🌻💜🌻💜",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - calle amapola #33"
+  },
+  {
+    "cid": "1378",
+    "ph": "+5214424898290",
+    "name": "✨🥰",
+    "fake_folio": "CEA-00892",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - tu do"
+  },
+  {
+    "cid": "1401",
+    "ph": "+5214425282519",
+    "name": "Innova drive",
+    "fake_folio": "no-folio",
+    "cat": "CTR",
+    "subcat": "CTR-001",
+    "desc": "Alta de contrato - el sistema"
+  },
+  {
+    "cid": "1409",
+    "ph": "+5214461394222",
+    "name": "fixmaqui2024",
+    "fake_folio": "CEA-00031",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - río san lore"
+  },
+  {
+    "cid": "1269",
+    "ph": "+5214421458150",
+    "name": "Patito",
+    "fake_folio": "CEA-00347",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - calle roma 3"
+  },
+  {
+    "cid": "1441",
+    "ph": "+5214423373497",
+    "name": "Claudia",
+    "fake_folio": "CEA-00347",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - el folio **cea-00347** con la ubicación:"
+  },
+  {
+    "cid": "1450",
+    "ph": "+5214141004264",
+    "name": "Rosalba Lg",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-HUN",
+    "desc": "Hundimiento en vía pública - la vía pública con acumulación de agua"
+  },
+  {
+    "cid": "1182",
+    "ph": "+5214423274785",
+    "name": "vamonos  ya toca",
+    "fake_folio": "CEA-43972",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - tzelta"
+  },
+  {
+    "cid": "92",
+    "ph": "+5214426093870",
+    "name": "Guadalupe Martínez",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - día 👋"
+  },
+  {
+    "cid": "1481",
+    "ph": "+5214421071397",
+    "name": "MiYorch",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Fuga de drenaje - calle palma 510"
+  },
+  {
+    "cid": "1481",
+    "ph": "+5214421071397",
+    "name": "MiYorch",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FTD",
+    "desc": "Fuga en toma domiciliaria - tu válv"
+  },
+  {
+    "cid": "624",
+    "ph": "+5214427510448",
+    "name": "Klaudia",
+    "fake_folio": "no-folio",
+    "cat": "SRV",
+    "subcat": "SRV-RCN",
+    "desc": "Reconexión/reactivación de servicio - nevado de colima 324?"
+  },
+  {
+    "cid": "1246",
+    "ph": "+5214425218561",
+    "name": "Ilan",
+    "fake_folio": "CEA-00106",
+    "cat": "SRV",
+    "subcat": "SRV-RCN",
+    "desc": "Reconexión/reactivación de servicio - con la dirección exacta que me diste"
+  },
+  {
+    "cid": "1502",
+    "ph": "+5214423389954",
+    "name": "Chelina",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - iztaccíhuatl 111-b"
+  },
+  {
+    "cid": "1169",
+    "ph": "+5214425192184",
+    "name": "Chelina",
+    "fake_folio": "CEA-00143",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - iztaccíhuatl 111-b"
+  },
+  {
+    "cid": "1528",
+    "ph": "+5214427839625",
+    "name": "Itzel",
+    "fake_folio": "no-folio",
+    "cat": "CTR",
+    "subcat": "CTR-001",
+    "desc": "Alta de contrato - correc"
+  },
+  {
+    "cid": "1057",
+    "ph": "+5214423779057",
+    "name": "Valeria Vela",
+    "fake_folio": "CEA-19047",
+    "cat": "SRV",
+    "subcat": "SRV-RCN",
+    "desc": "Reconexión/reactivación de servicio - tu trabajo 👍"
+  },
+  {
+    "cid": "302",
+    "ph": "+5214422792930",
+    "name": "Nicole Méndez",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-MED",
+    "desc": "Problema con medidor - **hojalatería y pintura el rey**"
+  },
+  {
+    "cid": "1621",
+    "ph": "+5214462220112",
+    "name": "Joha 🧡",
+    "fake_folio": "CEA-00172",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - ignacio zaragoza #279"
+  },
+  {
+    "cid": "1617",
+    "ph": "+5214424638163",
+    "name": "Steban's",
+    "fake_folio": "CEA-00127",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - calle 12 e"
+  },
+  {
+    "cid": "1626",
+    "ph": "+5219511243661",
+    "name": "🍃",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-HUN",
+    "desc": "Hundimiento en vía pública - vía pública en calle mariano escobedo es"
+  },
+  {
+    "cid": "1634",
+    "ph": "+5214426183300",
+    "name": "Ray",
+    "fake_folio": "CEA-00147",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - las lecturas"
+  },
+  {
+    "cid": "1578",
+    "ph": "+5214422267643",
+    "name": "RRB",
+    "fake_folio": "CEA-11049",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - cuanto alguien esté disponible sigue con"
+  },
+  {
+    "cid": "1519",
+    "ph": "+5214423371303",
+    "name": "caro",
+    "fake_folio": "CEA-REP-240306-001",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor"
+  },
+  {
+    "cid": "1692",
+    "ph": "+5214421303663",
+    "name": "PublimediosZone",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - qué calle y colonia está?"
+  },
+  {
+    "cid": "1691",
+    "ph": "+5214426226023",
+    "name": "Mar 🌊❤️",
+    "fake_folio": "CEA-00142",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - qué te puedo ayudar?"
+  },
+  {
+    "cid": "1741",
+    "ph": "+5214422016569",
+    "name": "Arturo Crotte F.",
+    "fake_folio": "CEA-REP-00125",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Fuga de drenaje - cuanto alguien esté disponible sigue con"
+  },
+  {
+    "cid": "1744",
+    "ph": "+5214464186685",
+    "name": "Fer Ramírez🌻",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FTD",
+    "desc": "Fuga en toma domiciliaria - hércules ote 136"
+  },
+  {
+    "cid": "1782",
+    "ph": "+5214422268847",
+    "name": "Antonio M.",
+    "fake_folio": "CEA-00012",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - blvd centro"
+  },
+  {
+    "cid": "1784",
+    "ph": "+5214422706263",
+    "name": "J Cardoso",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - vía pública en esa ubicación?"
+  },
+  {
+    "cid": "1785",
+    "ph": "+5214427042797",
+    "name": "Victoria",
+    "fake_folio": "CEA-24713",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - calle mars"
+  },
+  {
+    "cid": "1489",
+    "ph": "+5214428698028",
+    "name": "polleria panchito",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Problema de drenaje - esa ubicación?"
+  },
+  {
+    "cid": "1798",
+    "ph": "+5214423449490",
+    "name": "Diana LEXELL 🦉",
+    "fake_folio": "CEA-45982",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - vía pública con folio **cea-45982**"
+  },
+  {
+    "cid": "1814",
+    "ph": "+5214427192209",
+    "name": "Leo",
+    "fake_folio": "CEA-45982",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Fuga de drenaje - vía pública con folio **cea-45982** en h"
+  },
+  {
+    "cid": "1838",
+    "ph": "+5214423812462",
+    "name": "Alonso 😝",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - esa zona"
+  },
+  {
+    "cid": "1844",
+    "ph": "+5214424262697",
+    "name": "flako's 90",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - tu domicilio? si es así"
+  },
+  {
+    "cid": "1849",
+    "ph": "+5214421775876",
+    "name": "Fernando Rodriguez M",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FG-001",
+    "desc": "Fuga de agua - esa ubicación?"
+  },
+  {
+    "cid": "1855",
+    "ph": "+5214423190834",
+    "name": "Noe",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - vía pública en j"
+  },
+  {
+    "cid": "1871",
+    "ph": "+5214427124237",
+    "name": "J F 🤍🤍",
+    "fake_folio": "CEA-01934",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - la mañana y ya es la segunda vez esta se"
+  },
+  {
+    "cid": "1897",
+    "ph": "+5215516565136",
+    "name": "Alma Arias 🦋",
+    "fake_folio": "no-folio",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - calle mariano matamoros"
+  },
+  {
+    "cid": "1898",
+    "ph": "+5214426685292",
+    "name": "betty alvarez",
+    "fake_folio": "CEA-00789",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - vía pública con folio **cea-00789**"
+  },
+  {
+    "cid": "1907",
+    "ph": "+5214422865958",
+    "name": "Marian",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - y colonia"
+  },
+  {
+    "cid": "1925",
+    "ph": "+5214427809596",
+    "name": "Naara Palacios",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FG-001",
+    "desc": "Fuga de agua - qué te puedo ayudar? veo que el video mu"
+  },
+  {
+    "cid": "1925",
+    "ph": "+5214427809596",
+    "name": "Naara Palacios",
+    "fake_folio": "CEA-12845",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - día! 😊"
+  },
+  {
+    "cid": "1932",
+    "ph": "+5214426693018",
+    "name": "Guillermo Anota",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Problema de drenaje - popocatépetl 3061"
+  },
+  {
+    "cid": "1936",
+    "ph": "+5214422009119",
+    "name": "❤️❤️mis amores❣️❣️❣️",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-DRO",
+    "desc": "Drenaje obstruido/tapado - gustavo alatriste loarca 3061"
+  },
+  {
+    "cid": "1959",
+    "ph": "+5214421064201",
+    "name": "Luuperea🌷🌷",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-TAP",
+    "desc": "Tapa de registro dañada/faltante - qué zona estás?"
+  },
+  {
+    "cid": "1964",
+    "ph": "+5214423235943",
+    "name": "Alejandro Nieves",
+    "fake_folio": "CEA-10247",
+    "cat": "REP",
+    "subcat": "REP-FTD",
+    "desc": "Fuga en toma domiciliaria - qué te puedo ayudar?"
+  },
+  {
+    "cid": "1971",
+    "ph": "+5214425058039",
+    "name": "ꜱʜᴏᴇɴꜱᴛᴀᴛᴛ ᴀʟᴠᴀʀᴇᴢ",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - corregidora nte"
+  },
+  {
+    "cid": "1307",
+    "ph": "+5214423697268",
+    "name": ".",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - calle noche buena"
+  },
+  {
+    "cid": "1735",
+    "ph": "+5214463755875",
+    "name": "francisco silva",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - tu domicilio o en tu colonia/zona?"
+  },
+  {
+    "cid": "413",
+    "ph": "+5214421382310",
+    "name": "Lili",
+    "fake_folio": "CEA-00847",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - vía pública con folio **cea-00847**"
+  },
+  {
+    "cid": "2021",
+    "ph": "+5214424455799",
+    "name": "Luis Salazar",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - tu domicilio o en tu colonia/calle?"
+  },
+  {
+    "cid": "2021",
+    "ph": "+5214424455799",
+    "name": "Luis Salazar",
+    "fake_folio": "CEA-12345",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - la calle con folio cea-12345"
+  },
+  {
+    "cid": "2027",
+    "ph": "+5214421309147",
+    "name": "rosaliciar1405",
+    "fake_folio": "CEA-00177",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - línea aquí: ¡hola! soy maría de la cea"
+  },
+  {
+    "cid": "2034",
+    "ph": "+5214428251067",
+    "name": "emyy",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Fuga de drenaje - calle"
+  },
+  {
+    "cid": "2044",
+    "ph": "+5214426805353",
+    "name": "Nayeli 💕",
+    "fake_folio": "CEA-00081",
+    "cat": "REP",
+    "subcat": "REP-DRO",
+    "desc": "Drenaje obstruido/tapado - francisco zarco 65"
+  },
+  {
+    "cid": "644",
+    "ph": "+5214421058973",
+    "name": "SGERS 💙",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-HUN",
+    "desc": "Hundimiento en vía pública - calle josé maría morelos entre"
+  },
+  {
+    "cid": "2060",
+    "ph": "+5214422006344",
+    "name": "GEMF",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - boulevard universitario frente a pashako"
+  },
+  {
+    "cid": "2070",
+    "ph": "+5214421468328",
+    "name": "Luliz❤️",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Fuga de drenaje - la calle con erosión severa del paviment"
+  },
+  {
+    "cid": "2069",
+    "ph": "+5214422368716",
+    "name": "Carla Pérez",
+    "fake_folio": "CEA-00891",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Fuga de drenaje - vicente guerrero"
+  },
+  {
+    "cid": "1313",
+    "ph": "+5214422492101",
+    "name": "Fer🥰",
+    "fake_folio": "CEA-29639",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - comprar pipas por la est"
+  },
+  {
+    "cid": "2097",
+    "ph": "+5214421177055",
+    "name": "작은 빛 🥰",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-DRO",
+    "desc": "Drenaje obstruido/tapado - **ignacio ramirez 9"
+  },
+  {
+    "cid": "2122",
+    "ph": "+524425749422",
+    "name": "Ger👣",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - tu colonia?"
+  },
+  {
+    "cid": "2128",
+    "ph": "+5215535059602",
+    "name": "Paulina",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - que enviaste muestra un fregadero con tr"
+  },
+  {
+    "cid": "2131",
+    "ph": "+5214422713799",
+    "name": "Adris",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - vía pública en asunción hernández melénd"
+  },
+  {
+    "cid": "2131",
+    "ph": "+5214422713799",
+    "name": "Adris",
+    "fake_folio": "CEA-10047",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - asunción her"
+  },
+  {
+    "cid": "1977",
+    "ph": "+5214421902424",
+    "name": "R Madeleine Glz Picco",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - hacienda los yunques 121"
+  },
+  {
+    "cid": "2141",
+    "ph": "+5214422316716",
+    "name": "Miguel Guerrero",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-BAP",
+    "desc": "Baja presión de agua - valle central 392"
+  },
+  {
+    "cid": "2141",
+    "ph": "+5214422316716",
+    "name": "Miguel Guerrero",
+    "fake_folio": "CEA-10009",
+    "cat": "REP",
+    "subcat": "REP-BAP",
+    "desc": "Baja presión de agua - tu dom"
+  },
+  {
+    "cid": "2028",
+    "ph": "+5214422318010",
+    "name": "Claudia Ornelas",
+    "fake_folio": "no-folio",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor"
+  },
+  {
+    "cid": "2165",
+    "ph": "+5214471116121",
+    "name": "Gaby",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - todas las llaves de tu domicilio?"
+  },
+  {
+    "cid": "2165",
+    "ph": "+5214471116121",
+    "name": "Gaby",
+    "fake_folio": "CEA-10007",
+    "cat": "REP",
+    "subcat": "REP-BAP",
+    "desc": "Baja presión de agua - todas las llaves de tu domicilio o solo "
+  },
+  {
+    "cid": "2181",
+    "ph": "+5214423306713",
+    "name": "💀",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Fuga de drenaje - calle gabriela entre plutarco elías call"
+  },
+  {
+    "cid": "1839",
+    "ph": "+5214461474286",
+    "name": "R-002",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-HUN",
+    "desc": "Hundimiento en vía pública - vía pública?"
+  },
+  {
+    "cid": "2206",
+    "ph": "+5214421109070",
+    "name": "Janet",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-BAP",
+    "desc": "Baja presión de agua - la zona?"
+  },
+  {
+    "cid": "1483",
+    "ph": "+5214423333507",
+    "name": "Tita Tony",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-HUN",
+    "desc": "Hundimiento en vía pública - vía públ"
+  },
+  {
+    "cid": "1277",
+    "ph": "+5214421061617",
+    "name": "Nestor Trejo",
+    "fake_folio": "CEA-10347",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - calle cl"
+  },
+  {
+    "cid": "460",
+    "ph": "+5214421290011",
+    "name": "Beth",
+    "fake_folio": "no-folio",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - vía pública con la ubicación que me dist"
+  },
+  {
+    "cid": "2071",
+    "ph": "+5214425959753",
+    "name": "Cesar Utrera",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - orquidea 0?"
+  },
+  {
+    "cid": "2276",
+    "ph": "+5216641104345",
+    "name": "Brend!",
+    "fake_folio": "CEA-03455",
+    "cat": "REP",
+    "subcat": "REP-TAP",
+    "desc": "Tapa de registro dañada/faltante - oyamel 111"
+  },
+  {
+    "cid": "1256",
+    "ph": "+5214428319129",
+    "name": "magdalenoloredo355",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - av satélite"
+  },
+  {
+    "cid": "2294",
+    "ph": "+5214424674821",
+    "name": "Sandy",
+    "fake_folio": "CEA-00177",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - av sa"
+  },
+  {
+    "cid": "2300",
+    "ph": "+5214423739459",
+    "name": "Andy",
+    "fake_folio": "CEA-00153",
+    "cat": "REP",
+    "subcat": "REP-DRO",
+    "desc": "Drenaje obstruido/tapado - calle insurgentes"
+  },
+  {
+    "cid": "2289",
+    "ph": "+5214428400010",
+    "name": "Krmn Medellín 🥰",
+    "fake_folio": "CEA-00847",
+    "cat": "REP",
+    "subcat": "REP-TAP",
+    "desc": "Tapa de registro dañada/faltante - santa monica 51"
+  },
+  {
+    "cid": "2324",
+    "ph": "+5214421721018",
+    "name": "Adriana Lopez",
+    "fake_folio": "CEA-24913",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - av hacienda los"
+  },
+  {
+    "cid": "2333",
+    "ph": "+5214422266191",
+    "name": "Sel Garnica",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - fray angelo 272?"
+  },
+  {
+    "cid": "2368",
+    "ph": "+5214422811963",
+    "name": "José Luis Sáenz G.",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - calle 9"
+  },
+  {
+    "cid": "2378",
+    "ph": "+5214427143634",
+    "name": "Yessi 💛",
+    "fake_folio": "CEA-19474",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - tu zona"
+  },
+  {
+    "cid": "2400",
+    "ph": "+5214421240396",
+    "name": "Paty",
+    "fake_folio": "no-folio",
+    "cat": "SRV",
+    "subcat": "SRV-004",
+    "desc": "Revisión de medidor - qué te puedo ayudar?"
+  },
+  {
+    "cid": "1141",
+    "ph": "+5214423788397",
+    "name": "😍",
+    "fake_folio": "CEA-00147",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - tu domicilio"
+  },
+  {
+    "cid": "2218",
+    "ph": "+5214612762680",
+    "name": "😍",
+    "fake_folio": "no-folio",
+    "cat": "CTR",
+    "subcat": "CTR-001",
+    "desc": "Alta de contrato"
+  },
+  {
+    "cid": "2431",
+    "ph": "+5214424886492",
+    "name": "luyandomarisol328",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Problema de drenaje - qué te puedo ayudar?"
+  },
+  {
+    "cid": "2438",
+    "ph": "+5214421805399",
+    "name": "🍃",
+    "fake_folio": "CEA-10427",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Problema de drenaje - qué te puedo ayudar?"
+  },
+  {
+    "cid": "196",
+    "ph": "+5218117833044",
+    "name": "~Alex~",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - vía pública en calle bicentenario 312"
+  },
+  {
+    "cid": "2443",
+    "ph": "+5214425192009",
+    "name": "Wendy Arteaga Cruz",
+    "fake_folio": "no-folio",
+    "cat": "SRV",
+    "subcat": "SRV-RCN",
+    "desc": "Reconexión/reactivación de servicio - calle guadalu"
+  },
+  {
+    "cid": "2455",
+    "ph": "+5214426142201",
+    "name": "Angelina 😇",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - calle del roble no"
+  },
+  {
+    "cid": "2472",
+    "ph": "+5214421291801",
+    "name": "Olii🪬🪬🪬",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - marsella 255?"
+  },
+  {
+    "cid": "2455",
+    "ph": "+5214426142201",
+    "name": "Angelina 😇",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-HUN",
+    "desc": "Hundimiento en vía pública"
+  },
+  {
+    "cid": "2482",
+    "ph": "+5214424131263",
+    "name": "Chio",
+    "fake_folio": "no-folio",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - tu próximo recibo para el mes de abril"
+  },
+  {
+    "cid": "2490",
+    "ph": "+5214426219316",
+    "name": "💙😊",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-DRO",
+    "desc": "Drenaje obstruido/tapado - carretera libre a celaya"
+  },
+  {
+    "cid": "2496",
+    "ph": "+5214421447748",
+    "name": "arturo regaladoa",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Problema de drenaje - ocampo 35"
+  },
+  {
+    "cid": "2530",
+    "ph": "+5214462423144",
+    "name": "villarrealmanito4",
+    "fake_folio": "CEA-00347",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - qué te puedo ayudar? perfecto"
+  },
+  {
+    "cid": "2543",
+    "ph": "+5214422634247",
+    "name": "🙂",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - la bola 20"
+  },
+  {
+    "cid": "2556",
+    "ph": "+5214425922732",
+    "name": "Santiago Peñaloza",
+    "fake_folio": "no-folio",
+    "cat": "CTR",
+    "subcat": "CTR-001",
+    "desc": "Alta de contrato - qué te puedo ayudar?"
+  },
+  {
+    "cid": "2281",
+    "ph": "+5214424368145",
+    "name": "Patricia 🥰",
+    "fake_folio": "CEA-00124",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Fuga de drenaje - qué te puedo ayudar?"
+  },
+  {
+    "cid": "2587",
+    "ph": "+5214421429524",
+    "name": "Maribel",
+    "fake_folio": "no-folio",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - tu domicilio?"
+  },
+  {
+    "cid": "2587",
+    "ph": "+5214421429524",
+    "name": "Maribel",
+    "fake_folio": "CEA-00789",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - tu zona"
+  },
+  {
+    "cid": "2589",
+    "ph": "+5214422715401",
+    "name": "Marcos",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - qué te puedo ayudar? perfecto"
+  },
+  {
+    "cid": "1337",
+    "ph": "+5214425922872",
+    "name": "Lety Tamayo",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - calle lago 310"
+  },
+  {
+    "cid": "2546",
+    "ph": "+5214421443909",
+    "name": "Oscar G Beltrán",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - tu domicilio?"
+  },
+  {
+    "cid": "2480",
+    "ph": "+5214411556080",
+    "name": "Angy",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - esa zona?"
+  },
+  {
+    "cid": "2618",
+    "ph": "+5214424004467",
+    "name": "Antonio",
+    "fake_folio": "CEA-90018",
+    "cat": "REP",
+    "subcat": "REP-HUN",
+    "desc": "Hundimiento en vía pública - qué colonia o zona te encuentras para cr"
+  },
+  {
+    "cid": "2635",
+    "ph": "+5218715205343",
+    "name": "Raque GM 👩🏽‍🌾",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio"
+  },
+  {
+    "cid": "2688",
+    "ph": "+5214424236808",
+    "name": "solamenteJossh...Plenmntt",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-HUN",
+    "desc": "Hundimiento en vía pública - la vía pública)"
+  },
+  {
+    "cid": "2709",
+    "ph": "+5214431671654",
+    "name": "Sandra",
+    "fake_folio": "CEA-00214",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - toma domiciliaria con folio **cea-00214*"
+  },
+  {
+    "cid": "2709",
+    "ph": "+5214431671654",
+    "name": "Sandra",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FTD",
+    "desc": "Fuga en toma domiciliaria - toma domiciliaria?"
+  },
+  {
+    "cid": "867",
+    "ph": "+5214424614473",
+    "name": "GABY",
+    "fake_folio": "CEA-00312",
+    "cat": "REP",
+    "subcat": "REP-FTD",
+    "desc": "Fuga en toma domiciliaria - tu domicilio"
+  },
+  {
+    "cid": "2719",
+    "ph": "+5215591986916",
+    "name": "Rodolfo",
+    "fake_folio": "CEA-00087",
+    "cat": "REP",
+    "subcat": "REP-TAP",
+    "desc": "Tapa de registro dañada/faltante - qué te puedo ayudar? por la foto que env"
+  },
+  {
+    "cid": "2739",
+    "ph": "+5214461693272",
+    "name": "GAAM",
+    "fake_folio": "no-folio",
+    "cat": "SRV",
+    "subcat": "SRV-RCN",
+    "desc": "Reconexión/reactivación de servicio"
+  },
+  {
+    "cid": "2745",
+    "ph": "+5214461018682",
+    "name": "😘🥰😍",
+    "fake_folio": "CEA-00427",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - impresos a tu domicilio?"
+  },
+  {
+    "cid": "1995",
+    "ph": "+5214426162256",
+    "name": ".",
+    "fake_folio": "CEA-00124",
+    "cat": "REP",
+    "subcat": "REP-FTD",
+    "desc": "Fuga en toma domiciliaria - tu toma domicilia"
+  },
+  {
+    "cid": "2750",
+    "ph": "+5214422369844",
+    "name": "😄",
+    "fake_folio": "CEA-86936",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - qué te puedo ayudar? para levantar tu re"
+  },
+  {
+    "cid": "2752",
+    "ph": "+5214461079348",
+    "name": "Paulina Mondragon",
+    "fake_folio": "no-folio",
+    "cat": "SRV",
+    "subcat": "SRV-RCN",
+    "desc": "Reconexión/reactivación de servicio - breve una vez que el sistema registre tu"
+  },
+  {
+    "cid": "2802",
+    "ph": "+5215573224680",
+    "name": "Carolina Rocha Mazurkevic",
+    "fake_folio": "no-folio",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - qué te puedo ayudar?"
+  },
+  {
+    "cid": "2831",
+    "ph": "+5214423153314",
+    "name": "Ely",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-TAP",
+    "desc": "Tapa de registro dañada/faltante - desierto de antares?"
+  },
+  {
+    "cid": "1681",
+    "ph": "+5214426562577",
+    "name": "Alan Herrera 🥷",
+    "fake_folio": "CEA-10547",
+    "cat": "SRV",
+    "subcat": "SRV-RCN",
+    "desc": "Reconexión/reactivación de servicio - la esquina"
+  },
+  {
+    "cid": "2847",
+    "ph": "+5214424935069",
+    "name": "Violeta Vag",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - qué colonia estás para revisar si hay un"
+  },
+  {
+    "cid": "1332",
+    "ph": "+5214423348762",
+    "name": "Elvia",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - ponciano arriaga 411-a"
+  },
+  {
+    "cid": "2874",
+    "ph": "+5214461087462",
+    "name": "Armando aviles",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-TAP",
+    "desc": "Tapa de registro dañada/faltante - calle rosas #10"
+  },
+  {
+    "cid": "2889",
+    "ph": "+5214422196535",
+    "name": "Dulce Álvarez",
+    "fake_folio": "CEA-17490",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - día 👍"
+  },
+  {
+    "cid": "2897",
+    "ph": "+5214425947920",
+    "name": "..",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - hacia tu propiedad en avenid"
+  },
+  {
+    "cid": "2924",
+    "ph": "+5218180206042",
+    "name": "Gavela",
+    "fake_folio": "CEA-00893",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - la calle/vía pública o dentro de tu prop"
+  },
+  {
+    "cid": "2954",
+    "ph": "+5214614218666",
+    "name": "Grace",
+    "fake_folio": "no-folio",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor"
+  },
+  {
+    "cid": "2954",
+    "ph": "+5214614218666",
+    "name": "Grace",
+    "fake_folio": "CEA-00147",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - vía pública con folio **cea-00147**"
+  },
+  {
+    "cid": "2363",
+    "ph": "+5214421433419",
+    "name": "Isaí Márquez 🫵🤓",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - tu domicilio o en la calle/vía pública?"
+  },
+  {
+    "cid": "2363",
+    "ph": "+5214421433419",
+    "name": "Isaí Márquez 🫵🤓",
+    "fake_folio": "CEA-10340",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - tu domicilio"
+  },
+  {
+    "cid": "2995",
+    "ph": "+5214428942961",
+    "name": "Karly❤️ 🥰🌹",
+    "fake_folio": "CEA-10847",
+    "cat": "REP",
+    "subcat": "REP-BAP",
+    "desc": "Baja presión de agua - tu zona"
+  },
+  {
+    "cid": "3001",
+    "ph": "+5214421462899",
+    "name": "Fernanda",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - lluvia 632"
+  },
+  {
+    "cid": "3005",
+    "ph": "+5214421114292",
+    "name": "iza",
+    "fake_folio": "CEA-25031001",
+    "cat": "REP",
+    "subcat": "REP-FTD",
+    "desc": "Fuga en toma domiciliaria - tu domicilio"
+  },
+  {
+    "cid": "3006",
+    "ph": "+5214424089680",
+    "name": "Erika Balestra",
+    "fake_folio": "CEA-00131",
+    "cat": "REP",
+    "subcat": "REP-FTD",
+    "desc": "Fuga en toma domiciliaria - tu toma domicilia"
+  },
+  {
+    "cid": "1489",
+    "ph": "+5214428698028",
+    "name": "polleria panchito",
+    "fake_folio": "CEA-95172",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Fuga de drenaje - tu pro"
+  },
+  {
+    "cid": "3007",
+    "ph": "+5214423836750",
+    "name": "Paulino",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Fuga de drenaje - drenaje?"
+  },
+  {
+    "cid": "3013",
+    "ph": "+5214423462398",
+    "name": "Marisol AR",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - tu domicilio? si es así"
+  },
+  {
+    "cid": "3013",
+    "ph": "+5214423462398",
+    "name": "Marisol AR",
+    "fake_folio": "CEA-30338",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - hacienda los herrajes 102"
+  },
+  {
+    "cid": "3020",
+    "ph": "+5214461396188",
+    "name": "Alberto Ing. de aplicaciones ATEQ CORP",
+    "fake_folio": "CEA-31407",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - tu zona"
+  },
+  {
+    "cid": "3021",
+    "ph": "+5214423477451",
+    "name": "Party Deco",
+    "fake_folio": "CEA-10302",
+    "cat": "SRV",
+    "subcat": "SRV-RCN",
+    "desc": "Reconexión/reactivación de servicio - colonia bella vista"
+  },
+  {
+    "cid": "3031",
+    "ph": "+5214461067963",
+    "name": "Kristi",
+    "fake_folio": "CEA-00045",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - tecnológico"
+  },
+  {
+    "cid": "2503",
+    "ph": "+5214423448259",
+    "name": "lorenajurez10",
+    "fake_folio": "CEA-25673",
+    "cat": "FAC",
+    "subcat": "FAC-004",
+    "desc": "Aclaración de cobro - tu cuenta"
+  },
+  {
+    "cid": "3038",
+    "ph": "+5214425200137",
+    "name": "Isabel Aguilar",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-TAP",
+    "desc": "Tapa de registro dañada/faltante - vía pública con las dos fotos de evidenc"
+  },
+  {
+    "cid": "3041",
+    "ph": "+5218332344306",
+    "name": "Luis Felipe Ortega",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - la calle o dentro de tu propiedad?"
+  },
+  {
+    "cid": "3041",
+    "ph": "+5218332344306",
+    "name": "Luis Felipe Ortega",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - esa dirección?"
+  },
+  {
+    "cid": "3042",
+    "ph": "+5214271230492",
+    "name": "🍃",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - paseo de madrid 205"
+  },
+  {
+    "cid": "774",
+    "ph": "+5215511967137",
+    "name": "Fernando M Ruiz",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-HUN",
+    "desc": "Hundimiento en vía pública - que enviaste no parece ser un medidor"
+  },
+  {
+    "cid": "2506",
+    "ph": "+5214424900276",
+    "name": "Yazmin Tovar",
+    "fake_folio": "CEA-00011",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - tu domicilio"
+  },
+  {
+    "cid": "3063",
+    "ph": "+5215513885279",
+    "name": "Ana",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - tu domicilio?"
+  },
+  {
+    "cid": "3082",
+    "ph": "+5214422659280",
+    "name": "DQ Corporativo",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Fuga de drenaje - calle 5 #7"
+  },
+  {
+    "cid": "3102",
+    "ph": "+5214461416415",
+    "name": "🤘",
+    "fake_folio": "CEA-00157",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - calle cerr"
+  },
+  {
+    "cid": "3063",
+    "ph": "+5215513885279",
+    "name": "Ana",
+    "fake_folio": "CEA-00189",
+    "cat": "REP",
+    "subcat": "REP-FTD",
+    "desc": "Fuga en toma domiciliaria - tu domicilio"
+  },
+  {
+    "cid": "3119",
+    "ph": "+5214411094218",
+    "name": "Jaz ♡",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - vía pública con la ubicación \"calle prin"
+  },
+  {
+    "cid": "3118",
+    "ph": "+5214461232915",
+    "name": "Graphic Motus",
+    "fake_folio": "CEA-10013",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - tu toma do"
+  },
+  {
+    "cid": "3127",
+    "ph": "+5214422036543",
+    "name": "Eliud",
+    "fake_folio": "CEA-30152",
+    "cat": "REP",
+    "subcat": "REP-TAP",
+    "desc": "Tapa de registro dañada/faltante - todo el condominio"
+  },
+  {
+    "cid": "482",
+    "ph": "+5214422743372",
+    "name": "juanlector2011",
+    "fake_folio": "CEA-77889",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - vía pública con folio **cea-77889**"
+  },
+  {
+    "cid": "662",
+    "ph": "+5214421312496",
+    "name": "✨",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - este momento"
+  },
+  {
+    "cid": "3120",
+    "ph": "+5214424317120",
+    "name": "Diegue",
+    "fake_folio": "no-folio",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - tu propiedad"
+  },
+  {
+    "cid": "3154",
+    "ph": "+5214427200785",
+    "name": "Karmen😘",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-BAP",
+    "desc": "Baja presión de agua"
+  },
+  {
+    "cid": "3157",
+    "ph": "+5214421252731",
+    "name": "Vicky",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Problema de drenaje - drenaje?"
+  },
+  {
+    "cid": "3175",
+    "ph": "+5214424480190",
+    "name": "Miri",
+    "fake_folio": "CEA-002587",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - privada cho"
+  },
+  {
+    "cid": "683",
+    "ph": "+5214425818492",
+    "name": "Mariana",
+    "fake_folio": "CEA-002588",
+    "cat": "REP",
+    "subcat": "REP-ROB",
+    "desc": "Robo de medidor - privada ch"
+  },
+  {
+    "cid": "3177",
+    "ph": "+5215518148087",
+    "name": "Gis",
+    "fake_folio": "CEA-10047",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - vía pública con folio **cea-10047**"
+  },
+  {
+    "cid": "3195",
+    "ph": "+5214411052620",
+    "name": "Luis M Rodríguez",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - qué te puedo ayudar? hubo un problema al"
+  },
+  {
+    "cid": "3033",
+    "ph": "+5219985770823",
+    "name": "Cesar Flores",
+    "fake_folio": "no-folio",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - la banqueta con material de base expuest"
+  },
+  {
+    "cid": "3228",
+    "ph": "+5214424753059",
+    "name": "SSB Triara",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - camino dorado 143?"
+  },
+  {
+    "cid": "2793",
+    "ph": "+5216441929261",
+    "name": "saenz lucy maria",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - día! 😊 ¿en qué puedo apoyarte?"
+  },
+  {
+    "cid": "3236",
+    "ph": "+5214422263333",
+    "name": "Gabriel",
+    "fake_folio": "no-folio",
+    "cat": "CTR",
+    "subcat": "CTR-004",
+    "desc": "Cambio de titular - corregidora 0"
+  },
+  {
+    "cid": "3236",
+    "ph": "+5214422263333",
+    "name": "Gabriel",
+    "fake_folio": "CEA-00112",
+    "cat": "REP",
+    "subcat": "REP-FTD",
+    "desc": "Fuga en toma domiciliaria - tu toma domiciliari"
+  },
+  {
+    "cid": "3237",
+    "ph": "+5217441588780",
+    "name": "🌕🍂",
+    "fake_folio": "TKT-2025-000040",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - el ticket tkt-2025-000040"
+  },
+  {
+    "cid": "3249",
+    "ph": "+5214441052497",
+    "name": "🌹🌷",
+    "fake_folio": "no-folio",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor"
+  },
+  {
+    "cid": "3246",
+    "ph": "+5214421863557",
+    "name": "Javier Torres",
+    "fake_folio": "CEA-00284",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Problema de drenaje - río y aguacero"
+  },
+  {
+    "cid": "3284",
+    "ph": "+5214421435637",
+    "name": "Janett",
+    "fake_folio": "CEA-30050",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Problema de drenaje - río y aguacero"
+  },
+  {
+    "cid": "3291",
+    "ph": "+5216462601644",
+    "name": "Joaquin",
+    "fake_folio": "CEA-00008",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - qué te puedo ayudar?"
+  },
+  {
+    "cid": "3292",
+    "ph": "+5214613122546",
+    "name": "🍂",
+    "fake_folio": "CEA-39046",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - qué te puedo ayudar?"
+  },
+  {
+    "cid": "3306",
+    "ph": "+5214422361259",
+    "name": "joseramonreyesgonzalez69",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - vía pública en artículo 27 constituciona"
+  },
+  {
+    "cid": "3305",
+    "ph": "+5214425507078",
+    "name": "Alexis Hernandez Ferruzca",
+    "fake_folio": "CEA-001238",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - terreno baldío con erosión del suelo y v"
+  },
+  {
+    "cid": "1908",
+    "ph": "+5214428121141",
+    "name": "Tatyliz",
+    "fake_folio": "CEA-30046200-REP-MED-20260311175800",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - cuanto alguien esté disponible sigue con"
+  },
+  {
+    "cid": "3324",
+    "ph": "+5214427526882",
+    "name": "Mr Cookies",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - marques de montemayor 622?"
+  },
+  {
+    "cid": "3326",
+    "ph": "+5214421879544",
+    "name": "Pao Mendoza",
+    "fake_folio": "CEA-00521",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - toda la calle cerro del agua con folio c"
+  },
+  {
+    "cid": "3330",
+    "ph": "+5214421793067",
+    "name": "𝕂𝔸𝕃𝔸  🧁",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - preguntar"
+  },
+  {
+    "cid": "3335",
+    "ph": "+5214428638949",
+    "name": "𝕯𝖆𝖓𝖎💙",
+    "fake_folio": "CEA-00028",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor"
+  },
+  {
+    "cid": "3344",
+    "ph": "+5214422500789",
+    "name": "Carolina Galaviz",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - robles 605"
+  },
+  {
+    "cid": "3342",
+    "ph": "+5214423476004",
+    "name": "Eduardo Bobadilla",
+    "fake_folio": "CEA-00847",
+    "cat": "REP",
+    "subcat": "REP-HUN",
+    "desc": "Hundimiento en vía pública - seguimiento directo a tu reporte de baja"
+  },
+  {
+    "cid": "3358",
+    "ph": "+5214425614518",
+    "name": "Anna García",
+    "fake_folio": "CEA-11078",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - puente de alvarado 602"
+  },
+  {
+    "cid": "3359",
+    "ph": "+5215510633874",
+    "name": "Karla",
+    "fake_folio": "CEA-11078",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - puente de alvarado 602"
+  },
+  {
+    "cid": "3361",
+    "ph": "+5214421261100",
+    "name": "Xime",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - dos valles"
+  },
+  {
+    "cid": "3366",
+    "ph": "+5214422817247",
+    "name": "Micol Díaz 🥰🙏🏻🥰🎼♾️",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FTD",
+    "desc": "Fuga en toma domiciliaria - marques de montemayor 621?"
+  },
+  {
+    "cid": "3365",
+    "ph": "+5214421280543",
+    "name": "Angelica Zires",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - tu domicilio o en la calle/colonia compl"
+  },
+  {
+    "cid": "2248",
+    "ph": "+5214273020072",
+    "name": "✨LIZ✨",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - tu domicilio (senda de la luz 9)?"
+  },
+  {
+    "cid": "3371",
+    "ph": "+5214425459384",
+    "name": "chuleta",
+    "fake_folio": "CEA-00847",
+    "cat": "REP",
+    "subcat": "REP-FTD",
+    "desc": "Fuga en toma domiciliaria - tu domicilio (senda de la luz 9)?"
+  },
+  {
+    "cid": "2015",
+    "ph": "+5214424468789",
+    "name": "Jaens",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - la banqueta con humedad en la base del m"
+  },
+  {
+    "cid": "1977",
+    "ph": "+5214421902424",
+    "name": "R Madeleine Glz Picco",
+    "fake_folio": "CEA-10348",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - la cantera 2750"
+  },
+  {
+    "cid": "3374",
+    "ph": "+5214424597160",
+    "name": "Mp Compani",
+    "fake_folio": "CEA-14728",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": ""
+  },
+  {
+    "cid": "3387",
+    "ph": "+5218334397524",
+    "name": "Yair",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - vía pública en esa ubicación?"
+  },
+  {
+    "cid": "3397",
+    "ph": "+5214481028043",
+    "name": "🦈💤💙",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - senda de la luz 18"
+  },
+  {
+    "cid": "3409",
+    "ph": "+5214424660794",
+    "name": "Monii Gómez",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - tu colonia?"
+  },
+  {
+    "cid": "3409",
+    "ph": "+5214424660794",
+    "name": "Monii Gómez",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - la colonia"
+  },
+  {
+    "cid": "3415",
+    "ph": "+5214421077465",
+    "name": "Alix Cuevas",
+    "fake_folio": "CEA-30076",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - qué te puedo ayudar?"
+  },
+  {
+    "cid": "3423",
+    "ph": "+5214461701954",
+    "name": "Arely",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - condominio paseo victoria"
+  },
+  {
+    "cid": "3429",
+    "ph": "+5218671129164",
+    "name": "Cris",
+    "fake_folio": "CEA-00127",
+    "cat": "REP",
+    "subcat": "REP-FG-001",
+    "desc": "Fuga de agua - el servicio cortado o es un problema gen"
+  },
+  {
+    "cid": "3434",
+    "ph": "+5214421152534",
+    "name": ".",
+    "fake_folio": "CEA-00013",
+    "cat": "REP",
+    "subcat": "REP-FDR",
+    "desc": "Fuga de drenaje - privad"
+  },
+  {
+    "cid": "3445",
+    "ph": "+5214425629986",
+    "name": "Isabel Schulz",
+    "fake_folio": "CEA-00139",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - loma real de queretaro 1128"
+  },
+  {
+    "cid": "3458",
+    "ph": "+5214422494437",
+    "name": "Silvia Ramirez",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FTD",
+    "desc": "Fuga en toma domiciliaria - palmares con el contrato 728486?"
+  },
+  {
+    "cid": "3458",
+    "ph": "+5214422494437",
+    "name": "Silvia Ramirez",
+    "fake_folio": "CEA-54321",
+    "cat": "REP",
+    "subcat": "REP-HUN",
+    "desc": "Hundimiento en vía pública - palma cyca"
+  },
+  {
+    "cid": "1301",
+    "ph": "+5214423786886",
+    "name": "Roberto Torres",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-HUN",
+    "desc": "Hundimiento en vía pública - palma cyca"
+  },
+  {
+    "cid": "241",
+    "ph": "+5214421416220",
+    "name": "Cel",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - real del marqués número 751"
+  },
+  {
+    "cid": "3489",
+    "ph": "+5214423472007",
+    "name": "Javi",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - real del marqués 761?"
+  },
+  {
+    "cid": "3373",
+    "ph": "+5214427042642",
+    "name": "Luis Beltran",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-ROB",
+    "desc": "Robo de medidor - avenida la cantera 2750"
+  },
+  {
+    "cid": "3413",
+    "ph": "+5214425689781",
+    "name": "Javantavi",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FTD",
+    "desc": "Fuga en toma domiciliaria - carretera libre a celaya km 6"
+  },
+  {
+    "cid": "3516",
+    "ph": "+5214428901862",
+    "name": "Carlos GM",
+    "fake_folio": "CEA-10237",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - lucepolis"
+  },
+  {
+    "cid": "3516",
+    "ph": "+5214428901862",
+    "name": "Carlos GM",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - puente de alvarado 602?"
+  },
+  {
+    "cid": "3516",
+    "ph": "+5214428901862",
+    "name": "Carlos GM",
+    "fake_folio": "CEA-10892",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - qué domicilio tienes la falta de agua?"
+  },
+  {
+    "cid": "3358",
+    "ph": "+5214425614518",
+    "name": "Anna García",
+    "fake_folio": "CEA-10892",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - proceso"
+  },
+  {
+    "cid": "3524",
+    "ph": "+5214423831155",
+    "name": "Angeles Gameros",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - día! lamento que no se haya atendido tu "
+  },
+  {
+    "cid": "2849",
+    "ph": "+5214141146857",
+    "name": "Lizy🥰",
+    "fake_folio": "CEA-00154",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - eduardo loarca"
+  },
+  {
+    "cid": "3526",
+    "ph": "+5214142268406",
+    "name": "Eduardo Diaz",
+    "fake_folio": "CEA-00173",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - tu domicilio"
+  },
+  {
+    "cid": "3552",
+    "ph": "+5214427780541",
+    "name": ".",
+    "fake_folio": "CEA-00018",
+    "cat": "CTR",
+    "subcat": "CTR-001",
+    "desc": "Alta de contrato - milenio iii"
+  },
+  {
+    "cid": "3598",
+    "ph": "+5215514138099",
+    "name": "Ernesto",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio"
+  },
+  {
+    "cid": "3419",
+    "ph": "+5214423772279",
+    "name": "Jazz👸🏻",
+    "fake_folio": "CEA-30082",
+    "cat": "REP",
+    "subcat": "REP-DRO",
+    "desc": "Drenaje obstruido/tapado - tu condominio?"
+  },
+  {
+    "cid": "3607",
+    "ph": "+5214424256669",
+    "name": "Yanin",
+    "fake_folio": "CEA-00013",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - qué te puedo ayudar?"
+  },
+  {
+    "cid": "3611",
+    "ph": "+5214772919172",
+    "name": "Artemisa",
+    "fake_folio": "CEA-00319",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - la cantera 131"
+  },
+  {
+    "cid": "3622",
+    "ph": "+5215543865542",
+    "name": "Hugo Cortes",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - el fraccionamiento los pra"
+  },
+  {
+    "cid": "3552",
+    "ph": "+5214427780541",
+    "name": ".",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - qué te puedo ayudar?"
+  },
+  {
+    "cid": "3641",
+    "ph": "+5215542767079",
+    "name": "Carmen García🍷",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - la sierra nevada 1039"
+  },
+  {
+    "cid": "3650",
+    "ph": "+5214421302779",
+    "name": "Adela",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FG-001",
+    "desc": "Fuga de agua - av marqués de montemayor 632"
+  },
+  {
+    "cid": "3645",
+    "ph": "+5214423975374",
+    "name": "Grace Velázquez",
+    "fake_folio": "CEA-04138",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - tu zona"
+  },
+  {
+    "cid": "3675",
+    "ph": "+5214421944153",
+    "name": "Ross Flowers \" Toty\"",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - el folio **3816816** que el medidor no e"
+  },
+  {
+    "cid": "2044",
+    "ph": "+5214426805353",
+    "name": "Nayeli 💕",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - qué te puedo ayudar?"
+  },
+  {
+    "cid": "3696",
+    "ph": "+5215536779181",
+    "name": "Erika",
+    "fake_folio": "CEA-30144011-FSA",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - tres cantos"
+  },
+  {
+    "cid": "3704",
+    "ph": "+5214421344801",
+    "name": "✌🏻",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - circuito canto murano 1105"
+  },
+  {
+    "cid": "3696",
+    "ph": "+5215536779181",
+    "name": "Erika",
+    "fake_folio": "CEA-00457",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - tu do"
+  },
+  {
+    "cid": "3703",
+    "ph": "+5214423333183",
+    "name": "Chayo",
+    "fake_folio": "CEA-00834",
+    "cat": "SRV",
+    "subcat": "SRV-RCN",
+    "desc": "Reconexión/reactivación de servicio - qué colonia está el problema?"
+  },
+  {
+    "cid": "3714",
+    "ph": "+5214424649677",
+    "name": "🌟 Isabel 🌟",
+    "fake_folio": "CEA-00124",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - está sin agua desde ayer"
+  },
+  {
+    "cid": "3762",
+    "ph": "+5214423594794",
+    "name": "Marcela Itzmi",
+    "fake_folio": "CEA-24703",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - la calle que es"
+  },
+  {
+    "cid": "3386",
+    "ph": "+5214611429709",
+    "name": "Angie ❤️",
+    "fake_folio": "no-folio",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - día ☺️ hubo un problema al registrar tu "
+  },
+  {
+    "cid": "3772",
+    "ph": "+5217202220179",
+    "name": "Omar",
+    "fake_folio": "no-folio",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - el portal de cea"
+  },
+  {
+    "cid": "3777",
+    "ph": "+5214426026701",
+    "name": "Miguel Angel 🇲🇽 🏓🏹",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FTD",
+    "desc": "Fuga en toma domiciliaria - río grande 116"
+  },
+  {
+    "cid": "2817",
+    "ph": "+5214426201900",
+    "name": "Herme",
+    "fake_folio": "CEA-00034",
+    "cat": "SRV",
+    "subcat": "SRV-004",
+    "desc": "Revisión de medidor - cuanto alguien esté disponible sigue con"
+  },
+  {
+    "cid": "1483",
+    "ph": "+5214423333507",
+    "name": "Tita Tony",
+    "fake_folio": "CEA-15789",
+    "cat": "REP",
+    "subcat": "REP-FG-001",
+    "desc": "Fuga de agua - día 😊 entendido"
+  },
+  {
+    "cid": "3792",
+    "ph": "+5217121727591",
+    "name": "Lu",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - la zona de sierra colorada"
+  },
+  {
+    "cid": "2462",
+    "ph": "+5212211395188",
+    "name": "𝙻ore Sánchez",
+    "fake_folio": "CEA-70008",
+    "cat": "SRV",
+    "subcat": "SRV-RCN",
+    "desc": "Reconexión/reactivación de servicio - el progreso? si te sigue llegando en fís"
+  },
+  {
+    "cid": "3785",
+    "ph": "+5214424793053",
+    "name": "ISC",
+    "fake_folio": "no-folio",
+    "cat": "SRV",
+    "subcat": "SRV-RCN",
+    "desc": "Reconexión/reactivación de servicio - estatal"
+  },
+  {
+    "cid": "3811",
+    "ph": "+5214428510071",
+    "name": "Natalie 🤍",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - esa zona?"
+  },
+  {
+    "cid": "3227",
+    "ph": "+5214421280188",
+    "name": "Celes",
+    "fake_folio": "CEA-00029",
+    "cat": "CTR",
+    "subcat": "CTR-001",
+    "desc": "Alta de contrato - tu propiedad"
+  },
+  {
+    "cid": "3824",
+    "ph": "+5214423374227",
+    "name": "DenCoBa",
+    "fake_folio": "CEA-00789",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor"
+  },
+  {
+    "cid": "3693",
+    "ph": "+5214422660451",
+    "name": "Lily Tellez  😊",
+    "fake_folio": "CEA-78945",
+    "cat": "REP",
+    "subcat": "REP-FVP",
+    "desc": "Fuga de agua en vía pública - marqués de mo"
+  },
+  {
+    "cid": "3830",
+    "ph": "+5214425084142",
+    "name": "Israel",
+    "fake_folio": "CEA-10010",
+    "cat": "REP",
+    "subcat": "REP-FSA",
+    "desc": "Falta de servicio de agua en zona - los huertos"
+  },
+  {
+    "cid": "3837",
+    "ph": "+5214464004720",
+    "name": "Kari",
+    "fake_folio": "CEA-00542",
+    "cat": "SRV",
+    "subcat": "SRV-RCN",
+    "desc": "Reconexión/reactivación de servicio - todo el desarrollo"
+  },
+  {
+    "cid": "3816",
+    "ph": "+5217773057231",
+    "name": "Hector Alvarado",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": " - qué te puedo ayudar?"
+  },
+  {
+    "cid": "3859",
+    "ph": "+5214424606220",
+    "name": "Jazmin",
+    "fake_folio": "CEA-00236",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - paseo"
+  },
+  {
+    "cid": "3873",
+    "ph": "+5214426221882",
+    "name": "👩‍🦰🐣🐵👧🏻🐱🐱🐱😻🐱🐱🐱🐱🐱😻👶🐱🐱🐱",
+    "fake_folio": "CEA-2026-03-12-0356-287316",
+    "cat": "SRV",
+    "subcat": "SRV-RCN",
+    "desc": "Reconexión/reactivación de servicio"
+  },
+  {
+    "cid": "2376",
+    "ph": "+5214426142462",
+    "name": "Enelly Córdova",
+    "fake_folio": "no-folio",
+    "cat": "FAC",
+    "subcat": "FAC-LEC",
+    "desc": "Envío de lectura de medidor - tu domicilio o en la calle/colonia?"
+  },
+  {
+    "cid": "3885",
+    "ph": "+5214428758730",
+    "name": "Amalia😊🌻",
+    "fake_folio": "CEA-00086",
+    "cat": "REP",
+    "subcat": "REP-FTD",
+    "desc": "Fuga en toma domiciliaria - la zona de prados del rincón"
+  },
+  {
+    "cid": "3892",
+    "ph": "+5214425924285",
+    "name": "Alicia Hernandez R",
+    "fake_folio": "no-folio",
+    "cat": "REP",
+    "subcat": "REP-FA-001",
+    "desc": "Falta de agua en domicilio - área verde junto al muro"
+  },
+  {
+    "cid": "3719",
+    "ph": "+5214423196637",
+    "name": "𝒜𝓁ℯ𝓍𝒶 𝒾𝓈𝒶𝒷ℯ𝓁🥰",
+    "fake_folio": "no-folio",
+    "cat": "SRV",
+    "subcat": "SRV-010",
+    "desc": "Instalación de medidor - calle valparaíso #136"
+  }
+]

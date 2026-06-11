@@ -1,0 +1,440 @@
+#,Conv_ID,Teléfono,Nombre,Folio_Falso,Categoría,Subcategoría,Descripción
+1,120,+5214423345265,Ibeth,CEA-20260301-00053,SRV,SRV-001,Servicio técnico general
+2,122,+5214423299489,April 🦒,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+3,129,+5214421577869,Cesar,CEA-24739,REP,REP-FG-001,Reporte de emergencia
+4,134,+5214421562084,Rodrgo Salazar,CEA-20260301-00061,REP,REP-FA-001,Reporte de servicio no especificado
+5,135,+5214428227448,César rt,no-folio,REP,REP-FVP,Fuga vía pública - calle 9
+6,135,+5214428227448,César rt,CEA-20260301-00063,REP,REP-FA-001,Reporte de servicio no especificado
+7,131,+5214421426857,LATP,CEA-20260301-1732,SRV,SRV-001,Servicio técnico general
+8,144,+5214428779330,Lolita,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+9,148,+5214421525654,Librado Alexander Anderso,CEA-20260301-00070,REP,REP-FA-001,Reporte de servicio no especificado
+10,157,+5214492750393,Javier Barrientos,CEA-20260302-00075,REP,REP-FA-001,Reporte de servicio no especificado
+11,163,+5214424765734,rosycastre,CEA-20260302-00077,REP,REP-FA-001,Reporte de servicio no especificado
+12,170,+5212281542163,Tony Agui Moti,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+13,170,+5212281542163,Tony Agui Moti,CEA-20260302-00080,REP,REP-FA-001,Reporte de servicio no especificado
+14,169,+5215548984434,Lisa,CEA-20260302-00082,REP,REP-FA-001,Reporte de servicio no especificado
+15,171,+5214425546410,Lili,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+16,171,+5214425546410,Lili,CEA-20260302-00085,REP,REP-FA-001,Reporte de servicio no especificado
+17,171,+5214425546410,Lili,CEA-20260302-00087,REP,REP-FA-001,Reporte de servicio no especificado
+18,190,+5217641096923,JULIO OCHOA 👊🏼,CEA-20260302-00089,REP,REP-FA-001,Reporte de servicio no especificado
+19,190,+5217641096923,JULIO OCHOA 👊🏼,CEA-20260302-00090,REP,REP-FA-001,Reporte de servicio no especificado
+20,191,+5214424958928,😹,CEA-20260302-00091,REP,REP-FA-001,Reporte de servicio no especificado
+21,7,+5217711202916,Ian,CEA-19753,REP,REP-FTD,Fuga en toma domiciliaria
+22,219,+5214422038511,Liz,no-folio,REP,REP-FTD,Fuga en toma domiciliaria
+23,219,+5214422038511,Liz,CEA-20260302-00099,REP,REP-FA-001,Reporte de servicio no especificado
+24,221,+5214425731952,Car,CEA-00847,REP,REP-FG-001,Reporte de fuga de agua
+25,221,+5214425731952,Car,CEA-20267,REP,REP-FG-001,Reporte de fuga de agua
+26,238,+5214461331161,Recursos Humanos,CEA-00891,REP,REP-FG-001,Reporte de emergencia
+27,257,+5214423384986,Maria Ortiz Gonzalez,CEA-20260302-00117,REP,REP-FA-001,Reporte de servicio no especificado
+28,262,+5214423201588,🤍,CEA-20260302-00122,REP,REP-FA-001,Reporte de servicio no especificado
+29,273,+5214427758826,Erne💋❤️❤️,no-folio,REP,REP-FSA,Falta de servicio de agua en zona
+30,250,+5214423390071,Carmen,CEA-00247,REP,REP-FA-001,Falta de agua en domicilio
+31,272,+5214427711590,🙂,CEA-20260302-00141,REP,REP-FA-001,Reporte de servicio no especificado
+32,286,+5214421317889,Eustaquio,CEA-17234,SRV,SRV-RCN,Reconexión de servicio
+33,302,+5214422792930,Nicole Méndez,CEA-20260302-00158,REP,REP-FA-001,Reporte de servicio no especificado
+34,331,+5214421459103,Gris,CEA-20260302-00173,REP,REP-FA-001,Reporte de servicio no especificado
+35,321,+5215581033382,Dulce María Cruz,CEA-20260302-00176,REP,REP-FA-001,Reporte de servicio no especificado
+36,319,+5214428087060,Ángel Robles,CEA-20260302-00177,REP,REP-FA-001,Reporte de servicio no especificado
+37,320,+5214427102106,Aly,CEA-20260302-00177,REP,REP-FA-001,Reporte de servicio no especificado
+38,342,+5214424663839,ᴍᴏɴᴛᴢᴇʀʀᴀᴛ ʟᴢ 🧡,no-folio,REP,REP-DRO,Drenaje obstruido/tapado
+39,310,+5216251304183,Daniela Maria,CEA-20260302-00185,REP,REP-FA-001,Reporte de servicio no especificado
+40,342,+5214424663839,Reyna Z,CEA-20060302-00187,REP,REP-FA-001,Reporte de servicio no especificado
+41,360,+5214421277534,Reyes,CEA-20260302-00197,REP,REP-FA-001,Reporte de servicio no especificado
+42,362,+5215561303580,Llantos,no-folio,REP,REP-FG-001,Reporte de fuga de agua
+43,358,+5214421090715,Silvy,CEA-20260302-00208,REP,REP-FA-001,Reporte de servicio no especificado
+44,385,+5214423829513,.😍,CEA-20260302-00221,REP,REP-FA-001,Reporte de servicio no especificado
+45,390,+5214421854285,Silvy,CEA-20260302-00228,REP,REP-FA-001,Reporte de servicio no especificado
+46,374,+5214427481996,La reserva suites,CEA-20260302-0013,REP,REP-FG-001,Reporte de fuga de agua
+47,431,+5214421576518,Lili,CEA-20260302-00270,REP,REP-FA-001,Reporte de servicio no especificado
+48,430,+5214423363152,Gab,CEA-10234,SRV,SRV-001,Servicio técnico general
+49,438,+5219933601977,Alejo,CEA-20260302-00281,REP,REP-FDR,Problema de drenaje
+50,445,+5214421785245,Olga Mendez,CEA-20260302-00289,REP,REP-FA-001,Reporte de servicio no especificado
+51,445,+5214421785245,educho,CEA-20260302-00295,REP,REP-FA-001,Reporte de servicio no especificado
+52,458,+5214424965034,ELIA BAUTISTA,no-folio,REP,REP-FDR,Fuga de drenaje
+53,458,+5214424965034,ELIA BAUTISTA,CEA-24031,REP,REP-FG-001,Reporte de fuga de agua
+54,466,+5214423179099,Jesús Andrés Molina,no-folio,REP,REP-FVP,Fuga vía pública - vía pública?
+55,466,+5214423179099,Luz,CEA-20260302-00319,REP,REP-FA-001,Reporte de servicio no especificado
+56,471,+5214423607394,Noryko,CEA-20260302-00328,REP,REP-FA-001,Reporte de servicio no especificado
+57,482,+5214422743372,juanlector2011,CEA-20260302-00350,REP,REP-FA-001,Reporte de servicio no especificado
+58,486,+5214422301610,Andres Garcia,CEA-20260302-00353,REP,REP-FA-001,Reporte de servicio no especificado
+59,482,+5214422743372,juanlector2011,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+60,490,+5214421688758,Mar Es,no-folio,FAC,FAC-LEC,Envío de lectura de medidor
+61,528,+5214421392108,vale,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+62,528,+5214421392108,vale,CEA-20260302-00398,REP,REP-FA-001,Reporte de servicio no especificado
+63,524,+5214423292788,María,CEA-20260302-00399,REP,REP-FA-001,Reporte de servicio no especificado
+64,530,+5214421408317,Rocio,CEA-03051,SRV,SRV-001,Servicio técnico general
+65,365,+5214426757552,🖤🖤🖤🖤🖤,no-folio,FAC,FAC-LEC,Envío de lectura de medidor
+66,593,+5214426650637,Isa,CEA-20260303-00442,REP,REP-FA-001,Reporte de servicio no especificado
+67,591,+5214521857008,Isa,no-folio,REP,REP-FVP,Fuga vía pública - vía pública en calle 33 #302
+68,595,+5214271632586,ANAID,CEA-20260302-0001,SRV,SRV-001,Servicio técnico general
+69,608,+5214426082086,Denice Perez,CEA-20260303-00449,REP,REP-FA-001,Reporte de servicio no especificado
+70,613,+5214461320416,Marisol González,CEA-20260303-00455,REP,REP-FA-001,Reporte de servicio no especificado
+71,606,+5215574916571,✓,CEA-20260303-00457,REP,REP-FA-001,Reporte de servicio no especificado
+72,634,+5214421525569,VIAJES TRAVELLAIR,no-folio,FAC,FAC-LEC,Envío de lectura de medidor
+73,636,+5214424386531,Karla Salinas,CEA-20260303-00467,REP,REP-FA-001,Reporte de servicio no especificado
+74,639,+5214422594925,Esmer@ld@,CEA-20260303-00469,REP,REP-FA-001,Reporte de servicio no especificado
+75,652,+5214424679284,+52 442 467 9284,CEA-20260303-00478,REP,REP-FA-001,Reporte de servicio no especificado
+76,674,+5215510635993,FC,CEA-00847,REP,REP-FVP,Fuga vía pública - avenida c
+77,678,+5214461425427,unidad R-007,CEA-20260303-00643,REP,REP-FA-001,Reporte de servicio no especificado
+78,685,+5214426652971,⚙️🧰 Beatriz Rodríguez,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+79,685,+5214426652971,⚙️🧰 Beatriz Rodríguez,CEA-20260303-00646,REP,REP-FA-001,Reporte de servicio no especificado
+80,692,+5214428169294,Jocelyn,CEA-20260303-00649,REP,REP-FA-001,Reporte de servicio no especificado
+81,693,+5214421375326,Lily 🌈,CEA-20260303-00652,REP,REP-FA-001,Reporte de servicio no especificado
+82,699,+5214421105160,Mina ✨,no-folio,FAC,FAC-LEC,Envío de lectura de medidor
+83,699,+5214421105160,Angel,CEA-30031012-FSA,REP,REP-FA-001,Falta de agua en domicilio
+84,704,+5214421383026,🌸🌹⭐,CEA-25874,REP,REP-FVP,Fuga vía pública - calle san diego #
+85,706,+5214421578892,Rita,CEA-10347,REP,REP-FG-001,Reporte de fuga de agua
+86,648,+5214428172132,Estefany Mtz,CEA-20260303-00700,REP,REP-FA-001,Reporte de servicio no especificado
+87,261,+5212711209496,🤍,no-folio,REP,REP-FSA,Falta de servicio de agua en zona
+88,745,+5214423620303,Marisol Zarate,CEA-20260303-00745,REP,REP-FA-001,Reporte de servicio no especificado
+89,746,+5214423943509,Rubi,CEA-20260303-00746,REP,REP-FA-001,Reporte de servicio no especificado
+90,746,+5214423943509,carol,CEA-77842,REP,REP-FG-001,Reporte de fuga de agua
+91,745,+5214423620303,Marisol Zarate,CEA-20260303-00750,REP,REP-FA-001,Reporte de servicio no especificado
+92,428,+5214422498130,Eri,no-folio,REP,REP-FG-001,Reporte de fuga de agua
+93,743,+5214411525934,🥰🥰,CEA-20260303-00759,REP,REP-FA-001,Reporte de servicio no especificado
+94,762,+5214421221214,Gely🌷,CEA-20260303-00787,REP,REP-FA-001,Reporte de servicio no especificado
+95,767,+5214422836729,Gabyslo,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+96,774,+5215511967137,Fernando M Ruiz,CEA-20260303-00804,REP,REP-FA-001,Reporte de servicio no especificado
+97,762,+5214421221214,.,CEA-20260303-00809,REP,REP-FA-001,Reporte de servicio no especificado
+98,782,+5214411031519,.,CEA-00745,SRV,SRV-001,Servicio técnico general
+99,256,+5214425865151,Andrea Garcia,CEA-20260303-00829,REP,REP-FA-001,Reporte de servicio no especificado
+100,780,+5217712140005,Maru,CEA-20260303-00836,REP,REP-FA-001,Reporte de servicio no especificado
+101,800,+5214421771303,Rafael Jiménez,CEA-20260303-00848,REP,REP-FA-001,Reporte de servicio no especificado
+102,814,+5214424748008,Wuiiniie,no-folio,REP,REP-FTD,Fuga en toma domiciliaria
+103,826,+5214422082676,Edu,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+104,551,+5214426011585,Adricornelio,CEA-20260303-00874,REP,REP-FA-001,Reporte de servicio no especificado
+105,856,+5214422021938,123,CEA-20260303-00895,REP,REP-FA-001,Reporte de servicio no especificado
+106,876,+5214421430142,🙋🏽‍♀️,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+107,880,+5214425621130,Dafne,CEA-20260303-00919,REP,REP-FA-001,Reporte de servicio no especificado
+108,888,+5214131215538,Fabiola Mandujano,CEA-20260303-00922,REP,REP-FA-001,Reporte de servicio no especificado
+109,888,+5214131215538,GABY,CEA-20260303-00923,REP,REP-FA-001,Reporte de servicio no especificado
+110,895,+5214422040228,LoReNa ❤️,CEA-20260303-00925,REP,REP-FA-001,Reporte de servicio no especificado
+111,903,+5214461108622,Ing Arturo SanchezAlvarez,no-folio,FAC,FAC-002,Consulta de recibo/pago
+112,639,+5214422594925,PaTiTo🦆🦆,CEA-56789,SRV,SRV-001,Servicio técnico general
+113,904,+5214427491193,suelto 🪵,CEA-20260303-00936,REP,REP-FA-001,Reporte de servicio no especificado
+114,443,+5214421303707,Rulo,CEA-20260303-00955,REP,REP-FA-001,Reporte de servicio no especificado
+115,927,+5214423676028,jackie,CEA-20260303-00958,REP,REP-FA-001,Reporte de servicio no especificado
+116,931,+5217715256196,Eli,CEA-20260303-00963,REP,REP-FA-001,Reporte de servicio no especificado
+117,945,+5214421410277,Acosta,CEA-20260304-00974,REP,REP-FA-001,Reporte de servicio no especificado
+118,947,+5217206542447,Roberto,no-folio,FAC,FAC-002,Consulta de recibo/pago
+119,956,+5214426046365,.,CEA-20260304-00976,REP,REP-FA-001,Reporte de servicio no especificado
+120,958,+5214423410536,Miguel Chávez,CEA-20260304-00978,REP,REP-FA-001,Reporte de servicio no especificado
+121,962,+5214424923834,Esmer@ld@,CEA-20260304-00978,REP,REP-FA-001,Reporte de servicio no especificado
+122,967,+5214421471608,Miguel M,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+123,970,+5217226058447,Paco Chuy,CEA-20260304-00985,REP,REP-FA-001,Reporte de servicio no especificado
+124,971,+5214427949438,FC,CEA-00842,REP,REP-FVP,Fuga vía pública - avenida campanario 98
+125,825,+5217731400075,daniela ramirez,CEA-20260304-00991,REP,REP-FA-001,Reporte de servicio no especificado
+126,979,+5214422302164,Jcm,CEA-20260304-00993,REP,REP-FA-001,Reporte de servicio no especificado
+127,981,+5214421126578,rocionavarreterodriguez8,CEA-20260304-00995,REP,REP-FA-001,Reporte de servicio no especificado
+128,985,+5214422076311,Roberto Bello,no-folio,REP,REP-FTD,Fuga en toma domiciliaria
+129,987,+5214421474421,Roberto Bello,CEA-20260304-00998,REP,REP-FA-001,Reporte de servicio no especificado
+130,987,+5214421474421,Any 💜,CEA-10342,REP,REP-FG-001,Reporte de fuga de agua
+131,987,+5214421474421,Any 💜,CEA-20260304-00999,REP,REP-FA-001,Reporte de servicio no especificado
+132,196,+5218117833044,~Alex~,no-folio,REP,REP-FG-001,Reporte de fuga de agua
+133,991,+5214426166302,Fanny♥️,CEA-20260304-01004,REP,REP-FA-001,Reporte de servicio no especificado
+134,196,+5218117833044,🌻,CEA-20260304-01007,REP,REP-FA-001,Reporte de servicio no especificado
+135,998,+5214421424162,Olga Ortiz,no-folio,FAC,FAC-002,Consulta de recibo/pago
+136,984,+5214422737075,.,CEA-20260304-01012,REP,REP-FA-001,Reporte de servicio no especificado
+137,676,+5215510635993,FC,CEA-1743912556837,REP,REP-FVP,Fuga vía pública - vía pública (avenida campanario 98) con 
+138,676,+5215510635993,FC,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+139,676,+5215510635993,FC,no-folio,REP,REP-DRO,Drenaje obstruido/tapado
+140,1019,+5214421234284,Paulina,no-folio,REP,REP-FDR,Fuga de drenaje
+141,683,+5214425818492,César Villa,no-folio,FAC,FAC-LEC,Envío de lectura de medidor
+142,1065,+5217461110376,lore,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+143,1066,+5215531479788,lore,CEA-08429,REP,REP-FDR,Problema de drenaje
+144,923,+5214421857129,Caramel Princess,no-folio,FAC,FAC-002,Consulta de recibo/pago
+145,683,+5214425818492,Coordinación Rubra,CEA-00123,SRV,SRV-002,Revisión técnica
+146,874,+5214421228262,Cony,no-folio,REP,REP-FDR,Problema de drenaje
+147,1109,+5214424265372,Salvador Moncada,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+148,874,+5214421228262,Salvador Moncada,CEA-25197,SRV,SRV-001,Servicio técnico general
+149,1119,+5217717481322,😀😃😄😁😆🥹,no-folio,REP,REP-FG-001,Reporte de emergencia
+150,1094,+5215551531389,Marco Idrovo,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+151,1087,+5214428759400,Jessica,CEA-10438,REP,REP-FA-001,Falta de agua en domicilio
+152,792,+5214461291207,꧁༒𝕵𝕰𝕾𝖀𝕾༒꧂,no-folio,FAC,FAC-LEC,Envío de lectura de medidor
+153,370,+5214621924871,Luis Moncayo,no-folio,REP,REP-FG-001,Reporte de fuga de agua
+154,396,+5214425922110,💯,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+155,1161,+5214427439954,Jaime,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+156,1200,+5214411010316,✨💫💥,no-folio,FAC,FAC-002,Consulta de recibo/pago
+157,1195,+5214423818041,Paloma Saavedra,no-folio,REP,REP-FG-001,Reporte de fuga de agua
+158,1197,+5216624479036,Mimi Nieto,no-folio,REP,REP-TAP,Tapa de registro dañada o faltante
+159,1217,+5214421681110,Shei,CEA-00014,REP,REP-FTD,Fuga en toma domiciliaria
+160,1230,+5214421578978,Karina Sanchez,CEA-10394,REP,REP-FG-001,Reporte de fuga de agua
+161,1237,+5214462634719,Oscar Guerrero 😎,no-folio,REP,REP-FG-001,Reporte de fuga de agua
+162,1238,+5214426107363,Araceli Palacios,CEA-24128,REP,REP-FG-001,Reporte de fuga de agua
+163,1281,+5214426772996,queen 👸🏻,no-folio,REP,REP-FSA,Falta de servicio de agua en zona
+164,1288,+5214423785063,Vero,CEA-10348,REP,REP-AG-001,Problema con calidad del agua
+165,1290,+5214423275809,Deyanira,CEA-40006,REP,REP-FDR,Fuga de drenaje
+166,1307,+5214423697268,.,no-folio,REP,REP-FG-001,Reporte de fuga de agua
+167,1308,+5214461464201,.,CEA-09483,SRV,SRV-001,Servicio técnico general
+168,1182,+5214423274785,vamonos  ya toca,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+169,1310,+5214422707462,🙂,CEA-00147,REP,REP-FG-001,Reporte de fuga de agua
+170,1213,+5214422714452,Mimi Nieto,CEA-54003,REP,REP-FA-001,Falta de agua en domicilio
+171,1319,+5214521000517,Tania Macotela,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+172,1336,+5214428734731,Daniela,CEA-40112,REP,REP-FG-001,Reporte de fuga de agua
+173,1340,+5214411391112,Lau Carrera😘,CEA-03046,SRV,SRV-RCN,Reconexión de servicio
+174,1347,+5214427184085,Jorge Avendaño😉👌🏼,CEA-00078,SRV,SRV-001,Servicio técnico general
+175,1283,+5214425063510,Paty Aguilar❤️,CEA-00178,SRV,SRV-001,Servicio técnico general
+176,1274,+5214424654605,jorge michaus,no-folio,SRV,SRV-001,Servicio técnico general
+177,1361,+5214425425252,NanncY Nava🌻💜🌻💜,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+178,1380,+5214425952196,✨🥰,CEA-00892,SRV,SRV-001,Servicio técnico general
+179,1372,+5214421797583,Innova drive,no-folio,REP,REP-FG-001,Reporte de emergencia
+180,1411,+5214424468523,fixmaqui2024,CEA-00031,SRV,SRV-001,Servicio técnico general
+181,1269,+5214421458150,Patito,CEA-00347,SRV,SRV-001,Servicio técnico general
+182,1441,+5214423373497,Claudia,CEA-00347,REP,REP-FA-001,Reporte de servicio no especificado
+183,13,+5214425860282,Rosalba Lg,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+184,1182,+5214423274785,vamonos  ya toca,CEA-43972,REP,REP-FDR,Fuga de drenaje
+185,92,+5214426093870,Guadalupe Martínez,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+186,1481,+5214421071397,MiYorch,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+187,1480,+5214411018967,MiYorch,no-folio,REP,REP-FG-001,Reporte de fuga de agua
+188,624,+5214427510448,Klaudia,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+189,1246,+5214425218561,Ilan,CEA-00106,REP,REP-FA-001,Falta de agua en domicilio
+190,1169,+5214425192184,Chelina,no-folio,REP,REP-FSA,Falta de servicio de agua en zona
+191,1502,+5214423389954,Chelina,CEA-00143,SRV,SRV-001,Servicio técnico general
+192,1515,+5214461032359,Itzel,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+193,1057,+5214423779057,Valeria Vela,CEA-19047,SRV,SRV-RCN,Reconexión de servicio
+194,302,+5214422792930,Nicole Méndez,no-folio,REP,REP-MED,Problema con medidor
+195,1614,+5214421236610,Joha 🧡,CEA-00172,REP,REP-FG-001,Reporte de fuga de agua
+196,1614,+5214421236610,Steban's,CEA-00127,REP,REP-FVP,Fuga vía pública - calle 12 e
+197,1626,+5219511243661,🍃,no-folio,REP,REP-FVP,Fuga vía pública - vía pública en calle mariano escobedo es
+198,1634,+5214426183300,Ray,CEA-00147,REP,REP-FG-001,Reporte de fuga de agua
+199,1578,+5214422267643,RRB,CEA-11049,SRV,SRV-001,Servicio técnico general
+200,1519,+5214423371303,caro,CEA-REP-240306-001,FAC,FAC-LEC,Envío de lectura de medidor
+201,1688,+5214428796073,PublimediosZone,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+202,1691,+5214426226023,Mar 🌊❤️,CEA-00142,SRV,SRV-001,Servicio técnico general
+203,1741,+5214422016569,Arturo Crotte F.,CEA-REP-00125,REP,REP-FDR,Fuga de drenaje
+204,1744,+5214464186685,Fer Ramírez🌻,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+205,1782,+5214422268847,Antonio M.,CEA-00012,SRV,SRV-001,Servicio técnico general
+206,1784,+5214422706263,J Cardoso,no-folio,REP,REP-FVP,Fuga vía pública - vía pública en esa ubicación?
+207,1785,+5214427042797,Victoria,CEA-24713,REP,REP-FVP,Fuga vía pública - calle mars
+208,1489,+5214428698028,polleria panchito,no-folio,REP,REP-FDR,Problema de drenaje
+209,1798,+5214423449490,Diana LEXELL 🦉,CEA-45982,REP,REP-FVP,Fuga vía pública - vía pública con folio **cea-45982**
+210,1814,+5214427192209,Leo,CEA-45982,REP,REP-FVP,Fuga vía pública - vía pública con folio **cea-45982** en h
+211,1838,+5214423812462,Alonso 😝,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+212,1844,+5214424262697,flako's 90,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+213,1849,+5214421775876,Fernando Rodriguez M,no-folio,REP,REP-FG-001,Reporte de fuga de agua
+214,1855,+5214423190834,Noe,no-folio,REP,REP-FVP,Fuga vía pública - vía pública en j
+215,1871,+5214427124237,J F 🤍🤍,CEA-01934,SRV,SRV-001,Servicio técnico general
+216,1897,+5215516565136,Alma Arias 🦋,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+217,1898,+5214426685292,betty alvarez,CEA-00789,REP,REP-FVP,Fuga vía pública - vía pública con folio **cea-00789**
+218,1907,+5214422865958,Marian,no-folio,REP,REP-FG-001,Reporte de fuga de agua
+219,1925,+5214427809596,Naara Palacios,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+220,1925,+5214427809596,Naara Palacios,CEA-12845,REP,REP-FA-001,Falta de agua en domicilio
+221,1932,+5214426693018,Guillermo Anota,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+222,1937,+5214426102211,❤️❤️mis amores❣️❣️❣️,no-folio,REP,REP-DRO,Drenaje obstruido/tapado
+223,1959,+5214421064201,Luuperea🌷🌷,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+224,1964,+5214423235943,Alejandro Nieves,CEA-10247,REP,REP-FG-001,Reporte de fuga de agua
+225,1971,+5214425058039,ꜱʜᴏᴇɴꜱᴛᴀᴛᴛ ᴀʟᴠᴀʀᴇᴢ,no-folio,REP,REP-FVP,Fuga vía pública - corregidora nte
+226,1307,+5214423697268,.,no-folio,REP,REP-FSA,Falta de servicio de agua en zona
+227,1735,+5214463755875,francisco silva,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+228,413,+5214421382310,Lili,CEA-00847,REP,REP-FVP,Fuga vía pública - vía pública con folio **cea-00847**
+229,2021,+5214424455799,Luis Salazar,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+230,2021,+5214424455799,Luis Salazar,CEA-12345,REP,REP-FSA,Falta de servicio de agua en zona
+231,2027,+5214421309147,rosaliciar1405,CEA-00177,REP,REP-FG-001,Reporte de fuga de agua
+232,2034,+5214428251067,emyy,no-folio,REP,REP-FVP,Fuga vía pública - calle
+233,2044,+5214426805353,Nayeli 💕,CEA-00081,SRV,SRV-001,Servicio técnico general
+234,644,+5214421058973,SGERS 💙,no-folio,REP,REP-FVP,Fuga vía pública - calle josé maría morelos entre
+235,2060,+5214422006344,GEMF,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+236,2069,+5214422368716,Carla Pérez,no-folio,REP,REP-FDR,Problema de drenaje
+237,2069,+5214422368716,Carla Pérez,CEA-00891,REP,REP-FG-001,Reporte de fuga de agua
+238,2077,+5214424228519,Fer🥰,CEA-29639,SRV,SRV-001,Servicio técnico general
+239,2097,+5214421177055,작은 빛 🥰,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+240,2122,+524425749422,Ger👣,no-folio,REP,REP-FSA,Falta de servicio de agua en zona
+241,2128,+5215535059602,Paulina,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+242,2131,+5214422713799,Adris,no-folio,REP,REP-FVP,Fuga vía pública - vía pública en asunción hernández melénd
+243,2131,+5214422713799,Adris,CEA-10047,SRV,SRV-001,Servicio técnico general
+244,1977,+5214421902424,R Madeleine Glz Picco,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+245,2141,+5214422316716,Miguel Guerrero,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+246,2141,+5214422316716,Miguel Guerrero,CEA-10009,SRV,SRV-001,Servicio técnico general
+247,2146,+5214434300046,Claudia Ornelas,no-folio,REP,REP-FG-001,Reporte de fuga de agua
+248,2165,+5214471116121,Gaby,no-folio,REP,REP-BAP,Baja presión de agua
+249,2165,+5214471116121,Gaby,CEA-10007,REP,REP-BAP,Baja presión de agua
+250,2181,+5214423306713,💀,no-folio,REP,REP-FVP,Fuga vía pública - calle gabriela entre plutarco elías call
+251,1839,+5214461474286,R-002,no-folio,REP,REP-FVP,Fuga vía pública - vía pública?
+252,2206,+5214421109070,Janet,no-folio,REP,REP-FSA,Falta de servicio de agua en zona
+253,1483,+5214423333507,Tita Tony,no-folio,REP,REP-FDR,Fuga de drenaje
+254,1277,+5214421061617,Nestor Trejo,CEA-10347,REP,REP-FSA,Falta de servicio de agua en zona
+255,460,+5214421290011,Beth,no-folio,REP,REP-FVP,Fuga vía pública - vía pública con la ubicación que me dist
+256,2071,+5214425959753,Cesar Utrera,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+257,1538,+5214423538545,Brend!,CEA-03455,REP,REP-TAP,Tapa de registro dañada o faltante
+258,1256,+5214428319129,magdalenoloredo355,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+259,2301,+5214423692337,Sandy,CEA-00177,SRV,SRV-001,Servicio técnico general
+260,310,+5216251304183,Andy,CEA-00153,REP,REP-FVP,Fuga vía pública - calle insurgentes
+261,2318,+5214426536700,Krmn Medellín 🥰,CEA-00847,SRV,SRV-001,Servicio técnico general
+262,2313,+5214427808198,Adriana Lopez,CEA-24913,SRV,SRV-001,Servicio técnico general
+263,2326,+5214424516146,Sel Garnica,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+264,2344,+5214463871095,José Luis Sáenz G.,no-folio,REP,REP-FVP,Fuga vía pública - calle 9
+265,2374,+5214425749416,Yessi 💛,CEA-19474,REP,REP-FA-001,Falta de agua en domicilio
+266,2400,+5214421240396,Paty,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+267,1141,+5214423788397,😍,CEA-00147,REP,REP-FTD,Fuga en toma domiciliaria
+268,2218,+5214612762680,😍,no-folio,REP,REP-FG-001,Reporte de fuga de agua
+269,2431,+5214424886492,luyandomarisol328,no-folio,REP,REP-FDR,Problema de drenaje
+270,2438,+5214421805399,🍃,CEA-10427,REP,REP-FDR,Problema de drenaje
+271,2437,+5214424450839,🍃,no-folio,REP,REP-FVP,Fuga vía pública - vía pública en calle bicentenario 312
+272,2443,+5214425192009,Wendy Arteaga Cruz,no-folio,REP,REP-FVP,Fuga vía pública - calle guadalu
+273,2455,+5214426142201,Angelina 😇,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+274,2475,+5214427512765,Olii🪬🪬🪬,no-folio,REP,REP-FSA,Falta de servicio de agua en zona
+275,285,+5214423658449,Angelina 😇,no-folio,REP,REP-HUN,Hundimiento en vía pública
+276,285,+5214423658449,Chio,no-folio,FAC,FAC-LEC,Envío de lectura de medidor
+277,2487,+5214421458052,💙😊,no-folio,REP,REP-DRO,Drenaje obstruido/tapado
+278,2496,+5214421447748,arturo regaladoa,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+279,2530,+5214462423144,villarrealmanito4,CEA-00347,REP,REP-FG-001,Reporte de fuga de agua
+280,2543,+5214422634247,🙂,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+281,2556,+5214425922732,Santiago Peñaloza,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+282,2281,+5214424368145,Patricia 🥰,CEA-00124,REP,REP-FDR,Fuga de drenaje
+283,2587,+5214421429524,Maribel,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+284,2587,+5214421429524,Maribel,CEA-00789,SRV,SRV-001,Servicio técnico general
+285,2589,+5214422715401,Marcos,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+286,1337,+5214425922872,Lety Tamayo,no-folio,REP,REP-BAP,Baja presión de agua
+287,2613,+5214428634999,Oscar G Beltrán,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+288,2529,+5214426560794,Angy,no-folio,REP,REP-FSA,Falta de servicio de agua en zona
+289,2618,+5214424004467,Antonio,CEA-90018,SRV,SRV-001,Servicio técnico general
+290,2627,+5214423644960,Raque GM 👩🏽‍🌾,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+291,2599,+5214425852077,solamenteJossh...Plenmntt,no-folio,REP,REP-FVP,Fuga vía pública - la vía pública)
+292,2688,+5214424236808,Sandra,CEA-00214,REP,REP-FTD,Fuga en toma domiciliaria
+293,2717,+5214424352523,Sandra,no-folio,REP,REP-FTD,Fuga en toma domiciliaria
+294,867,+5214424614473,GABY,CEA-00312,REP,REP-FTD,Fuga en toma domiciliaria
+295,2719,+5215591986916,Rodolfo,CEA-00087,REP,REP-FDR,Problema de drenaje
+296,2739,+5214461693272,GAAM,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+297,2745,+5214461018682,😘🥰😍,CEA-00427,REP,REP-FA-001,Falta de agua en domicilio
+298,2748,+5214424221690,.,CEA-00124,REP,REP-FTD,Fuga en toma domiciliaria
+299,2750,+5214422369844,😄,CEA-86936,SRV,SRV-001,Servicio técnico general
+300,2752,+5214461079348,Paulina Mondragon,no-folio,SRV,SRV-RCN,Reconexión de servicio
+301,2704,+5214422498951,Carolina Rocha Mazurkevic,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+302,2804,+5214426191007,Ely,no-folio,REP,REP-TAP,Tapa de registro dañada o faltante
+303,2830,+5214421216083,Alan Herrera 🥷,CEA-10547,REP,REP-TAP,Tapa de registro dañada o faltante
+304,2847,+5214424935069,Violeta Vag,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+305,1332,+5214423348762,Elvia,no-folio,REP,REP-FSA,Falta de servicio de agua en zona
+306,2877,+5214421447093,Armando aviles,no-folio,REP,REP-DRO,Drenaje obstruido/tapado
+307,2051,+5214424474191,Dulce Álvarez,CEA-17490,REP,REP-FA-001,Falta de agua en domicilio
+308,2897,+5214425947920,..,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+309,2924,+5218180206042,Gavela,CEA-00893,REP,REP-FA-001,Falta de agua en domicilio
+310,2954,+5214614218666,Grace,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+311,2954,+5214614218666,Grace,CEA-00147,REP,REP-FVP,Fuga vía pública - vía pública con folio **cea-00147**
+312,2363,+5214421433419,Isaí Márquez 🫵🤓,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+313,2363,+5214421433419,Isaí Márquez 🫵🤓,CEA-10340,SRV,SRV-001,Servicio técnico general
+314,2995,+5214428942961,Karly❤️ 🥰🌹,CEA-10847,REP,REP-BAP,Baja presión de agua
+315,3001,+5214421462899,Fernanda,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+316,3005,+5214421114292,iza,CEA-25031001,REP,REP-FTD,Fuga en toma domiciliaria
+317,3006,+5214424089680,Erika Balestra,CEA-00131,REP,REP-FTD,Fuga en toma domiciliaria
+318,1489,+5214428698028,polleria panchito,CEA-95172,REP,REP-FDR,Problema de drenaje
+319,3007,+5214423836750,Paulino,no-folio,REP,REP-FDR,Fuga de drenaje
+320,3013,+5214423462398,Marisol AR,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+321,3013,+5214423462398,Marisol AR,CEA-30338,SRV,SRV-001,Servicio técnico general
+322,3020,+5214461396188,Alberto Ing. de aplicaciones ATEQ CORP,CEA-31407,SRV,SRV-001,Servicio técnico general
+323,3021,+5214423477451,Party Deco,CEA-10302,SRV,SRV-RCN,Reconexión de servicio
+324,2827,+5217771613076,Kristi,CEA-00045,SRV,SRV-001,Servicio técnico general
+325,2874,+5214461087462,lorenajurez10,CEA-25673,REP,REP-FA-001,Reporte de servicio no especificado
+326,3038,+5214425200137,Isabel Aguilar,no-folio,REP,REP-FVP,Fuga vía pública - vía pública con las dos fotos de evidenc
+327,3000,+5214421155898,Luis Felipe Ortega,no-folio,SRV,SRV-001,Servicio técnico general
+328,3041,+5218332344306,Luis Felipe Ortega,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+329,2438,+5214421805399,🍃,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+330,3000,+5214421155898,Fernando M Ruiz,no-folio,REP,REP-HUN,Hundimiento en vía pública
+331,2506,+5214424900276,Yazmin Tovar,CEA-00011,SRV,SRV-001,Servicio técnico general
+332,3063,+5215513885279,Ana,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+333,3082,+5214422659280,DQ Corporativo,no-folio,REP,REP-FVP,Fuga vía pública - calle 5 #7
+334,1718,+5214423602050,🤘,CEA-00157,REP,REP-FVP,Fuga vía pública - calle cerr
+335,3063,+5215513885279,Ana,CEA-00189,SRV,SRV-001,Servicio técnico general
+336,3120,+5214424317120,Jaz ♡,no-folio,REP,REP-FVP,"Fuga vía pública - vía pública con la ubicación ""calle prin"
+337,3118,+5214461232915,Graphic Motus,CEA-10013,REP,REP-FTD,Fuga en toma domiciliaria
+338,3127,+5214422036543,Eliud,CEA-30152,REP,REP-FA-001,Falta de agua en domicilio
+339,482,+5214422743372,juanlector2011,CEA-77889,REP,REP-FVP,Fuga vía pública - vía pública con folio **cea-77889**
+340,662,+5214421312496,✨,no-folio,SRV,SRV-001,Servicio técnico general
+341,3120,+5214424317120,Diegue,no-folio,FAC,FAC-LEC,Envío de lectura de medidor
+342,3154,+5214427200785,Karmen😘,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+343,2722,+5214421291633,Vicky,no-folio,REP,REP-FDR,Problema de drenaje
+344,3172,+5214428153154,Rou,CEA-002587,SRV,SRV-001,Servicio técnico general
+345,683,+5214425818492,Mariana,CEA-002588,REP,REP-FDR,Fuga de drenaje
+346,3177,+5215518148087,Gis,CEA-10047,REP,REP-FVP,Fuga vía pública - vía pública con folio **cea-10047**
+347,3195,+5214411052620,Luis M Rodríguez,no-folio,REP,REP-FG-001,Reporte de emergencia
+348,3202,+5214427507406,Cesar Flores,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+349,3226,+5214425093409,SSB Triara,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+350,3213,+5214423383030,saenz lucy maria,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+351,2793,+5216441929261,Gabriel,no-folio,REP,REP-FG-001,Reporte de fuga de agua
+352,3236,+5214422263333,Gabriel,CEA-00112,REP,REP-FTD,Fuga en toma domiciliaria
+353,3235,+5214425633389,🌕🍂,TKT-2025-000040,FAC,FAC-LEC,Envío de lectura de medidor
+354,1607,+5214421118175,🌹🌷,no-folio,REP,REP-DRO,Drenaje obstruido/tapado
+355,3246,+5214421863557,Javier Torres,CEA-00284,REP,REP-FDR,Problema de drenaje
+356,3285,+5214421082885,Janett,CEA-30050,REP,REP-MED,Problema con medidor
+357,3138,+5214421602510,Chiina,CEA-00008,SRV,SRV-001,Servicio técnico general
+358,3292,+5214613122546,🍂,CEA-39046,SRV,SRV-001,Servicio técnico general
+359,3306,+5214422361259,joseramonreyesgonzalez69,no-folio,REP,REP-FVP,Fuga vía pública - vía pública en artículo 27 constituciona
+360,3305,+5214425507078,Alexis Hernandez Ferruzca,CEA-001238,SRV,SRV-001,Servicio técnico general
+361,3314,+5214424661320,Tatyliz,CEA-30046200-REP-MED-20260311175800,SRV,SRV-001,Servicio técnico general
+362,3324,+5214427526882,Mr Cookies,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+363,3326,+5214421879544,Pao Mendoza,CEA-00521,REP,REP-FSA,Falta de servicio de agua en zona
+364,3182,+5214421868517,𝕂𝔸𝕃𝔸  🧁,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+365,3335,+5214428638949,𝕯𝖆𝖓𝖎💙,CEA-00028,SRV,SRV-001,Servicio técnico general
+366,3344,+5214422500789,Carolina Galaviz,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+367,3342,+5214423476004,Eduardo Bobadilla,CEA-00847,REP,REP-FG-001,Reporte de fuga de agua
+368,3358,+5214425614518,Anna García,CEA-11078,SRV,SRV-001,Servicio técnico general
+369,3359,+5215510633874,Karla,CEA-11078,REP,REP-FA-001,Reporte de servicio no especificado
+370,3361,+5214421261100,Xime,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+371,3366,+5214422817247,Micol Díaz 🥰🙏🏻🥰🎼♾️,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+372,3367,+5214424617045,Angelica Zires,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+373,2248,+5214273020072,✨LIZ✨,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+374,3187,+5214481825757,chuleta,CEA-00847,SRV,SRV-001,Servicio técnico general
+375,2015,+5214424468789,Jaens,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+376,1977,+5214421902424,R Madeleine Glz Picco,CEA-10348,SRV,SRV-001,Servicio técnico general
+377,3372,+5217225344885,Mp Compani,CEA-14728,REP,REP-FA-001,Reporte de servicio no especificado
+378,3387,+5218334397524,Yair,no-folio,REP,REP-FVP,Fuga vía pública - vía pública en esa ubicación?
+379,3397,+5214481028043,🦈💤💙,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+380,3409,+5214424660794,Monii Gómez,no-folio,REP,REP-FSA,Falta de servicio de agua en zona
+381,3409,+5214424660794,Monii Gómez,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+382,3415,+5214421077465,Alix Cuevas,CEA-30076,REP,REP-FA-001,Falta de agua en domicilio
+383,3423,+5214461701954,Arely,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+384,3429,+5218671129164,Cris,CEA-00127,SRV,SRV-001,Servicio técnico general
+385,3434,+5214421152534,.,CEA-00013,REP,REP-FDR,Fuga de drenaje
+386,3445,+5214425629986,Isabel Schulz,CEA-00139,REP,REP-FA-001,Falta de agua en domicilio
+387,3458,+5214422494437,Silvia Ramirez,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+388,3458,+5214422494437,Silvia Ramirez,CEA-54321,REP,REP-TAP,Tapa de registro dañada o faltante
+389,1301,+5214423786886,Roberto Torres,no-folio,REP,REP-FDR,Fuga de drenaje
+390,3469,+5214421161432,Cel,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+391,3489,+5214423472007,Javi,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+392,3268,+5214423475180,Luis Beltran,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+393,2782,+5214421523147,Javantavi,no-folio,REP,REP-FG-001,Reporte de fuga de agua
+394,3358,+5214425614518,Carlos GM,CEA-10237,SRV,SRV-001,Servicio técnico general
+395,241,+5214421416220,Carlos GM,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+396,3516,+5214428901862,Carlos GM,CEA-10892,SRV,SRV-001,Servicio técnico general
+397,3451,+5214427970895,Anna García,CEA-10892,SRV,SRV-001,Servicio técnico general
+398,3524,+5214423831155,Angeles Gameros,no-folio,REP,REP-FSA,Falta de servicio de agua en zona
+399,3509,+5214423269918,Lizy🥰,CEA-00154,SRV,SRV-001,Servicio técnico general
+400,2931,+5219996051703,BHE,CEA-00173,SRV,SRV-001,Servicio técnico general
+401,3544,+5214481699170,.,CEA-00018,SRV,SRV-001,Servicio técnico general
+402,3598,+5215514138099,Ernesto,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+403,3419,+5214423772279,Jazz👸🏻,CEA-30082,REP,REP-FA-001,Falta de agua en domicilio
+404,3603,+5214421864705,Yanin,CEA-00013,REP,REP-FA-001,Falta de agua en domicilio
+405,3612,+5214427141882,Artemisa,CEA-00319,REP,REP-FA-001,Falta de agua en domicilio
+406,3619,+5217224737265,Hugo Cortes,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+407,3552,+5214427780541,.,no-folio,FAC,FAC-004,Aclaración de cobro
+408,3641,+5215542767079,Carmen García🍷,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+409,3650,+5214421302779,Adela,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+410,3653,+5214421869207,Grace Velázquez,CEA-04138,REP,REP-FSA,Falta de servicio de agua en zona
+411,3671,+524424369033,"Ross Flowers "" Toty""",no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+412,2044,+5214426805353,Nayeli 💕,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+413,3689,+5214421597801,Erika,CEA-30144011-FSA,REP,REP-FA-001,Falta de agua en domicilio
+414,3704,+5214421344801,✌🏻,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+415,3674,+5214424314969,Erika,CEA-00457,SRV,SRV-001,Servicio técnico general
+416,3703,+5214423333183,Chayo,CEA-00834,REP,REP-FDR,Problema de drenaje
+417,3710,+5215654308833,🌟 Isabel 🌟,CEA-00124,SRV,SRV-001,Servicio técnico general
+418,3770,+5214428157935,Paty,CEA-24703,REP,REP-FA-001,Falta de agua en domicilio
+419,3386,+5214611429709,Angie ❤️,no-folio,FAC,FAC-LEC,Envío de lectura de medidor
+420,3773,+5214424521489,Omar,no-folio,REP,REP-FA-001,Falta de agua en domicilio
+421,3714,+5214424649677,Miguel Angel 🇲🇽 🏓🏹,no-folio,REP,REP-FSA,Falta de servicio de agua en zona
+422,2353,+5214424616211,Herme,CEA-00034,SRV,SRV-001,Servicio técnico general
+423,3773,+5214424521489,Tita Tony,CEA-15789,SRV,SRV-001,Servicio técnico general
+424,3788,+5214427878239,Lu,no-folio,REP,REP-FSA,Falta de servicio de agua en zona
+425,3397,+5214481028043,𝙻ore Sánchez,CEA-70008,SRV,SRV-001,Servicio técnico general
+426,3788,+5214427878239,ISC,no-folio,REP,REP-FG-001,Reporte de fuga de agua
+427,3804,+5215541894390,Natalie 🤍,no-folio,REP,REP-FSA,Falta de servicio de agua en zona
+428,3227,+5214421280188,Celes,CEA-00029,SRV,SRV-001,Servicio técnico general
+429,3693,+5214422660451,DenCoBa,CEA-00789,REP,REP-FA-001,Falta de agua en domicilio
+430,3813,+5214423203599,Lily Tellez  😊,CEA-78945,REP,REP-FVP,Fuga vía pública - marqués de mo
+431,3830,+5214425084142,Israel,CEA-10010,REP,REP-FA-001,Falta de agua en domicilio
+432,3836,+5214422841706,Kari,CEA-00542,REP,REP-FA-001,Falta de agua en domicilio
+433,2936,+5214424496029,Hector Alvarado,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+434,3868,+5214422711773,Jazmin,CEA-00236,SRV,SRV-001,Servicio técnico general
+435,3047,+5215550680482,👩‍🦰🐣🐵👧🏻🐱🐱🐱😻🐱🐱🐱🐱🐱😻👶🐱🐱🐱,CEA-2026-03-12-0356-287316,REP,REP-FA-001,Falta de agua en domicilio
+436,3879,+5214421417141,Enelly Córdova,no-folio,FAC,FAC-LEC,Envío de lectura de medidor
+437,1419,+5214426694530,Amalia😊🌻,CEA-00086,SRV,SRV-001,Servicio técnico general
+438,3892,+5214425924285,Alicia Hernandez R,no-folio,REP,REP-FA-001,Reporte de servicio no especificado
+439,3915,+5214423434169,𝒜𝓁ℯ𝓍𝒶 𝒾𝓈𝒶𝒷ℯ𝓁🥰,no-folio,SRV,SRV-010,Instalación de medidor

@@ -140,25 +140,22 @@ export function extractMessageContent(payload: ChatwootWebhookPayload): {
 // ============================================
 
 export async function processAttachments(
-    attachments: ChatwootAttachment[]
+    attachments: ChatwootAttachment[],
+    skipMedidorAnalysis: boolean = false
 ): Promise<string> {
     // Process media attachments (audio, images) with AI
-    const mediaResult = await processMediaAttachments(attachments);
+    const mediaResult = await processMediaAttachments(attachments, skipMedidorAnalysis);
 
     // Handle non-media attachments (location, etc)
     const parts: string[] = [];
 
     for (const attachment of attachments) {
-        // Skip audio and image - already handled by processMediaAttachments
-        if (attachment.file_type === "audio" || attachment.file_type === "image") {
+        // Skip audio, image, and video - already handled by processMediaAttachments
+        if (attachment.file_type === "audio" || attachment.file_type === "image" || attachment.file_type === "video") {
             continue;
         }
 
         switch (attachment.file_type) {
-            case "video":
-                parts.push(`[Video adjunto - no puedo procesar videos. El usuario envió un video.]`);
-                break;
-
             case "location":
                 if (attachment.coordinates_lat && attachment.coordinates_long) {
                     parts.push(`[Ubicacion compartida: Lat ${attachment.coordinates_lat}, Long ${attachment.coordinates_long}]`);

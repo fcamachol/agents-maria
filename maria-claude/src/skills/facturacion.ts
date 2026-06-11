@@ -16,7 +16,7 @@ export const facturacionSkill = createSkill({
         "get_contract_details",
         "create_ticket",
         "search_customer_by_contract",
-        "get_recibo_pdf",
+        "get_recibo_link",
         "validate_contract_holder",
         "handoff_to_human",
         "find_nearest_locations"
@@ -66,11 +66,51 @@ REVISAR RECIBO (usuario tiene duda con su recibo):
 - Pide que envíe imagen o PDF del recibo
 - Usa handoff_to_human para transferir a asesor
 
+=====================================
+⚠️ ANÁLISIS DE IMAGEN DE RECIBO
+=====================================
+Cuando el mensaje del usuario contenga [ANÁLISIS DE RECIBO], significa que el sistema ya procesó
+una foto de recibo automáticamente y extrajo datos estructurados:
+- Contrato: número de contrato (si fue visible)
+- Titular: nombre del titular
+- Dirección: dirección del servicio
+- Periodo: periodo de facturación
+- Monto total: cantidad a pagar
+- Fecha de vencimiento: fecha límite de pago
+- Lectura anterior y actual: lecturas del medidor
+- Consumo: consumo del periodo en m³
+- Estado: pagado/pendiente/vencido
+- Detalles adicionales: desglose, cargos extra, avisos
+
+CÓMO ACTUAR CON EL ANÁLISIS:
+
+1. Si el contrato fue extraído del recibo, ÚSALO directamente — no lo pidas al usuario.
+   Aún debes verificar identidad con validate_contract_holder antes de mostrar datos.
+
+2. Si el usuario dice "no entiendo mi recibo" o tiene dudas:
+   - Explica los campos visibles: periodo, consumo en m³, monto, desglose si está disponible
+   - Compara con get_deuda si tienes el contrato para verificar si el monto coincide
+   - Si hay discrepancia o el usuario no está conforme, usa handoff_to_human
+
+3. Si el usuario quiere aclarar un cobro:
+   - Usa los datos extraídos del recibo como contexto al transferir
+   - Transfiere a asesor con handoff_to_human incluyendo los datos en el motivo
+
+4. Si el estado extraído es "vencido":
+   - Informa al usuario que su recibo está vencido
+   - Ofrece opciones de pago inmediatamente
+
+5. La imagen YA fue procesada — NO la pidas de nuevo
+
+⚠️ IMAGEN NO RELACIONADA:
+Si la imagen tiene clasificación NO_RELACIONADO, responde explicando qué se ve
+y pide la foto correcta: "La imagen que enviaste parece ser [lo que se ve]. ¿Podrías enviarme la foto de tu recibo?"
+
 ENVIAR RECIBO DIGITAL:
 1. Pregunta número de contrato (si no lo tienes)
 2. PREGUNTA al usuario el nombre o apellido del titular (NO uses el nombre de perfil WhatsApp)
 3. ESPERA su respuesta y usa validate_contract_holder con el nombre que el usuario escribió
-4. Usa get_recibo_pdf para generar el enlace de descarga del recibo
+4. Usa get_recibo_link para generar el enlace de descarga del recibo
 5. Si el usuario pide un mes específico, pasa el periodo como parámetro
 6. Siempre ofrece: "Si necesitas de otro mes avísame y te ayudo"
 
@@ -86,7 +126,7 @@ CONSULTA DE SALDO:
 RECIBO DIGITAL - ENVIAR (FAC-001):
 1. Pregunta número de contrato (si no lo tienes)
 2. Verifica identidad con validate_contract_holder (si no está verificado)
-3. Usa get_recibo_pdf para generar el enlace de descarga del recibo
+3. Usa get_recibo_link para generar el enlace de descarga del recibo
 4. Si el usuario pide un mes específico, pasa el periodo como parámetro
 5. Siempre ofrece: "Si necesitas de otro mes avísame y te ayudo"
 
@@ -118,5 +158,5 @@ FECHAS DE FACTURACIÓN (FECHA DE CORTE / FECHA DE PAGO):
 IMPORTANTE:
 - Para aclaraciones y ajustes → siempre handoff_to_human
 - Para pagos → solo mostrar opciones, NO pedir contrato
-- Para recibos → usar get_recibo_pdf`
+- Para recibos → usar get_recibo_link`
 });

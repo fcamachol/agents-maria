@@ -161,6 +161,8 @@ export interface CreateTicketInput {
     contract_number?: string | null;
     email?: string | null;
     ubicacion?: string | null;
+    latitude?: number | null;
+    longitude?: number | null;
     priority?: TicketPriority;
 }
 

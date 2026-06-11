@@ -18,6 +18,7 @@ import type {
     CategoryCode,
     TicketPriority,
 } from "./types.js";
+import { getLecturaAttachmentId, clearLecturaAttachmentId } from "./lectura-store.js";
 import {
     renderTemplate,
     formatField,
@@ -52,16 +53,18 @@ async function fetchWithRetry(
     url: string,
     options: RequestInit,
     maxRetries = 3,
-    delayMs = 1000
+    delayMs = 1500
 ): Promise<Response> {
     let lastError: Error | null = null;
+    // Extract endpoint name from URL for readable logs
+    const endpoint = url.split('/').pop() || url;
 
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
         try {
             let response: Response;
 
             if (PROXY_URL && url.includes('ceaqueretaro.gob.mx')) {
-                console.log(`[API] Using proxy: ${PROXY_URL} for ${url}`);
+                if (attempt === 1) console.log(`[API] ${endpoint} via proxy`);
                 const proxyAgent = new ProxyAgent(PROXY_URL);
 
                 response = await undiciFetch(url, {
@@ -79,15 +82,19 @@ async function fetchWithRetry(
             }
 
             if (!response.ok && attempt < maxRetries) {
-                console.warn(`[API] Attempt ${attempt} failed with status ${response.status}, retrying...`);
+                console.warn(`[API] ${endpoint} attempt ${attempt}/${maxRetries} failed: HTTP ${response.status}, retrying in ${delayMs * attempt}ms...`);
                 await new Promise(r => setTimeout(r, delayMs * attempt));
                 continue;
+            }
+
+            if (!response.ok) {
+                console.error(`[API] ${endpoint} FAILED after ${maxRetries} attempts: HTTP ${response.status}`);
             }
 
             return response;
         } catch (error) {
             lastError = error as Error;
-            console.warn(`[API] Attempt ${attempt} error: ${lastError.message}`);
+            console.warn(`[API] ${endpoint} attempt ${attempt}/${maxRetries} error: ${lastError.message}`);
 
             if (attempt < maxRetries) {
                 await new Promise(r => setTimeout(r, delayMs * attempt));
@@ -95,7 +102,8 @@ async function fetchWithRetry(
         }
     }
 
-    throw lastError || new Error("Request failed after retries");
+    console.error(`[API] ${endpoint} FAILED after ${maxRetries} attempts: ${lastError?.message}`);
+    throw lastError || new Error(`${endpoint} failed after ${maxRetries} retries`);
 }
 
 function parseXMLValue(xml: string, tag: string): string | null {
@@ -495,11 +503,21 @@ function parseDeudaTotalConFacturasResponse(xml: string): {
     nombreCliente?: string;
     facturas?: FacturaPendiente[];
     error?: string;
+    codigoError?: number;
 } {
     try {
         if (xml.includes("<faultstring>") || xml.includes("<error>")) {
             const faultMsg = parseXMLValue(xml, "faultstring") || parseXMLValue(xml, "error") || "Error desconocido";
             return { success: false, error: faultMsg };
+        }
+
+        // Check for API-level error codes (e.g., -501 = contract not found)
+        const codigoErrorStr = parseXMLValue(xml, "codigoError") || "0";
+        const codigoError = parseInt(codigoErrorStr, 10);
+        if (codigoError !== 0) {
+            const descripcionError = parseXMLValue(xml, "descripcionError") || parseXMLValue(xml, "descripcionMensaje") || "Error en la consulta";
+            console.warn(`[parseDeudaTotalConFacturasResponse] API error code ${codigoError}: ${descripcionError}`);
+            return { success: false, error: descripcionError, codigoError };
         }
 
         const totalDeuda = parseFloat(parseXMLValue(xml, "deudaTotal") || "0");
@@ -538,11 +556,21 @@ function parseDeudaContratoResponse(xml: string): {
     nombreCliente?: string;
     mensaje?: string;
     error?: string;
+    codigoError?: number;
 } {
     try {
         if (xml.includes("<faultstring>") || xml.includes("<error>")) {
             const faultMsg = parseXMLValue(xml, "faultstring") || parseXMLValue(xml, "error") || "Error desconocido";
             return { success: false, error: faultMsg };
+        }
+
+        // Check for API-level error codes (e.g., -501 = contract not found)
+        const codigoErrorStr = parseXMLValue(xml, "codigoError") || "0";
+        const codigoError = parseInt(codigoErrorStr, 10);
+        if (codigoError !== 0) {
+            const descripcionError = parseXMLValue(xml, "descripcionError") || parseXMLValue(xml, "descripcionMensaje") || "Error en la consulta";
+            console.warn(`[parseDeudaContratoResponse] API error code ${codigoError}: ${descripcionError}`);
+            return { success: false, error: descripcionError, codigoError };
         }
 
         const totalDeuda = parseFloat(parseXMLValue(xml, "deuda") || parseXMLValue(xml, "deudaTotal") || "0");
@@ -810,25 +838,27 @@ export async function createTicketDirect(input: CreateTicketInput): Promise<Crea
 
         console.log(`[create_ticket_direct] Category ID: ${categoryId}, Subcategory ID: ${subcategoryId}`);
 
-        // Note: folio is auto-generated by database trigger (CEA-{display_id})
+        const folio = await generateTicketFolioFromPG(input.category_code, input.subcategory_code);
+
         const result = await pgQuery<{ id: number; folio: string }>(`
             INSERT INTO tickets (
-                account_id, title, description, status, priority,
+                account_id, folio, title, description, status, priority,
                 ticket_type, service_type, channel, contract_number,
                 client_name, metadata,
                 ticket_category_id, ticket_subcategory_id,
                 legacy_ticket_type, legacy_service_type,
                 created_at, updated_at
             ) VALUES (
-                2, $1, $2, $3, $4,
-                'GEN', 'general', 'whatsapp', $5,
-                $6, $7,
-                $8, $9,
-                $10, $11,
+                2, $1, $2, $3, $4, $5,
+                'GEN', 'general', 'whatsapp', $6,
+                $7, $8,
+                $9, $10,
+                $11, $12,
                 NOW(), NOW()
             )
             RETURNING id, folio
         `, [
+            folio,
             input.titulo,
             input.descripcion,
             status,
@@ -839,7 +869,10 @@ export async function createTicketDirect(input: CreateTicketInput): Promise<Crea
                 email: input.email || null,
                 ubicacion: input.ubicacion || null,
                 category_code: input.category_code,
-                subcategory_code: input.subcategory_code
+                subcategory_code: input.subcategory_code,
+                ...(input.latitude && input.longitude ? {
+                    coordenadas: { lat: input.latitude, lng: input.longitude }
+                } : {})
             }),
             categoryId,
             subcategoryId,
@@ -858,16 +891,10 @@ export async function createTicketDirect(input: CreateTicketInput): Promise<Crea
         };
     } catch (error) {
         console.error(`[create_ticket_direct] Error:`, error);
-
-        const now = getMexicoDate();
-        const timestamp = now.getTime().toString().slice(-4);
-        const fallbackFolio = `${input.category_code}-${timestamp}`;
-
         return {
-            success: true,
-            folio: fallbackFolio,
-            warning: "Ticket creado localmente, sincronización pendiente",
-            message: `Ticket registrado con folio ${fallbackFolio}`
+            success: false,
+            error: error instanceof Error ? error.message : "Error desconocido",
+            message: "No se pudo crear el ticket en este momento."
         };
     }
 }
@@ -991,7 +1018,18 @@ Usa este tool cuando el usuario pregunte por su saldo, deuda, cuánto debe, o qu
                 }) }] };
             }
 
-            // Primary failed entirely — try getDeudaTotalConFacturas as last resort
+            // Primary failed — check if it's a definitive error (contract not found)
+            if (primaryParsed.codigoError === -501 || primaryParsed.error?.includes("no existe")) {
+                console.log(`[get_deuda] Contract not found (code ${primaryParsed.codigoError}): ${primaryParsed.error}`);
+                return { content: [{ type: "text" as const, text: JSON.stringify({
+                    success: false,
+                    error: "contrato_no_encontrado",
+                    codigoError: primaryParsed.codigoError,
+                    formatted_response: `No encontré el contrato ${contrato} en el sistema. Por favor verifica que el número sea correcto. Lo puedes encontrar en tu recibo de agua en la parte superior.`
+                }) }] };
+            }
+
+            // Primary failed for other reasons — try getDeudaTotalConFacturas as last resort
             console.log(`[get_deuda] Primary failed (${primaryParsed.error}), trying getDeudaTotalConFacturas fallback...`);
 
             const fallbackResponse = await fetchWithRetry(
@@ -1313,6 +1351,8 @@ IMPORTANTE: Siempre incluye el folio en tu respuesta al usuario.`,
         contract_number: z.string().optional().describe("Número de contrato - NO requerido para fugas/drenaje en vía pública"),
         email: z.string().optional().describe("Email del cliente (si aplica)"),
         ubicacion: z.string().optional().describe("Ubicación - REQUERIDO para reportes REP en vía pública"),
+        latitude: z.number().optional().describe("Latitud de la ubicación (si se resolvió con search_location o reverse_geocode)"),
+        longitude: z.number().optional().describe("Longitud de la ubicación (si se resolvió con search_location o reverse_geocode)"),
         priority: z.enum(["low", "medium", "high", "urgent"]).default("medium")
             .describe("Prioridad del ticket")
     },
@@ -1358,10 +1398,35 @@ IMPORTANTE: Siempre incluye el folio en tu respuesta al usuario.`,
             contract_number: input.contract_number,
             email: input.email,
             ubicacion: input.ubicacion,
+            latitude: input.latitude,
+            longitude: input.longitude,
             priority: input.priority as TicketPriority
         };
 
         const result = await createTicketDirect(ticketInput);
+
+        if (!result.success) {
+            return { content: [{ type: "text" as const, text: JSON.stringify({
+                success: false,
+                formatted_response: "No pude crear tu ticket en este momento. ¿Podrías intentar de nuevo en unos minutos?"
+            }) }] };
+        }
+
+        // Link Chatwoot attachment to ticket (lectura medidor photo)
+        const convId = process.env.CURRENT_CONVERSATION_ID || "";
+        const lecturaAttachmentId = getLecturaAttachmentId(convId);
+        if (lecturaAttachmentId && result.ticketId) {
+            try {
+                await pgQuery(`
+                    INSERT INTO ticket_attachments (ticket_id, attachment_id, created_at, updated_at)
+                    VALUES ($1, $2, NOW(), NOW())
+                `, [parseInt(result.ticketId), lecturaAttachmentId]);
+                console.log(`[create_ticket] Linked attachment ${lecturaAttachmentId} to ticket ${result.ticketId}`);
+            } catch (e) {
+                console.error(`[create_ticket] Failed to link attachment:`, e);
+            }
+            clearLecturaAttachmentId(convId);
+        }
 
         // Generate formatted response using template
         const emoji = getCategoryEmoji(input.category_code) || getTicketEmoji(input.titulo);
@@ -1663,7 +1728,7 @@ IMPORTANTE: Los IDs de conversación y cuenta se pasan en el contexto del sistem
 
         console.log(`[handoff_to_human] Transferring conversation ${conversationId} to human. Reason: ${reason}`);
 
-        const result = await updateConversationStatus(accountId, conversationId, "pending");
+        const result = await updateConversationStatus(accountId, conversationId, "open");
 
         if (result.success) {
             return {
@@ -1694,7 +1759,7 @@ IMPORTANTE: Los IDs de conversación y cuenta se pasan en el contexto del sistem
 // ============================================
 
 export const getReciboPdfTool = tool(
-    "get_recibo_pdf",
+    "get_recibo_link",
     `Genera un enlace seguro para descargar el recibo digital (PDF) de un contrato.
 
 USA ESTA HERRAMIENTA CUANDO:
@@ -1712,7 +1777,7 @@ El enlace es válido por 48 horas. Siempre ofrece: "Si necesitas de otro mes av�
         periodo: z.string().optional().describe("Periodo específico si el usuario pide un mes en particular (ej: 'enero', 'febrero 2025')")
     },
     async ({ contrato, periodo }) => {
-        console.log(`[get_recibo_pdf] Generating PDF link for contract: ${contrato}, periodo: ${periodo || 'latest'}`);
+        console.log(`[get_recibo_link] Generating PDF link for contract: ${contrato}, periodo: ${periodo || 'latest'}`);
 
         try {
             // Call getFacturas to verify invoices exist and find the right one
@@ -1726,7 +1791,7 @@ El enlace es válido por 48 horas. Siempre ofrece: "Si necesitas de otro mes av�
                 const facturasXml = await facturasResponse.text();
                 parsed = parseGetFacturasResponse(facturasXml);
                 if (parsed.success && parsed.facturas.length > 0) {
-                    console.log(`[get_recibo_pdf] Found ${parsed.facturas.length} facturas with explotacion=${explotacion}`);
+                    console.log(`[get_recibo_link] Found ${parsed.facturas.length} facturas with explotacion=${explotacion}`);
                     break;
                 }
             }
@@ -1778,7 +1843,7 @@ El enlace es válido por 48 horas. Siempre ofrece: "Si necesitas de otro mes av�
                 }
             }) }] };
         } catch (error) {
-            console.error(`[get_recibo_pdf] Error:`, error);
+            console.error(`[get_recibo_link] Error:`, error);
             return { content: [{ type: "text" as const, text: JSON.stringify({
                 success: false,
                 formatted_response: "No se pudo generar el enlace del recibo en este momento. ¿Puedes intentar en unos minutos?"
@@ -2020,8 +2085,8 @@ IMPORTANTE:
                 }>(`
                     SELECT
                         name,
-                        ST_Y(center::geometry) AS lat,
-                        ST_X(center::geometry) AS lng,
+                        lat,
+                        lng,
                         similarity(name_normalized, $1) AS similarity
                     FROM colonias_zones
                     WHERE similarity(name_normalized, $1) > 0.2
@@ -2052,9 +2117,9 @@ IMPORTANTE:
                 }) }] };
             }
 
-            // PostGIS KNN query
+            // Haversine distance query (no PostGIS required)
             const tipoFilter = tipo === "all" ? "" : "AND tipo = $4";
-            const params: unknown[] = [searchLng, searchLat, limit];
+            const params: unknown[] = [searchLat, searchLng, limit];
             if (tipo !== "all") {
                 params.push(tipo);
             }
@@ -2062,13 +2127,16 @@ IMPORTANTE:
             const locations = await pgQuery<CeaLocationRow>(`
                 SELECT
                     id, slug, name, tipo, address_street, colonia, municipio, codigo_postal,
-                    ST_Y(geom::geometry) AS lat,
-                    ST_X(geom::geometry) AS lng,
-                    ST_Distance(geom, ST_MakePoint($1, $2)::geography) AS distance_meters,
+                    lat, lng,
+                    (6371000 * acos(LEAST(1.0,
+                        cos(radians($1)) * cos(radians(lat)) *
+                        cos(radians(lng) - radians($2)) +
+                        sin(radians($1)) * sin(radians(lat))
+                    ))) AS distance_meters,
                     horario, telefono, servicios, notas
                 FROM cea_locations
                 WHERE is_active = true ${tipoFilter}
-                ORDER BY geom <-> ST_MakePoint($1, $2)::geography
+                ORDER BY (lat - $1)^2 + (lng - $2)^2
                 LIMIT $3
             `, params);
 
@@ -2153,6 +2221,325 @@ IMPORTANTE:
 );
 
 // ============================================
+// Google Maps Location Resolution Tools
+// ============================================
+
+function getGoogleMapsKey(): string { return process.env.GOOGLE_MAPS_API_KEY || ""; }
+
+// Querétaro state bounding box (strict restriction — no results outside this area)
+const QRO_BOUNDS = {
+    sw: { lat: 20.01, lng: -100.60 },  // Southwest corner (near Amealco)
+    ne: { lat: 21.65, lng: -99.03 }    // Northeast corner (near Jalpan de Serra)
+};
+
+export const searchLocationTool = tool(
+    "search_location",
+    `Busca una ubicación informal o punto de referencia en Querétaro y retorna dirección estructurada con coordenadas.
+
+USA ESTE TOOL CUANDO el usuario describe una ubicación de forma informal:
+- "cerca del Oxxo del Campanario"
+- "frente a la primaria Benito Juárez"
+- "en la esquina de Constituyentes y 5 de Febrero"
+- "atrás del centro comercial Antea"
+- "por el parque de Juriquilla"
+
+NO uses este tool cuando el usuario ya dio una dirección completa (calle, número, colonia).
+
+PARÁMETROS:
+- query: Búsqueda estructurada que TÚ construyes a partir de lo que dijo el usuario.
+  Siempre agrega "Querétaro" al final. Ejemplos:
+  "cerca del oxxo del campanario" → query: "Oxxo Campanario Querétaro"
+  "frente a la primaria Benito Juárez en Juriquilla" → query: "Primaria Benito Juárez Juriquilla Querétaro"
+  "esquina de Constituyentes y 5 de Febrero" → query: "Constituyentes y 5 de Febrero Querétaro"
+
+RETORNA: Lista de 1-3 resultados con nombre, dirección y coordenadas.
+- Si hay 1 resultado: confirma con el usuario
+- Si hay múltiples: presenta opciones numeradas para que elija
+- Si hay 0 resultados: pide más detalles o dirección exacta`,
+    {
+        query: z.string().describe("Búsqueda estructurada extraída del mensaje del usuario (siempre incluir Querétaro)"),
+        original_description: z.string().describe("Lo que dijo el usuario textualmente, para contexto")
+    },
+    async ({ query, original_description }) => {
+        console.log(`[search_location] Query: "${query}" (original: "${original_description}")`);
+
+        const apiKey = getGoogleMapsKey();
+        if (!apiKey) {
+            console.warn("[search_location] No GOOGLE_MAPS_API_KEY configured");
+            return { content: [{ type: "text" as const, text: JSON.stringify({
+                success: false,
+                error: "no_api_key",
+                formatted_response: "No pude buscar la ubicación en este momento. ¿Puedes darme la dirección exacta (calle, número, colonia)?"
+            }) }] };
+        }
+
+        try {
+            const response = await fetch("https://places.googleapis.com/v1/places:searchText", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-Goog-Api-Key": apiKey,
+                    "X-Goog-FieldMask": "places.displayName,places.formattedAddress,places.location,places.shortFormattedAddress"
+                },
+                body: JSON.stringify({
+                    textQuery: query,
+                    locationRestriction: {
+                        rectangle: {
+                            low: { latitude: QRO_BOUNDS.sw.lat, longitude: QRO_BOUNDS.sw.lng },
+                            high: { latitude: QRO_BOUNDS.ne.lat, longitude: QRO_BOUNDS.ne.lng }
+                        }
+                    },
+                    languageCode: "es",
+                    maxResultCount: 3
+                })
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error(`[search_location] Google Places API error ${response.status}: ${errorText}`);
+                return { content: [{ type: "text" as const, text: JSON.stringify({
+                    success: false,
+                    error: `api_error_${response.status}`,
+                    formatted_response: "No pude buscar la ubicación. ¿Puedes darme la dirección exacta (calle, número, colonia)?"
+                }) }] };
+            }
+
+            const data = await response.json() as {
+                places?: Array<{
+                    displayName?: { text?: string };
+                    formattedAddress?: string;
+                    shortFormattedAddress?: string;
+                    location?: { latitude?: number; longitude?: number };
+                }>;
+            };
+
+            const places = data.places || [];
+
+            if (places.length === 0) {
+                console.log(`[search_location] No results for "${query}"`);
+                return { content: [{ type: "text" as const, text: JSON.stringify({
+                    success: true,
+                    results_count: 0,
+                    results: [],
+                    formatted_response: `No encontré resultados para "${original_description}". ¿Puedes darme la dirección exacta (calle, número, colonia)?`
+                }) }] };
+            }
+
+            const results = places.map((place, i) => ({
+                index: i + 1,
+                name: place.displayName?.text || "Sin nombre",
+                address: place.formattedAddress || place.shortFormattedAddress || "Sin dirección",
+                latitude: place.location?.latitude || null,
+                longitude: place.location?.longitude || null,
+                maps_link: place.location?.latitude && place.location?.longitude
+                    ? `https://maps.google.com/?q=${place.location.latitude},${place.location.longitude}`
+                    : null
+            }));
+
+            console.log(`[search_location] Found ${results.length} results`);
+
+            let formatted: string;
+            if (results.length === 1) {
+                const r = results[0];
+                formatted = `Encontré esta ubicación:\n📍 ${r.name} — ${r.address}`;
+            } else {
+                formatted = `Encontré ${results.length} resultados:\n` +
+                    results.map(r => `${r.index}. ${r.name} — ${r.address}`).join("\n");
+            }
+
+            return { content: [{ type: "text" as const, text: JSON.stringify({
+                success: true,
+                results_count: results.length,
+                results,
+                original_description,
+                formatted_response: formatted
+            }) }] };
+        } catch (error) {
+            console.error(`[search_location] Error:`, error);
+            return { content: [{ type: "text" as const, text: JSON.stringify({
+                success: false,
+                error: error instanceof Error ? error.message : "Unknown error",
+                formatted_response: "No pude buscar la ubicación en este momento. ¿Puedes darme la dirección exacta (calle, número, colonia)?"
+            }) }] };
+        }
+    }
+);
+
+export const reverseGeocodeTool = tool(
+    "reverse_geocode",
+    `Convierte coordenadas GPS (latitud/longitud) a una dirección legible.
+
+USA ESTE TOOL CUANDO:
+- El usuario compartió su ubicación GPS por WhatsApp (el mensaje contiene "[Ubicacion compartida: Lat X, Long Y]")
+- Necesitas convertir coordenadas a una dirección para confirmar con el usuario
+
+RETORNA: Dirección formateada con calle, colonia, ciudad.`,
+    {
+        latitude: z.number().describe("Latitud (ej: 20.5888)"),
+        longitude: z.number().describe("Longitud (ej: -100.3899)")
+    },
+    async ({ latitude, longitude }) => {
+        console.log(`[reverse_geocode] Coordinates: ${latitude}, ${longitude}`);
+
+        const apiKey = getGoogleMapsKey();
+        if (!apiKey) {
+            console.warn("[reverse_geocode] No GOOGLE_MAPS_API_KEY configured");
+            return { content: [{ type: "text" as const, text: JSON.stringify({
+                success: false,
+                error: "no_api_key",
+                formatted_response: `Recibí tu ubicación (${latitude}, ${longitude}) pero no pude obtener la dirección. ¿Puedes decirme la calle, número y colonia?`
+            }) }] };
+        }
+
+        try {
+            const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&language=es&key=${apiKey}`;
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error(`[reverse_geocode] Google Geocoding API error ${response.status}: ${errorText}`);
+                return { content: [{ type: "text" as const, text: JSON.stringify({
+                    success: false,
+                    error: `api_error_${response.status}`,
+                    formatted_response: `Recibí tu ubicación pero no pude obtener la dirección. ¿Puedes decirme la calle, número y colonia?`
+                }) }] };
+            }
+
+            const data = await response.json() as {
+                status: string;
+                results?: Array<{
+                    formatted_address?: string;
+                    address_components?: Array<{
+                        long_name?: string;
+                        types?: string[];
+                    }>;
+                }>;
+            };
+
+            if (data.status !== "OK" || !data.results?.length) {
+                console.log(`[reverse_geocode] No results for ${latitude}, ${longitude}`);
+                return { content: [{ type: "text" as const, text: JSON.stringify({
+                    success: false,
+                    error: "no_results",
+                    formatted_response: `Recibí tu ubicación pero no encontré una dirección. ¿Puedes decirme la calle, número y colonia?`
+                }) }] };
+            }
+
+            const best = data.results[0];
+            const components = best.address_components || [];
+            const getComponent = (type: string) =>
+                components.find(c => c.types?.includes(type))?.long_name || null;
+
+            const result = {
+                formatted_address: best.formatted_address || "Sin dirección",
+                street: getComponent("route"),
+                street_number: getComponent("street_number"),
+                colonia: getComponent("sublocality_level_1") || getComponent("sublocality") || getComponent("neighborhood"),
+                city: getComponent("locality"),
+                state: getComponent("administrative_area_level_1"),
+                postal_code: getComponent("postal_code"),
+                latitude,
+                longitude,
+                maps_link: `https://maps.google.com/?q=${latitude},${longitude}`
+            };
+
+            console.log(`[reverse_geocode] Resolved: ${result.formatted_address}`);
+
+            return { content: [{ type: "text" as const, text: JSON.stringify({
+                success: true,
+                ...result,
+                formatted_response: `📍 ${result.formatted_address}`
+            }) }] };
+        } catch (error) {
+            console.error(`[reverse_geocode] Error:`, error);
+            return { content: [{ type: "text" as const, text: JSON.stringify({
+                success: false,
+                error: error instanceof Error ? error.message : "Unknown error",
+                formatted_response: `No pude obtener la dirección de tu ubicación. ¿Puedes decirme la calle, número y colonia?`
+            }) }] };
+        }
+    }
+);
+
+// ============================================
+// LECTURA MEDIDOR - Meter reading from photo via n8n webhook
+// ============================================
+
+const LECTURA_MEDIDOR_URL = "https://tools.fitcluv.com/webhook/lectura-medidor";
+
+export const lecturaMedidorTool = tool(
+    "lectura_medidor",
+    `Analiza una foto de medidor de agua usando visión artificial para extraer la lectura y el estado del medidor.
+
+USA ESTA HERRAMIENTA CUANDO:
+- El usuario envió una foto de su medidor Y el análisis de imagen clasificó como MEDIDOR
+- El mensaje contiene [ANÁLISIS DE MEDIDOR] con image_base64 disponible
+- Necesitas obtener una lectura precisa del medidor (rodillo, dígitos)
+- El usuario reporta discrepancia entre su lectura y la del sistema
+
+NO LA USES CUANDO:
+- No hay imagen de medidor disponible
+- La imagen fue clasificada como otra cosa (fuga, recibo, etc.)
+
+CÓMO INTERPRETAR EL RESULTADO:
+- lectura_medidor.valor_lectura: La lectura numérica del medidor
+- informacion_medidor: Marca, modelo, tipo del medidor
+- estado_medidor: Condición física del medidor (legibilidad, vidrio, carcasa, sellos)
+- metadata.confianza_lectura: "alta", "media" o "baja" — si es baja, indica que la foto no fue clara
+- Si la imagen NO es un medidor, el campo observaciones lo indicará
+
+DESPUÉS DE OBTENER EL RESULTADO:
+- Si confianza es alta: presenta la lectura al usuario
+- Si confianza es media: presenta la lectura pero sugiere verificar
+- Si confianza es baja o no es medidor: pide al usuario una foto más clara del medidor`,
+    {
+        image_base64: z.string().describe("Imagen del medidor codificada en base64 (sin prefijo data:image)")
+    },
+    async ({ image_base64 }) => {
+        try {
+            console.log(`[lectura_medidor] Sending image (${Math.round(image_base64.length / 1024)}KB base64) to vision webhook`);
+
+            const response = await fetch(LECTURA_MEDIDOR_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ image_base64 })
+            });
+
+            if (!response.ok) {
+                console.error(`[lectura_medidor] Webhook returned HTTP ${response.status}`);
+                return { content: [{ type: "text" as const, text: JSON.stringify({
+                    success: false,
+                    error: `Webhook error: HTTP ${response.status}`,
+                    formatted_response: "No pude analizar la imagen del medidor en este momento. ¿Podrías enviarla de nuevo?"
+                }) }] };
+            }
+
+            const data = await response.json() as Record<string, any>;
+            console.log(`[lectura_medidor] Got response: confianza=${data.metadata?.confianza_lectura}, lectura=${data.lectura_medidor?.valor_lectura}`);
+
+            return { content: [{ type: "text" as const, text: JSON.stringify({
+                success: true,
+                lectura_medidor: data.lectura_medidor,
+                informacion_medidor: data.informacion_medidor,
+                estado_medidor: data.estado_medidor,
+                metadata: data.metadata,
+                proceso: data.proceso,
+                formatted_response: data.lectura_medidor?.valor_lectura !== "no visible"
+                    ? `Lectura del medidor: ${data.lectura_medidor.valor_lectura} (confianza: ${data.metadata?.confianza_lectura || "desconocida"})`
+                    : `No pude leer la lectura del medidor. ${data.estado_medidor?.observaciones || "¿Podrías enviar una foto más clara?"}`
+            }) }] };
+        } catch (error) {
+            console.error(`[lectura_medidor] Error:`, error);
+            return { content: [{ type: "text" as const, text: JSON.stringify({
+                success: false,
+                error: error instanceof Error ? error.message : "Unknown error",
+                formatted_response: "Hubo un error al analizar la imagen del medidor. ¿Podrías intentar de nuevo?"
+            }) }] };
+        }
+    }
+);
+
+// ============================================
 // Export all tools
 // ============================================
 
@@ -2170,10 +2557,14 @@ export const allTools = [
     getReciboPdfTool,
     // Location Tools
     findNearestLocationsTool,
+    searchLocationTool,
+    reverseGeocodeTool,
     // Conversation Tools
     handoffToHumanTool,
     // Verification Tools
-    validateContractHolderTool
+    validateContractHolderTool,
+    // Vision Tools
+    lecturaMedidorTool
 ];
 
 export { fetchWithRetry };

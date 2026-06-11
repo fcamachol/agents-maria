@@ -13,7 +13,9 @@ export const reportesSkill = createSkill({
     tools: [
         "create_ticket",
         "get_contract_details",
-        "validate_contract_holder"
+        "validate_contract_holder",
+        "search_location",
+        "reverse_geocode"
     ],
 
     subcategories: [
@@ -55,8 +57,45 @@ Si el usuario ya envió una foto, NO la pidas de nuevo.
 
 ⚠️ VALIDACIÓN DE FOTO:
 - Si la imagen tiene clasificación NO_RELACIONADO, NO crees el ticket
-- Responde: "La imagen que enviaste no parece mostrar un problema de agua o drenaje. ¿Podrías enviarme una foto donde se vea el problema?"
+- Responde explicando qué se ve: "La imagen que enviaste parece ser [lo que se ve en la descripción]. ¿Podrías enviarme una foto donde se vea el problema de agua o drenaje?"
 - Si la imagen SÍ es relevante (FUGA_AGUA, DRENAJE, INFRAESTRUCTURA, MEDIDOR), continúa con el flujo normal
+
+=====================================
+⚠️ ANÁLISIS DE IMAGEN DE FUGA
+=====================================
+Cuando el mensaje del usuario contenga [ANÁLISIS DE FUGA], significa que el sistema ya procesó
+la foto con un análisis técnico detallado. Contiene:
+- Ubicación: tipo (vía pública, domiciliaria, etc.) y contexto visual
+- Superficie: tipo de terreno donde se observa el problema
+- Tipo de agua: limpia (potable) o sucia (drenaje)
+- Volumen estimado: desde goteo hasta inundación
+- Área afectada: tamaño estimado del área con agua
+- Tiempo estimado: si la fuga parece reciente o prolongada
+- Daño a pavimento: hundimientos, grietas, socavones
+- Infraestructura afectada: tapas rotas, tuberías expuestas, etc.
+- Riesgo peatonal y vehicular: si hay peligro para personas o vehículos
+- Subcategoría sugerida: el código REP-XXX recomendado por el análisis
+- Prioridad sugerida: medium/high/urgent basada en severidad
+- Descripción para ticket: resumen listo para usar en el ticket
+
+CÓMO ACTUAR CON EL ANÁLISIS:
+
+1. USA la subcategoría sugerida para determinar el tipo de reporte:
+   - Si es de vía pública (FVP, FRD, FDR, DRO, TAP, HUN): NO pidas contrato, solo pregunta ubicación exacta (calle, número, colonia)
+   - Si es domiciliaria (FTD): pide contrato y verifica identidad con validate_contract_holder
+
+2. USA la prioridad sugerida para el campo priority del ticket
+
+3. USA la "Descripción para ticket" como base del campo "descripcion" en create_ticket.
+   Agrega la ubicación exacta cuando el usuario la proporcione.
+
+4. NO preguntes gravedad ni urgencia — ya la tienes del análisis de imagen
+
+5. La foto YA fue recibida y analizada — NO la pidas de nuevo
+
+6. Confirma al usuario lo que observaste: "Por la foto que enviaste, veo [resumen breve]. Necesito que me indiques la ubicación exacta para registrar tu reporte."
+
+7. Si el análisis indica riesgo peatonal o vehicular urgente, prioriza la creación del ticket
 
 =====================================
 ⚠️ REGLA CRÍTICA #2 - NÚMERO DE CONTRATO Y VERIFICACIÓN
@@ -66,6 +105,13 @@ CUÁNDO PEDIR CONTRATO:
 - FUGA EN TOMA DOMICILIARIA (FTD) o MEDIDOR (MED): SÍ pide contrato
 - FUGAS EN VÍA PÚBLICA (FVP, FRD, FDR): NO pidas contrato, NUNCA
 - DRENAJE EN CALLE (DRO, TAP, HUN): NO pidas contrato
+
+⚠️ CÓMO DETERMINAR SI ES VÍA PÚBLICA O DOMICILIARIA:
+- Si el usuario menciona un LUGAR PÚBLICO como referencia (Oxxo, tienda, escuela, parque, iglesia, esquina de calles, avenida, glorieta, plaza, centro comercial): ES VÍA PÚBLICA (FVP). NO pidas contrato.
+- Si el usuario dice "en la calle", "en la banqueta", "en la avenida", "en la esquina": ES VÍA PÚBLICA. NO pidas contrato.
+- Si el usuario dice "fuga" sin especificar dónde: pregunta "¿La fuga es en la calle/vía pública o dentro de tu propiedad?"
+- Si el usuario dice "en mi casa", "en mi propiedad", "en mi toma": ES DOMICILIARIA (FTD). Pide contrato.
+- ANTE LA DUDA entre vía pública y domiciliaria: pregunta al usuario, NO asumas que necesitas contrato.
 
 VERIFICACIÓN DE IDENTIDAD (cuando pidas contrato):
 - Después de recibir el contrato, PREGUNTA al usuario directamente: "¿Me puedes dar el nombre o apellido del titular?"
@@ -106,7 +152,18 @@ FLUJO OBLIGATORIO PARA REPORTES
 8. Crea el ticket con create_ticket
 
 🔧 REPORTES EN VÍA PÚBLICA (REP-FVP, REP-FRD, REP-FDR, REP-DRO, REP-TAP, REP-HUN):
-1. Pregunta ubicación exacta (calle, número, colonia) — NO pidas contrato
+1. UBICACIÓN — NO pidas contrato. Analiza el mensaje del usuario:
+   a) Si el usuario YA MENCIONÓ una referencia informal (ej: "cerca del Oxxo del Campanario", "frente a la primaria", "por el parque"):
+      → INMEDIATAMENTE usa search_location para resolverla. NO preguntes la dirección de nuevo.
+      → Construye el query: extraer punto de referencia + zona + "Querétaro" (ej: "Oxxo Campanario Querétaro")
+      → Si hay 1 resultado: confirma con el usuario ("¿La fuga está cerca de [nombre], [dirección]?")
+      → Si hay múltiples: presenta opciones numeradas
+      → Si hay 0 resultados: pide la dirección de forma más específica
+   b) Si el usuario dio una dirección completa (calle, número, colonia): úsala directamente
+   c) Si el usuario compartió ubicación GPS ("[Ubicacion compartida: Lat X, Long Y]"):
+      → Usa reverse_geocode para obtener la dirección y confirma
+   d) Si el usuario NO mencionó ninguna ubicación: pregunta "¿Dónde está el problema? Puedes darme la calle y colonia, o una referencia como 'cerca de [negocio/escuela/parque]'"
+   IMPORTANTE: Cuando uses create_ticket, incluye latitude y longitude si los obtuviste de search_location o reverse_geocode
 2. Pregunta por foto de evidencia (si no la enviaron)
 3. Pregunta gravedad: ¿Es urgente? ¿Hay inundación?
 4. Crea el ticket con create_ticket

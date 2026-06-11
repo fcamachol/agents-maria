@@ -278,7 +278,7 @@ async function flushBuffer(convId: number): Promise<void> {
     });
 }
 
-app.post("/chatwoot", async (req, res) => {
+app.post(["/agora", "/chatwoot"], async (req, res) => {
     const payload = req.body as ChatwootWebhookPayload;
 
     res.status(200).json({ received: true });
@@ -335,7 +335,8 @@ app.listen(PORT, () => {
 ║   • GET  /status          - Detailed status                ║
 ║   • POST /api/chat        - Main chat endpoint             ║
 ║   • POST /webhook         - n8n/WhatsApp webhook           ║
-║   • POST /chatwoot        - Chatwoot/Agora direct webhook  ║
+║   • POST /agora           - AGORA direct webhook           ║
+║   • POST /chatwoot        - alias of /agora (legacy)       ║
 ║                                                            ║
 ║   Chatwoot: ${chatwootStatus.configured ? "Configured" : "Not configured"}                                 ║
 ║                                                            ║

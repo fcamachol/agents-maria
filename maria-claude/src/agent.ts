@@ -52,7 +52,6 @@ function getConversation(id: string): ConversationEntry {
     return newEntry;
 }
 
-
 // ============================================
 // Classification Prompt
 // ============================================
@@ -214,6 +213,31 @@ const GLOBAL_CONVERSATION_RULES = `
 `;
 
 // ============================================
+// Lectura Context Check
+// Checks BOTH history AND current message for "reportar lectura"
+// ============================================
+
+export function isLecturaContext(conversationId: string, currentMessage?: string): boolean {
+    // Check current message first (handles first-message-with-photo case)
+    if (currentMessage) {
+        const lower = currentMessage.toLowerCase();
+        if (lower.includes("reportar lectura") || lower.includes("reportar mi lectura")) {
+            return true;
+        }
+    }
+    // Check conversation history
+    const conv = conversationStore.get(conversationId);
+    if (!conv || !conv.category) return false;
+    if (conv.category !== "SRV") return false;  // Only skip for SRV, not FAC/REP
+    return conv.history.some(msg =>
+        msg.role === "user" && (
+            msg.content.toLowerCase().includes("reportar lectura") ||
+            msg.content.toLowerCase().includes("reportar mi lectura")
+        )
+    );
+}
+
+// ============================================
 // Main Workflow
 // ============================================
 
@@ -301,7 +325,11 @@ export async function runWorkflow(input: WorkflowInput): Promise<WorkflowOutput>
         }
 
         // Extract contract number if present
-        const contractMatch = input.input_as_text.match(/\b(\d{6,10})\b/);
+        // Strip MEDIDOR analysis (has meter serial numbers) but preserve RECIBO analysis (has contract numbers for FAC)
+        const textForContractSearch = input.input_as_text
+            .replace(/DESCRIPCIÓN:.*$/m, '')  // Strip description line (has meter serial numbers)
+            .replace(/\[ANÁLISIS DE MEDIDOR\]:[\s\S]*?(?=\n\n\[|\n\n[A-Z]|$)/g, '');  // Strip medidor analysis block
+        const contractMatch = textForContractSearch.match(/\b(\d{6,10})\b/);
         if (contractMatch) {
             extractedContract = contractMatch[1];
             conversation.contractNumber = extractedContract;

@@ -76,6 +76,7 @@ class AgentDetailResponse(AgentResponse):
     skills: List[AgentSkillInfo] = []
     mcp_servers: List[AgentMcpServerInfo] = []
     tools: List[Dict[str, Any]] = []
+    config: Dict[str, Any] = {}
 
 
 class AgentCreateRequest(BaseModel):
@@ -270,6 +271,36 @@ async def get_agent(agent_id: UUID, db: DbSession) -> AgentDetailResponse:
 
     allowed_tools = list(dict.fromkeys(allowed_tools))
 
+    # Build config dict for frontend display
+    config: Dict[str, Any] = {
+        "model": agent.model,
+        "permission_mode": agent.permission_mode or "default",
+    }
+    if agent.system_prompt:
+        # Truncate for display; full text is in system_prompt field
+        config["system_prompt"] = (
+            agent.system_prompt[:200] + "..."
+            if len(agent.system_prompt) > 200
+            else agent.system_prompt
+        )
+        config["system_prompt_length"] = len(agent.system_prompt)
+    if agent.max_turns:
+        config["max_turns"] = agent.max_turns
+    if agent.max_budget_usd:
+        config["max_budget_usd"] = float(agent.max_budget_usd)
+    if agent.max_thinking_tokens:
+        config["max_thinking_tokens"] = agent.max_thinking_tokens
+    if agent.sdk_config:
+        config["sdk_config"] = agent.sdk_config
+    if agent.runtime:
+        config["runtime"] = agent.runtime
+    if agent.project_path:
+        config["project_path"] = agent.project_path
+    if agent.port:
+        config["port"] = agent.port
+    if agent.health_endpoint:
+        config["health_endpoint"] = agent.health_endpoint
+
     return AgentDetailResponse(
         id=str(agent.id),
         name=agent.name,
@@ -295,6 +326,7 @@ async def get_agent(agent_id: UUID, db: DbSession) -> AgentDetailResponse:
         skills=skills_list,
         mcp_servers=list(mcp_servers_map.values()),
         tools=tools_list,
+        config=config,
     )
 
 

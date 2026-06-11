@@ -6,11 +6,14 @@ import { query, createSdkMcpServer } from "@anthropic-ai/claude-agent-sdk";
 import {
     SKILL_REGISTRY,
     getSkill,
-    getSkillDescriptions,
     buildSystemContext
 } from "./skills/index.js";
 import { allTools, getVerifiedContracts } from "./tools.js";
 import type { CategoryCode, WorkflowInput, WorkflowOutput } from "./types.js";
+import { logger } from "./utils/logger.js";
+import { sanitizeInput, containsHarmfulPatterns, validateAndCorrect } from "./utils/validator.js";
+import { metrics } from "./utils/metrics.js";
+import { conversationRateLimiter } from "./utils/ratelimit.js";
 
 // ============================================
 // Conversation Store
@@ -53,56 +56,8 @@ function getConversation(id: string): ConversationEntry {
 }
 
 
-// ============================================
-// Classification Prompt
-// ============================================
-
-const CLASSIFICATION_PROMPT = `Eres el clasificador de intenciones para CEA Querétaro. Tu trabajo es categorizar cada mensaje del usuario en una de las siguientes categorías AGORA:
-
-${getSkillDescriptions()}
-
-REGLAS DE CLASIFICACIÓN:
-
-1. CON (Consultas):
-   - "Hola", saludos simples
-   - "¿Cuánto debo?" → CON (consulta de saldo)
-   - "¿Cuál es el horario?" → CON
-   - "¿Cuál es el estado de mi ticket?" → CON
-
-2. FAC (Facturación):
-   - "Quiero mi recibo por correo" → FAC
-   - "No entiendo mi recibo" → FAC
-   - "Quiero aclarar un cobro" → FAC
-   - "Necesito carta de no adeudo" → FAC
-
-3. CTR (Contratos):
-   - "Quiero un contrato nuevo" → CTR
-   - "Cambio de nombre/titular" → CTR
-   - "Quiero dar de baja" → CTR
-   - "Cambio de tarifa" → CTR
-
-4. CVN (Convenios):
-   - "Quiero un plan de pago" → CVN
-   - "No puedo pagar todo" → CVN
-   - "Soy pensionado" → CVN
-   - "Programa de tercera edad" → CVN
-
-5. REP (Reportes de Servicio):
-   - "Hay una fuga" → REP
-   - "No tengo agua" → REP
-   - "El agua sale turbia" → REP
-   - "El drenaje está tapado" → REP
-   - Cualquier emergencia → REP
-
-6. SRV (Servicios Técnicos):
-   - "Mi medidor está mal" → SRV
-   - "Quiero reportar mi lectura" → SRV
-   - "Me robaron el medidor" → SRV
-   - "Necesito reconexión" → SRV
-
-Si detectas un número de contrato (6+ dígitos), menciónalo.
-
-Responde SOLO con el código de categoría (CON, FAC, CTR, CVN, REP, SRV) y si encontraste un contrato.`;
+// Classification is handled inline in runWorkflow() via keyword matching
+// and can be upgraded to LLM-based via utils/classifier.ts
 
 // ============================================
 // Global Conversation Rules
@@ -221,9 +176,8 @@ export async function runWorkflow(input: WorkflowInput): Promise<WorkflowOutput>
     const startTime = Date.now();
     const conversationId = input.conversationId || crypto.randomUUID();
 
-    console.log(`\n========== WORKFLOW START ==========`);
-    console.log(`ConversationId: ${conversationId}`);
-    console.log(`Input: "${input.input_as_text}"`);
+    logger.info({ conversationId }, "Workflow started");
+    logger.info({ conversationId, input: input.input_as_text.slice(0, 100) }, "Processing input");
 
     // Set conversation ID for contract verification tracking
     process.env.CURRENT_CONVERSATION_ID = conversationId;
@@ -237,18 +191,39 @@ export async function runWorkflow(input: WorkflowInput): Promise<WorkflowOutput>
     }
 
     const conversation = getConversation(conversationId);
-    const contextualInput = `${buildSystemContext()}\n${input.input_as_text}`;
+
+    // Input validation
+    const sanitizedInput = sanitizeInput(input.input_as_text);
+    if (containsHarmfulPatterns(sanitizedInput)) {
+        logger.warn({ conversationId, input: sanitizedInput.slice(0, 50) }, "Harmful pattern detected");
+        return {
+            output_text: "No puedo procesar ese tipo de mensaje. ¿En qué te puedo ayudar?",
+            output_messages: ["No puedo procesar ese tipo de mensaje. ¿En qué te puedo ayudar?"],
+            toolsUsed: []
+        };
+    }
+
+    // Rate limiting
+    const rateCheck = conversationRateLimiter.isAllowed(conversationId);
+    if (!rateCheck.allowed) {
+        logger.warn({ conversationId, remaining: rateCheck.remaining }, "Rate limit exceeded");
+        return {
+            output_text: "Estás enviando mensajes muy rápido. Por favor espera un momento.",
+            output_messages: ["Estás enviando mensajes muy rápido. Por favor espera un momento."],
+            toolsUsed: []
+        };
+    }
 
     try {
         // Step 1: Classification
-        console.log(`[Workflow] Running classification...`);
+        logger.info({ conversationId }, "Running classification");
 
         let category: CategoryCode = "CON"; // Default
         let keywordMatched = false;
         let extractedContract: string | undefined;
 
         // Simple classification based on keywords
-        const inputLower = input.input_as_text.toLowerCase();
+        const inputLower = sanitizedInput.toLowerCase();
 
         if (inputLower.includes("fuga") || inputLower.includes("no hay agua") ||
             inputLower.includes("agua turbia") || inputLower.includes("drenaje") ||
@@ -307,14 +282,14 @@ export async function runWorkflow(input: WorkflowInput): Promise<WorkflowOutput>
             conversation.contractNumber = extractedContract;
         }
 
-        console.log(`[Workflow] Classification: ${category}`);
+        logger.info({ conversationId, category }, "Classification result");
         if (extractedContract) {
-            console.log(`[Workflow] Extracted contract: ${extractedContract}`);
+            logger.info({ conversationId, contract: extractedContract }, "Extracted contract");
         }
 
         // Step 2: Get the appropriate skill
         const skill = getSkill(category);
-        console.log(`[Workflow] Using skill: ${skill.name}`);
+        logger.info({ conversationId, skill: skill.name }, "Using skill");
 
         // Step 3: Build conversation history
         const historyText = conversation.history
@@ -361,13 +336,13 @@ ${input.input_as_text}`;
 
         // Create MCP server with our tools
         const mcpServerConfig = createSdkMcpServer({
-            name: "maria-cea-tools",
+            name: "maria-claude-tools",
             version: "1.0.0",
             tools: allTools
         });
 
         // Run query with Claude Agent SDK
-        console.log(`[Workflow] Starting Claude query...`);
+        logger.info({ conversationId }, "Starting Claude query");
         const result = query({
             prompt: fullPrompt,
             options: {
@@ -376,14 +351,14 @@ ${input.input_as_text}`;
                 permissionMode: "bypassPermissions",
                 allowDangerouslySkipPermissions: true,
                 mcpServers: {
-                    "maria-cea-tools": mcpServerConfig
+                    "maria-claude-tools": mcpServerConfig
                 },
                 // Server environment settings
                 persistSession: false,
                 tools: [],  // Disable built-in Claude Code tools, only use MCP tools
                 cwd: process.cwd(),
                 stderr: (data: string) => {
-                    console.error(`[Claude Code STDERR]: ${data}`);
+                    logger.error({ conversationId, stderr: data }, "Claude Code STDERR");
                 },
                 env: process.env
             }
@@ -409,11 +384,15 @@ ${input.input_as_text}`;
                     outputMessages.push(turnText.trim());
                 }
             } else if (message.type === "result") {
-                console.log(`[Workflow] Completed. Cost: $${message.total_cost_usd}`);
+                logger.info({ conversationId, costUsd: message.total_cost_usd }, "Query completed");
             }
         }
 
         const output = outputMessages.join("\n\n");
+
+        // Response validation and auto-correction
+        const validation = validateAndCorrect(output);
+        const finalOutput = validation.wasCorrected ? validation.corrected : output;
 
         // Sync verified contracts from tools.ts tracking map into conversation entry
         const newlyVerified = getVerifiedContracts(conversationId);
@@ -423,7 +402,7 @@ ${input.input_as_text}`;
 
         // Step 5: Update conversation history
         conversation.history.push({ role: "user", content: input.input_as_text });
-        conversation.history.push({ role: "assistant", content: output });
+        conversation.history.push({ role: "assistant", content: finalOutput });
         conversation.category = category;
 
         // Limit history length
@@ -432,19 +411,27 @@ ${input.input_as_text}`;
         }
 
         const processingTime = Date.now() - startTime;
-        console.log(`[Workflow] Complete in ${processingTime}ms`);
-        console.log(`[Workflow] Output: "${output.substring(0, 100)}..."`);
-        console.log(`========== WORKFLOW END ==========\n`);
+        metrics.recordMessage(conversationId, {
+            toolsUsed,
+            classification: category,
+            responseTimeMs: processingTime
+        });
+
+        logger.info({ conversationId, processingTime, outputLength: finalOutput.length }, "Workflow complete");
 
         return {
-            output_text: output,
+            output_text: finalOutput,
             output_messages: outputMessages,
             category,
             toolsUsed
         };
 
     } catch (error) {
-        console.error(`[Workflow] Error:`, error);
+        logger.error({ conversationId, error }, "Workflow error");
+        metrics.recordMessage(conversationId, {
+            error: error instanceof Error ? error.message : "Unknown error",
+            responseTimeMs: Date.now() - startTime
+        });
 
         const errorMsg = "Lo siento, tuve un problema procesando tu mensaje. ¿Podrías intentar de nuevo?";
         return {
@@ -460,10 +447,13 @@ ${input.input_as_text}`;
 // Health Check
 // ============================================
 
-export function getAgentHealth(): { status: string; skills: string[]; conversationCount: number } {
+export function getAgentHealth() {
+    const healthStatus = metrics.getHealthStatus();
     return {
-        status: "healthy",
+        status: healthStatus.status,
+        checks: healthStatus.checks,
         skills: Object.values(SKILL_REGISTRY).map(s => `${s.code}: ${s.name}`),
-        conversationCount: conversationStore.size
+        conversationCount: conversationStore.size,
+        metrics: metrics.getSystemMetrics()
     };
 }
